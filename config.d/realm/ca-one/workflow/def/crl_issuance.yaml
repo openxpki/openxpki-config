@@ -1,0 +1,114 @@
+head:
+    prefix: crl
+    label: I18N_OPENXPKI_WF_TYPE_CRL_ISSUANCE
+    description: I18N_OPENXPKI_WF_TYPE_CRL_ISSUANCE_DESC
+
+
+state:
+    CREATE_QUEUE:
+        autorun: 1
+        label: I18N_OPENXPKI_UI_WORKFLOW_STATE_CRL_ISSUE_CREATE_QUEUE_LABEL
+        description: I18N_OPENXPKI_UI_WORKFLOW_STATE_CRL_ISSUE_CREATE_QUEUE_DESC
+        action:
+          - create_ca_list > LOAD_NEXT_CA
+
+    INITIAL:
+        label: I18N_OPENXPKI_UI_WORKFLOW_STATE_CRL_ISSUE_INITIAL_LABEL
+        description: I18N_OPENXPKI_UI_WORKFLOW_STATE_CRL_ISSUE_INITIAL_DESC
+        action:
+          - initialize > CREATE_QUEUE
+
+    ISSUE_CRL:
+        autorun: 1
+        label: I18N_OPENXPKI_UI_WORKFLOW_STATE_CRL_ISSUE_ISSUE_CRL_LABEL
+        description: I18N_OPENXPKI_UI_WORKFLOW_STATE_CRL_ISSUE_ISSUE_CRL_DESC
+        action:
+          - global_nice_issue_crl > PUBLISH_CRL
+
+    LOAD_NEXT_CA:
+        autorun: 1
+        label: I18N_OPENXPKI_UI_WORKFLOW_STATE_CRL_ISSUE_LOAD_NEXT_CA_LABEL
+        description: I18N_OPENXPKI_UI_WORKFLOW_STATE_CRL_ISSUE_LOAD_NEXT_CA_DESC
+        action:
+          - get_next_ca > ISSUE_CRL ? !is_ca_list_empty
+          - global_noop > SUCCESS ? is_ca_list_empty
+
+    PUBLISH_CRL:
+        autorun: 1
+        label: I18N_OPENXPKI_UI_WORKFLOW_STATE_CRL_ISSUE_PUBLISH_CRL_LABEL
+        description: I18N_OPENXPKI_UI_WORKFLOW_STATE_CRL_ISSUE_PUBLISH_CRL_DESC
+        action:
+          - publish_crl > LOAD_NEXT_CA
+
+    SUCCESS:
+        label: I18N_OPENXPKI_UI_WORKFLOW_STATE_CRL_ISSUE_SUCCESS_LABEL
+        description: I18N_OPENXPKI_UI_WORKFLOW_STATE_CRL_ISSUE_SUCCESS_DESC
+
+
+action:
+    initialize:
+        class: OpenXPKI::Server::Workflow::Activity::Noop
+        label: I18N_OPENXPKI_UI_WORKFLOW_ACTION_INIT_ISSUE_CRL_LABEL
+        description: I18N_OPENXPKI_UI_WORKFLOW_ACTION_INIT_ISSUE_CRL_DESC
+        input:
+          - force_issue
+
+    create_ca_list:
+        class: OpenXPKI::Server::Workflow::Activity::CRLIssuance::CreateQueue
+        label: I18N_OPENXPKI_UI_WORKFLOW_ACTION_CREATE_CA_LIST_LABEL
+        description: I18N_OPENXPKI_UI_WORKFLOW_ACTION_CREATE_CA_LIST_DESC
+
+    publish_crl:
+        class: OpenXPKI::Server::Workflow::Activity::Tools::PublishCRL
+        label: I18N_OPENXPKI_UI_WORKFLOW_ACTION_CRL_ISSUANCE_PUBLISH_CRL_LABEL
+        description: I18N_OPENXPKI_UI_WORKFLOW_ACTION_CRL_ISSUANCE_PUBLISH_CRL_DESC
+        input:
+          - ca_alias
+        param:
+            prefix: publishing.crl
+
+    get_next_ca:
+        class: OpenXPKI::Server::Workflow::Activity::Tools::WFArray
+        param:
+            array_name: ca_alias_list
+            context_key: ca_alias
+            function: shift
+
+condition:
+    is_ca_list_empty:
+        class: OpenXPKI::Server::Workflow::Condition::WFArray
+        param:
+            array_name: ca_alias_list
+            condition: is_empty
+
+
+field:
+    ca_alias:
+        name: ca_alias
+        type: text
+
+    force_issue:
+        label: I18N_OPENXPKI_UI_WORKFLOW_FIELD_FORCE_ISSUE_LABEL
+        name: force_issue
+        description: I18N_OPENXPKI_UI_WORKFLOW_FIELD_FORCE_ISSUE_DESC
+        tooltip: I18N_OPENXPKI_UI_WORKFLOW_FIELD_FORCE_ISSUE_TOOLTIP
+        type: bool
+        required: 0
+
+
+acl:
+    Anonymous:
+        creator: self
+
+    CA Operator:
+        creator: any
+
+    RA Operator:
+        creator: any
+
+    System:
+        creator: self
+
+    User:
+        creator: self
+
