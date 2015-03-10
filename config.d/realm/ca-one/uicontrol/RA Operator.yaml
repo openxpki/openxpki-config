@@ -1,14 +1,17 @@
+landmark:
+  welcome: information!status
+
 main:
   - key: home
     label: Home
     entries: 
       - key:    home!index
-        label: Home
+        label:  Home
       - key:    home!task
         label:  My Tasks
-      - key:    home!workflow
+      - key:    workflow!mine
         label:  My Workflows
-      - key:    home!certificate
+      - key:    certificate!mine
         label:  My Certificates
 
   - key: request
@@ -28,8 +31,6 @@ main:
         label: Issue CRL
       - key:   secret!index
         label: Manage Secrets
-      - key:   information!process
-        label: Process Information
       - key:   workflow!start!wf_type!ca_publish
         label: Publish CA/CRL
 
@@ -41,6 +42,11 @@ main:
         label: CA certificates
       - key:   crl!index
         label: Revocation lists
+      - key:   information!process
+        label: Process Information
+      - key:   information!status
+        label: System Status
+
 
   - key:   certificate!search
     label: Certificates
@@ -48,4 +54,30 @@ main:
   - key:   workflow!search
     label: Workflows
 
+tasklist:
+  - label: Pending Requests
+    description: Requests awaiting approval
+    query:
+      TYPE:
+        - certificate_signing_request_v2
+      STATE:
+        - ONHOLD
+        - PENDING
 
+  - label: Pending Enrollments
+    description: Enrollment requests requiring attention
+    query:
+      TYPE:
+        - enrollment
+      STATE:
+        - PENDING_APPROVAL
+        - PENDING_MANUAL_AUTHENTICATION
+        - PENDING_POLICY
+
+  - label: Pending Revocations
+    description: Revocations awaiting approval
+    query:
+      TYPE:
+        - certificate_revocation_request_v2
+      STATE:
+        - PENDING
