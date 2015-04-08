@@ -140,7 +140,7 @@ state:
         label: I18N_OPENXPKI_UI_WORKFLOW_STATE_CSR_ONHOLD_LABEL
         description: I18N_OPENXPKI_UI_WORKFLOW_STATE_CSR_ONHOLD_DESC
         action:
-          - release_on_hold > PENDING
+          - release_on_hold > PENDING ? acl_can_approve
 
     PENDING:
         label: I18N_OPENXPKI_UI_WORKFLOW_STATE_CSR_PENDING_LABEL
@@ -149,13 +149,15 @@ state:
           - edit_subject > CANCEL_APPROVALS
           - edit_san > CANCEL_APPROVALS
           - edit_cert_info > CANCEL_APPROVALS
-          - edit_validity > CANCEL_APPROVALS
+          - edit_validity > CANCEL_APPROVALS  ? acl_can_approve
           - approve_csr > CHECK_APPROVALS ? acl_can_approve
           - reject_request > NOTIFY_REJECT ? acl_can_reject
           - put_request_on_hold > ONHOLD ? acl_can_approve
         output:
           - cert_subject
           - cert_subject_alt_name
+          - notbefore
+          - notafter
           - cert_profile
           - cert_info
 
@@ -220,15 +222,16 @@ state:
           - cert_identifier
           - cert_subject
           - cert_subject_alt_name
+          - notbefore
+          - notafter
           - cert_profile
           - cert_info
 
+
     UPDATE_SUBJECT:
         autorun: 1
-        label: I18N_OPENXPKI_UI_WORKFLOW_STATE_CSR_UPDATE_SUBJECT_LABEL
-        description: I18N_OPENXPKI_UI_WORKFLOW_STATE_CSR_UPDATE_SUBJECT_DESC
         action:
-          - render_subject > PENDING
+          - render_subject set_workflow_attributes > PENDING
 
     CANCELED:
         label: I18N_OPENXPKI_UI_WORKFLOW_STATE_CSR_CANCELED_LABEL
@@ -272,6 +275,8 @@ action:
           - cert_info
         param:
             source: USER
+        validator:
+          - global_cert_info_parts
 
     edit_san:
         class: OpenXPKI::Server::Workflow::Activity::Tools::SetSource
@@ -282,6 +287,8 @@ action:
           - cert_san_parts
         param:
             source: USER
+        validator: 
+          - global_cert_san_parts
 
     edit_subject:
         class: OpenXPKI::Server::Workflow::Activity::Tools::SetSource
@@ -292,6 +299,9 @@ action:
           - cert_subject_parts
         param:
             source: USER
+        validator: 
+          - global_cert_subject_parts
+
 
     edit_validity:
         class: OpenXPKI::Server::Workflow::Activity::Tools::SetSource
@@ -448,10 +458,19 @@ action:
         param:
             message: csr_created
 
+    set_workflow_attributes:
+        class: OpenXPKI::Server::Workflow::Activity::Tools::SetAttribute
+        param:
+           _map_cert_subject: $cert_subject
+           _map_requestor: "[% context.cert_info.requestor_email %]"
+
     submit:
-        class: OpenXPKI::Server::Workflow::Activity::Noop
+        class: OpenXPKI::Server::Workflow::Activity::Tools::SetAttribute
         label: I18N_OPENXPKI_UI_WORKFLOW_ACTION_CSR_SUBMIT_LABEL
         description: I18N_OPENXPKI_UI_WORKFLOW_ACTION_CSR_SUBMIT_DESC
+        param:
+           _map_cert_subject: $cert_subject
+           _map_requestor: "[% context.cert_info.requestor_email %]"
 
     upload_pkcs10:
         class: OpenXPKI::Server::Workflow::Activity::Tools::ParsePKCS10
@@ -460,6 +479,8 @@ action:
         input:
           - pkcs10
           - csr_type
+        validator:
+          - global_key_reuse
 
 condition:
     is_certificate_issued:
@@ -516,16 +537,7 @@ condition:
             _map_config_path: profile.[% context.cert_profile %].style.[% context.cert_subject_style %].ui.info
 
 
-field:
-    cert_info:
-        label: I18N_OPENXPKI_UI_WORKFLOW_FIELD_CERT_INFO_LABEL
-        name: cert_info
-        description: I18N_OPENXPKI_UI_WORKFLOW_FIELD_CERT_INFO_DESC
-        placeholder: I18N_OPENXPKI_UI_WORKFLOW_FIELD_CERT_INFO_PLACEHOLDER
-        tooltip: I18N_OPENXPKI_UI_WORKFLOW_FIELD_CERT_INFO_TOOLTIP
-        type: cert_info
-        required: 0
-
+field:   
     cert_profile:
         label: I18N_OPENXPKI_UI_WORKFLOW_FIELD_CERT_PROFILE_LABEL
         name: cert_profile
