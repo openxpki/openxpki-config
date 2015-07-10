@@ -95,7 +95,7 @@ state:
     CHECK_FOR_VALID_REQUEST:
         autorun: 1
         action:
-          - global_noop > FAILURE ?  !valid_request
+          - global_noop > FAILURE ? !valid_request
           - global_noop2 > HAVE_VALID_REQUEST ? valid_request
 
     CHECK_INITIAL_ENROLL_AUTHEN:
@@ -129,8 +129,8 @@ state:
     CONTINUE_INITIAL_ENROLL:
         autorun: 1
         action:
-          - global_noop > PENDING_POLICY ?  !num_active_certs_less_than_max_active_certs !auto_revoke_existing_certs
-          - global_noop2 > APPROVAL ? num_active_certs_less_than_max_active_certs auto_revoke_existing_certs
+          - global_noop > PENDING_POLICY ?  !num_active_certs_less_than_max_active_certs
+          - global_noop2 > APPROVAL ? num_active_certs_less_than_max_active_certs
 
     ELIGIBLE_FOR_INITIAL_ENROLL:
         autorun: 1
@@ -176,7 +176,7 @@ state:
     INITIALIZED:
         autorun: 1
         action:
-          - extract_csr > READY_TO_PROCESS
+          - extract_csr set_workflow_attributes > READY_TO_PROCESS
 
     ISSUANCE:
         autorun: 1
@@ -216,6 +216,7 @@ state:
         action:
           - fail > FAILURE
           - allow_retry > FAILURE
+          - override_policy > APPROVAL
 
     PREPARED:
         autorun: 1
@@ -246,8 +247,8 @@ state:
 action:
     approve_csr:
         class: OpenXPKI::Server::Workflow::Activity::Tools::Approve
-        label: I18N_OPENXPKI_UI_WORKFLOW_ACTION_approve_csr_LABEL
-        description: I18N_OPENXPKI_UI_WORKFLOW_ACTION_approve_csr_DESC
+        label: I18N_OPENXPKI_UI_WORKFLOW_ACTION_APPROVE_CSR_LABEL
+        description: I18N_OPENXPKI_UI_WORKFLOW_ACTION_APPROVE_CSR_DESC
         param:
             check_creator: 0
             multi_role_approval: 0
@@ -382,6 +383,13 @@ action:
     persist_csr:
         class: OpenXPKI::Server::Workflow::Activity::CSR::PersistRequest
 
+
+    override_policy:
+        class: Workflow::Action::Null
+        label: I18N_OPENXPKI_UI_WORKFLOW_ACTION_ENROLL_OVERRIDE_POLICY_LABEL
+        description: I18N_OPENXPKI_UI_WORKFLOW_ACTION_ENROLL_OVERRIDE_POLICY_DESC
+
+
     revoke_cert:
         class: OpenXPKI::Server::Workflow::Activity::Tools::RevokeCertificate
         input:
@@ -402,6 +410,12 @@ action:
 
     revoke_existing_certs:
         class: OpenXPKI::Server::Workflow::Activity::SCEPv2::RevokeExistingCerts
+
+    set_workflow_attributes:
+        class: OpenXPKI::Server::Workflow::Activity::Tools::SetAttribute
+        param:
+           _map_cert_subject: $cert_subject
+           _map_scep_tid: $scep_tid
 
 
 condition:
@@ -527,7 +541,7 @@ condition:
         class: Workflow::Condition::LazyAND
         param:
             condition1: scep_signer_trusted
-            condition2: value="scep_signer_on_behalf
+            condition2: scep_signer_on_behalf
 
     valid_csr:
         class: Workflow::Condition::Evaluate
@@ -602,6 +616,11 @@ condition:
             condition2: scep_signer_sn_matches_csr
             condition3: scep_signer_is_self_signed
 
+    signer_is_self_signed:
+        class: Workflow::Condition::Evaluate
+        param:
+             test: $context->{signer_is_self_signed}
+
 field:
     _pkcs7:
         name: _pkcs7
@@ -635,6 +654,14 @@ field:
         description: I18N_OPENXPKI_UI_WORKFLOW_FIELD_F_VALID_SCEP_TID_DESC
         type: text
         required: 0
+
+    policy_comment: 
+        label: I18N_OPENXPKI_UI_WORKFLOW_FIELD_POLICY_COMMENT_LABEL
+        description: I18N_OPENXPKI_UI_WORKFLOW_FIELD_POLICY_COMMENT_DESC
+        placeholder: I18N_OPENXPKI_UI_WORKFLOW_FIELD_POLICY_COMMENT_PLACEHOLDER
+        name: policy_comment
+        type: textarea
+        required: 1
 
     replace_cert_identifier:
         label: I18N_OPENXPKI_UI_WORKFLOW_FIELD_REPLACE_CERT_IDENTIFIER_LABEL
