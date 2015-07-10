@@ -37,6 +37,7 @@ action:
           - cert_identifier
           - prefix
           - sync
+          - publish_key
 
     publish_prefix: 
         class: OpenXPKI::Server::Workflow::Activity::Tools::PublishCertificate
@@ -46,12 +47,14 @@ action:
             _map_prefix: $prefix
             export_context: 1
 
+
     publish_profile: 
         class: OpenXPKI::Server::Workflow::Activity::Tools::PublishCertificate
         input: 
           - cert_identifier
         param:
             export_context: 1
+            _map_publish_key: publish_key
 
 condition:
     has_prefix:
@@ -72,6 +75,11 @@ field:
 
     prefix:
         name: prefix
+        type: server
+        required: 0
+
+    publish_key:
+        name: publish_key
         type: server
         required: 0
 
