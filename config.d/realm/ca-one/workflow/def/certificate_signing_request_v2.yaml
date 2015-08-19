@@ -726,7 +726,7 @@ field:
     check_policy_dns:
         label: Failed Policy Check DNS
         name: check_policy_dns
-        format: ullist
+        format: rawlist
         template: >
           [% USE CheckDNS %]
           [% FOREACH fqdn = value %]
@@ -736,7 +736,7 @@ field:
     check_policy_subject_duplicate:
         label: Failed Policy Check Subject Duplicate
         name: check_policy_subject_duplicate
-        format: ullist
+        format: rawlist
         template: >
           [% USE Certificate %]
           [% IF value %]
