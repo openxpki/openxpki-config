@@ -347,6 +347,9 @@ action:
 
     load_recent_certificate:
         class: OpenXPKI::Server::Workflow::Activity::SCEPv2::LoadRecentCertificate
+        param:
+            _map_cert_identifier: $renewal_cert_identifier
+
 
     modify_metadata:
         class: Workflow::Action::Null
@@ -403,11 +406,10 @@ action:
     revoke_cert_after_replace:
         class: OpenXPKI::Server::Workflow::Activity::Tools::RevokeCertificate
         input:
-          - replace_cert_identifier
-          - reason_code
-          - invalidity_time
         param:
             _map_cert_identifier: $replace_cert_identifier
+            _map_reason_code:     $reason_code
+            _map_invalidity_time: $invalidity_time
             flag_auto_approval: 1
 
     revoke_existing_certs:
@@ -505,7 +507,7 @@ condition:
     active_cert_count_ok:
         class: Workflow::Condition::LazyOR
         param:
-            condition1: scep_num_active_certs_less_than_max
+            condition1: scep_num_active_certs_less_than_max_active_certs
             condition2: scep_in_renewal_window
             condition3: scep_in_replace_window
 
