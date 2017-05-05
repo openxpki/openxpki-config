@@ -1,0 +1,22 @@
+head:
+    prefix: empty
+
+state:
+    INITIAL:
+        action:
+          - initialize > SUCCESS
+
+    SUCCESS:
+        label: ""
+
+action: 
+    initialize:
+        class: OpenXPKI::Server::Workflow::Activity::Noop
+
+acl:
+    System:
+        creator: any
+
+    Anonymous:
+        creator: any
+
