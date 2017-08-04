@@ -90,8 +90,8 @@ extensions:
         client_auth:      0
         server_auth:      1
         email_protection: 0
-        codeSigning:      0
-        timeStamping:     0
+        code_signing:     0
+        time_stamping:    0
 
 
     # This is really outdated and should not be used unless really necessary
