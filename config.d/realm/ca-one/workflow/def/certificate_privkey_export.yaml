@@ -11,7 +11,7 @@ head:
 state:
     INITIAL:
         action:
-          - initialize > CHECKACCESS        
+          - initialize global_relate_workflow > CHECKACCESS
 
     CHECKACCESS:
         autorun: 1

@@ -10,7 +10,7 @@ state:
         action: 
           - load_form > DATA_UPDATE
           - terminate > FAILURE
-          - persist > SUCCESS
+          - persist global_relate_workflow > SUCCESS
 
     DATA_UPDATE: 
         label: I18N_OPENXPKI_UI_WORKFLOW_STATE_METADATA_DATA_UPDATE_LABEL
