@@ -877,34 +877,6 @@ field:
             [% END %]
           [% END %]
 
-    check_policy_subject_duplicate:
-        label: Failed Policy Check Subject Duplicate
-        name: check_policy_subject_duplicate
-        format: rawlist
-        template: >
-          [% USE Certificate %]
-          [% IF value %]
-            Expiry / Identifier |
-            [% FOREACH identifier = value %]
-              <a target="modal" href="#certificate!detail!identifier![% identifier %]">
-                [% Certificate.notafter(identifier) %] / [% identifier %]</a>| 
-            [% END %]
-          [% END %]
-
-    check_policy_key_duplicate:
-        label: I18N_OPENXPKI_UI_WORKFLOW_FIELD_POLICY_CERTIFICATE_KEY_DUPLICATE
-        name: check_policy_key_duplicate
-        format: rawlist
-        template: >
-          [% USE Certificate %]
-          [% IF value %]
-            CN / Identifier |
-            [% FOREACH identifier = value %]
-              <a target="modal" href="#certificate!detail!identifier![% identifier %]">
-                [% Certificate.dn(identifier,'CN') %] / [% identifier %]</a>| 
-            [% END %]
-          [% END %]
-
     csr_type:
         label: I18N_OPENXPKI_UI_WORKFLOW_FIELD_CSR_TYPE_LABEL
         name: csr_type
