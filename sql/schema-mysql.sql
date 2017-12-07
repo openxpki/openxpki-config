@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS `aliases` (
 
 CREATE TABLE IF NOT EXISTS `application_log` (
   `application_log_id` bigint(20) unsigned NOT NULL,
-  `logtimestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `logtimestamp` decimal(20,0) unsigned DEFAULT NULL,
   `workflow_id` decimal(49,0) NOT NULL,
   `priority` int(11) DEFAULT '0',
   `category` varchar(255) NOT NULL,
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `application_log` (
 
 CREATE TABLE IF NOT EXISTS `audittrail` (
   `audittrail_key` bigint(20) unsigned NOT NULL,
-  `logtimestamp` int(10) unsigned DEFAULT NULL,
+  `logtimestamp` decimal(20,0) unsigned DEFAULT NULL,
   `category` varchar(255) DEFAULT NULL,
   `loglevel` varchar(255) DEFAULT NULL,
   `message` text
@@ -105,10 +105,27 @@ CREATE TABLE IF NOT EXISTS `datapool` (
   `last_update` int(10) unsigned DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS `report` (
+  `report_name` varchar(63) NOT NULL,
+  `pki_realm` varchar(255) NOT NULL,
+  `created` int(11) NOT NULL,
+  `mime_type` varchar(63) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `report_value` longblob NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE IF NOT EXISTS `secret` (
   `pki_realm` varchar(255) NOT NULL,
   `group_id` varchar(255) NOT NULL,
   `data` longtext
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `session` (
+  `session_id` varchar(255) NOT NULL,
+  `data` longtext,
+  `created` int(10) unsigned NOT NULL,
+  `modified` int(10) unsigned NOT NULL,
+  `ip_address` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `seq_application_log` (
@@ -233,8 +250,14 @@ ALTER TABLE `csr_attributes`
 ALTER TABLE `datapool`
  ADD PRIMARY KEY (`pki_realm`,`namespace`,`datapool_key`), ADD KEY `pki_realm` (`pki_realm`,`namespace`), ADD KEY `notafter` (`notafter`);
 
+ALTER TABLE `report`
+ ADD PRIMARY KEY (`report_name`,`pki_realm`);
+
 ALTER TABLE `secret`
  ADD PRIMARY KEY (`pki_realm`,`group_id`);
+
+ALTER TABLE `session`
+ ADD PRIMARY KEY (`session_id`), ADD INDEX(`modified`);
 
 ALTER TABLE `seq_application_log`
  ADD PRIMARY KEY (`seq_number`);
