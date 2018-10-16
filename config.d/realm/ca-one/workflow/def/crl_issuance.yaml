@@ -11,7 +11,7 @@ state:
           - create_ca_list > LOAD_NEXT_CA ? !global_run_in_background
           - global_noop create_ca_list > BACKGROUNDING ? global_run_in_background
 
-    # This is only required if you use CRL generation from the UI and you 
+    # This is only required if you use CRL generation from the UI and you
     # are seeing timeouts due to too large CRLs. Change the action above to:
     # "create_ca_list > BACKGROUNDING"
     BACKGROUNDING:
