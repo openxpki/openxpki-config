@@ -74,9 +74,9 @@ tasklist:
   - label: I18N_OPENXPKI_UI_TASKLIST_PENDING_REQUEST_LABEL
     description: I18N_OPENXPKI_UI_TASKLIST_PENDING_REQUEST_DESCRIPTION
     query:
-      TYPE:
+      type:
         - certificate_signing_request_v2
-      STATE:
+      state:
         - ONHOLD
         - PENDING
         - PENDING_POLICY_VIOLATION
@@ -96,9 +96,9 @@ tasklist:
     description: I18N_OPENXPKI_UI_TASKLIST_PENDING_ENROLLMENT_DESCRIPTION
     ifempty: hide
     query:
-      TYPE:
+      type:
         - enrollment
-      STATE:
+      state:
         - PENDING_APPROVAL
         - PENDING_MANUAL_AUTHENTICATION
         - PENDING_POLICY
@@ -111,16 +111,16 @@ tasklist:
         field: WORKFLOW_STATE
       - label: I18N_OPENXPKI_UI_CERTIFICATE_SUBJECT
         field: context.cert_subject
-      - label: I18N_OPENXPKI_UI_WORKFLOW_FIELD_SCEP_TID_LABEL
-        template: "[% context.scep_tid %]"
+      - label: I18N_OPENXPKI_UI_WORKFLOW_FIELD_TRANSACTION_ID_LABEL
+        field: attribute.transaction_id
 
   - label: I18N_OPENXPKI_UI_TASKLIST_PENDING_REVOCATION_LABEL
     description: I18N_OPENXPKI_UI_TASKLIST_PENDING_REVOCATION_DESCRIPTION
     ifempty: hide
     query:
-      TYPE:
+      type:
         - certificate_revocation_request_v2
-      STATE:
+      state:
         - PENDING
 
 
@@ -136,13 +136,13 @@ bulk:
      - label: I18N_OPENXPKI_UI_SEARCH_REQUESTOR_NAME_LABEL
        key: requestor
 
-     - label: I18N_OPENXPKI_UI_SEARCH_SCEP_TID_LABEL
-       key: scep_tid
+     - label: I18N_OPENXPKI_UI_SEARCH_TRANSACTION_ID_LABEL
+       key: transaction_id
 
     query:
-      TYPE:
+      type:
         - certificate_signing_request_v2
-      STATE:
+      state:
         - ONHOLD
         - PENDING
         - PENDING_POLICY_VIOLATION
@@ -182,9 +182,9 @@ bulk:
        operator: like
 
     query:
-      TYPE:
+      type:
         - certificate_revocation_request_v2
-      STATE:
+      state:
         - PENDING
 
     cols:
@@ -228,7 +228,7 @@ wfsearch:
           - label: I18N_OPENXPKI_UI_CERTIFICATE_SUBJECT
             template: "[% IF context.cert_subject %][% context.cert_subject %][% ELSIF context.cert_identifier %][% USE Certificate %][% Certificate.body(context.cert_identifier, 'subject') %][% ELSE %]-[% END %]"
           - label: I18N_OPENXPKI_UI_WORKFLOW_CREATOR_LABEL
-            template: "[% context.creator %] / [% context.cert_info.requestor_email %]"
+            field: attribute.creator
 
         attributes:
           - label: I18N_OPENXPKI_UI_SEARCH_CERT_SUBJECT_LABEL
@@ -239,23 +239,54 @@ wfsearch:
           - label: I18N_OPENXPKI_UI_SEARCH_REQUESTOR_NAME_LABEL
             key: requestor
 
-          - label: I18N_OPENXPKI_UI_SEARCH_SCEP_TID_LABEL
-            key: scep_tid
+          - label: I18N_OPENXPKI_UI_SEARCH_TRANSACTION_ID_LABEL
+            key: transaction_id
 
 
 certsearch:
-   - label: I18N_OPENXPKI_UI_SEARCH_REQUESTOR_NAME_LABEL
-     key: meta_requestor
-     pattern: '*%s*'
-     operator: inlike
+    default:
+        cols:
+           - label: I18N_OPENXPKI_UI_CERTIFICATE_SERIAL
+             field: cert_key
+             sortkey: cert_key
+           - label: I18N_OPENXPKI_UI_CERTIFICATE_SUBJECT
+             sortkey: subject
+             field: subject
+           - label: I18N_OPENXPKI_UI_CERTIFICATE_STATUS
+             format: certstatus
+             sortkey: status
+             field: status
+           - label: I18N_OPENXPKI_UI_CERTIFICATE_NOTBEFORE
+             format: timestamp
+             sortkey: notbefore
+             field: notbefore
+           - label: I18N_OPENXPKI_UI_CERTIFICATE_NOTAFTER
+             format: timestamp
+             sortkey: notafter
+             field: notafter
+           - label: I18N_OPENXPKI_UI_CERTIFICATE_ISSUER
+             sortkey: issuer_dn
+             field: issuer_dn
+           - label: I18N_OPENXPKI_UI_CERTIFICATE_IDENTIFIER
+             sortkey: identifier
+             field: identifier
+# adding attribute from metadata
+#           - label: Mail
+#             field: attribute.meta_email
 
-   - label: I18N_OPENXPKI_UI_SEARCH_REQUESTOR_EMAIL_LABEL
-     key: meta_email
-     operator: in
+        attributes:
+         - label: I18N_OPENXPKI_UI_SEARCH_REQUESTOR_NAME_LABEL
+           key: meta_requestor
+           pattern: '*%s*'
+           operator: inlike
 
-   - label: I18N_OPENXPKI_UI_WORKFLOW_FIELD_ENTITY_LABEL
-     key: meta_entity
-     operator: inlike
+         - label: I18N_OPENXPKI_UI_SEARCH_REQUESTOR_EMAIL_LABEL
+           key: meta_email
+           operator: in
+
+         - label: I18N_OPENXPKI_UI_WORKFLOW_FIELD_ENTITY_LABEL
+           key: meta_entity
+           operator: inlike
 
 
 certaction:
