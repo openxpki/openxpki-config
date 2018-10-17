@@ -1,0 +1,14 @@
+
+Hi,
+
+Expiry Info for Nar Id: [% data.data.nar_id %]
+
+Also send to: [% data.notify_cc.join(", ") %]
+
+[% FOREACH cert = data.data.certificates %]
+
+   [% cert.cert_identifier %] | [% cert.notafter %] | [% cert.dn %]
+
+[% END %]
+
+[% INCLUDE _footer.txt %]
