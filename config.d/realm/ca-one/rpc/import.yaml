@@ -1,0 +1,3 @@
+authorized_signer:
+    rule1:
+        subject: CN=.*
