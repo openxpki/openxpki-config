@@ -1,8 +1,0 @@
-label: I18N_OPENXPKI_UI_PROFILE_NODEID
-description: I18N_OPENXPKI_UI_PROFILE_NODEID_DESC
-id: nodeid
-type: text
-placeholder: 1
-min: 0
-preset: "[% CN.0.replace('.*([0-9]*)','$1') %]"
-match: \A \d+ \z
