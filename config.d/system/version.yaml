@@ -2,4 +2,6 @@
 # management tools - you can extend the file with your own attributes all
 # values are listed on the system status page and are returned via
 # "openxpkicli version" call
-config: 2.4
+config: 2.5
+package: debian-2.5
+commit: 0abcde
