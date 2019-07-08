@@ -20,16 +20,14 @@ Global system configuration, such as path to binaries and database. Should do
 as is on most systems, minimal action: configure your database.
 
 
-realm configuration (config.d/realm/ca-one)
+realm configuration (config.d/realm/)
 -------------------------------------------
 
 A single OpenXPKI instance can be used to run more than one logical 
-certification authority - we call this a "realm". The example config comes 
-with one preconfigured realm named "ca-one" which is "ready to go" for a 
-first testdrive. You can create additional realms by just making a copy of
-the directory (cp -pr ca-one ca-two) and put it into system/realm.yaml.
-
-The feature examples also contain files to be put in the realm directory.
-If you need to use such a feature you need to put its files in each realm
-you want it to be enabled.
+certification authority - we call this a "realm". A fully working config
+can be found in realm.tpl, to setup a working CA either make a copy of this
+directory or just create a symlink to it from inside the `realm` directory
+and but the name of the realm in the file system/realm.yaml. A demo realm
+named "democa" is part of the repository. It is recommended to not use this
+for a production system.
 
