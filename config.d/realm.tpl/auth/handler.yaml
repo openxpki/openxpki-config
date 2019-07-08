@@ -3,7 +3,7 @@ Certificate:
     label: Certificate
     description: I18N_OPENXPKI_CONFIG_AUTH_HANDLER_DESCRIPTION_CERTIFICATE_WEBSERVER
     role: User
-    realm: ca-one
+    realm: democa 
 
 Anonymous:
     type: Anonymous
