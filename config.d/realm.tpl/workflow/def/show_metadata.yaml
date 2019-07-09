@@ -2,36 +2,38 @@ head:
     prefix: showmeta
     label: I18N_OPENXPKI_UI_WORKFLOW_TYPE_SHOW_METADATA_LABEL
     description: I18N_OPENXPKI_UI_WORKFLOW_TYPE_SHOW_METADATA_DESC
-    persister: Volatile 
-    
-state: 
-    INITIAL: 
+    persister: Volatile
+
+state:
+    INITIAL:
         label: I18N_OPENXPKI_UI_WORKFLOW_STATE_METADATA_INITIAL_LABEL
         description: I18N_OPENXPKI_UI_WORKFLOW_STATE_METADATA_INITIAL_DESC
-        action: 
+        action:
           - load_data > SUCCESS
 
-    SUCCESS: 
+    SUCCESS:
         label: I18N_OPENXPKI_UI_WORKFLOW_STATE_METADATA_SUCCESS_LABEL
         description: I18N_OPENXPKI_UI_WORKFLOW_STATE_METADATA_SUCCESS_DESC
         output:
           - meta_email
           - meta_requestor
           - meta_entity
+          - meta_add_me
+          - meta_add_me_multi
 
 
 action:
-    load_data: 
+    load_data:
         class: OpenXPKI::Server::Workflow::Activity::Tools::LoadCertificateMetadata
         label: I18N_OPENXPKI_UI_WORKFLOW_ACTION_CHANGEMETA_LOAD_DATA_LABEL
         description: I18N_OPENXPKI_UI_WORKFLOW_ACTION_CHANGEMETA_LOAD_DATA_DESC
-        input: 
+        input:
           - cert_identifier
-        validator: 
+        validator:
           - global_cert_identifier_exists
 
-field: 
-    meta_email: 
+field:
+    meta_email:
         label: I18N_OPENXPKI_UI_WORKFLOW_FIELD_META_EMAIL_LABEL
         name: meta_email
         description: I18N_OPENXPKI_UI_WORKFLOW_FIELD_META_EMAIL_DESC
@@ -41,7 +43,7 @@ field:
         required: 0
         max: 10
 
-    meta_requestor: 
+    meta_requestor:
         label: I18N_OPENXPKI_UI_WORKFLOW_FIELD_META_REQUESTOR_LABEL
         name: meta_requestor
         description: I18N_OPENXPKI_UI_WORKFLOW_FIELD_META_REQUESTOR_DESC
@@ -50,7 +52,7 @@ field:
         type: text
         required: 0
 
-    meta_system_id: 
+    meta_system_id:
         label: I18N_OPENXPKI_UI_WORKFLOW_FIELD_META_SYSTEM_ID_LABEL
         name: meta_system_id
         description: I18N_OPENXPKI_UI_WORKFLOW_FIELD_META_SYSTEM_ID_DESC
@@ -62,13 +64,21 @@ field:
     meta_entity:
         name: meta_entity
 
+    meta_add_me:
+        name: meta_add_me
+
+    meta_add_me_multi:
+        label: Multi
+        name: meta_add_me[]
+
+
 acl:
-    CA Operator: 
+    CA Operator:
         creator: any
 
-    RA Operator: 
-        creator: any 
-
-    System: 
+    RA Operator:
         creator: any
- 
+
+    System:
+        creator: any
+
