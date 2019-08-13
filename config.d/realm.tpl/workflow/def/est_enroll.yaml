@@ -1,5 +1,6 @@
 head:
     prefix: estenroll
+#persister: Volatile
 
 state:
     INITIAL:
@@ -52,6 +53,7 @@ acl:
         wakeup: 1
         history: 1
         techlog: 1
+        attribute: 1
         context: 1
 
 
