@@ -4,7 +4,7 @@ description: I18N_OPENXPKI_UI_PROFILE_APPLICATION_NAME_DESC
 preset: "[% CN.0.replace('^[^:]+:?','') %]"
 type: select
 option:
+  - pkiclient
   - scep
-  - soap
   - generic
 width: 20
