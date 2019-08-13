@@ -10,7 +10,3 @@ userdb:
     class: Connector::Proxy::YAML
     LOCATION: /home/pkiadm/userdb.yaml
 
-role:
-    class: Connector::Proxy::YAML
-    LOCATION: /home/pkiadm/x509-roles.yaml
-
