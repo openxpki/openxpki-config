@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: OpenXPKI 0.9\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-09-08 14:02+0200\n"
-"PO-Revision-Date: 2019-07-09 10:49+0200\n"
+"PO-Revision-Date: 2019-08-06 13:50+0200\n"
 "Last-Translator: OpenXPKI Team <i18n@openxpki.org>\n"
 "Language-Team: OpenXPKI developers list <openxpki-devel@lists.sourceforge."
 "net>\n"
@@ -667,7 +667,7 @@ msgid "I18N_OPENXPKI_UI_LOGIN_PASSWORD"
 msgstr "Password"
 
 msgid "I18N_OPENXPKI_UI_LOGIN_PLEASE_LOG_IN"
-msgstr "Please Log In"
+msgstr "Please log in"
 
 msgid "I18N_OPENXPKI_UI_LOGIN_SUBMIT"
 msgstr "Send"
@@ -862,6 +862,9 @@ msgstr "Additional Hostnames"
 
 msgid "I18N_OPENXPKI_UI_PROFILE_EXTRA_HOSTNAME_DESC"
 msgstr "You can enter additional hostnames for the certificate"
+
+msgid "I18N_OPENXPKI_UI_PROFILE_HINT_LIST"
+msgstr "Information on available Profiles"
 
 msgid "I18N_OPENXPKI_UI_PROFILE_HOSTNAME"
 msgstr "Hostname"
@@ -1721,6 +1724,9 @@ msgstr "Please update / complete the information below."
 msgid "I18N_OPENXPKI_UI_WORKFLOW_ACTION_UPDATE_CRR_LABEL"
 msgstr "Update Request"
 
+msgid "I18N_OPENXPKI_UI_WORKFLOW_ATTRIBUTE_LABEL"
+msgstr "Workflow Attributes"
+
 msgid "I18N_OPENXPKI_UI_WORKFLOW_BULK_DESCRIPTION"
 msgstr ""
 "Please enter search criteria for the workflows to be included in your bulk "
@@ -1788,6 +1794,12 @@ msgstr ""
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_CONFIRM_CANCEL_LABEL"
 msgstr "Confirm Cancelation!"
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_CONFIRM_DIALOG_CANCEL_BUTTON"
+msgstr "Abort"
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_CONFIRM_DIALOG_CONFIRM_BUTTON"
+msgstr "Confirm"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_CONTEXT_LABEL"
 msgstr "Workflow Context"
@@ -2287,8 +2299,9 @@ msgstr ""
 "PKCS7-----) or use the browse/upload button below to load a file from your "
 "computer."
 
+#, fuzzy
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_PKCS7_TOOLTIP"
-msgstr ""
+msgstr "Your PKCS10 encoded request"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_POLICY_CERTIFICATE_KEY_DUPLICATE"
 msgstr "Duplicated Key Certificates"
@@ -2471,6 +2484,12 @@ msgstr "Your PEM encoded certificate"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FORCE_FAILURE_BUTTON"
 msgstr "Force Failure"
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_FORCE_FAILURE_DIALOG_CANCEL_BUTTON"
+msgstr "Abort"
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_FORCE_FAILURE_DIALOG_CONFIRM_BUTTON"
+msgstr "Fail Workflow"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FORCE_FAILURE_DIALOG_LABEL"
 msgstr "Fail Workflow"
