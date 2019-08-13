@@ -18,7 +18,8 @@ else
    exit 1
 fi
 
-REALM='ca-one'
+REALM='democa'
+FQDN=`hostname -f`
 # For automated testing we want to have this set to root
 # unset this to get random passwords (put into the .pass files)
 KEY_PASSWORD="root"
@@ -49,46 +50,46 @@ PASS_SUFFIX='pass'
 BACKUP_SUFFIX='~'
 
 # root CA selfsigned (in production use company's root certificate)
-ROOT_CA='OpenXPKI_CA-One_Root_CA'
+ROOT_CA='OpenXPKI_Root_CA'
 ROOT_CA_REQUEST="${SSL_REALM}/${ROOT_CA}.${REQUEST_SUFFIX}"
 ROOT_CA_KEY="${SSL_REALM}/${ROOT_CA}.${KEY_SUFFIX}"
 ROOT_CA_KEY_PASSWORD="${SSL_REALM}/${ROOT_CA}.${PASS_SUFFIX}"
 ROOT_CA_CERTIFICATE="${SSL_REALM}/${ROOT_CA}.${CERTIFICATE_SUFFIX}"
-ROOT_CA_SUBJECT='/CN=OpenXPKI CA-One Root CA 1'
+ROOT_CA_SUBJECT='/CN=OpenXPKI Root CA 1'
 ROOT_CA_SERVER_FQDN='rootca.openxpki.net'
 
 # issuing CA signed by root CA above
-ISSUING_CA='OpenXPKI_CA-One_Issuing_CA'
+ISSUING_CA='OpenXPKI_Issuing_CA'
 ISSUING_CA_REQUEST="${SSL_REALM}/${ISSUING_CA}.${REQUEST_SUFFIX}"
 ISSUING_CA_KEY="${SSL_REALM}/${ISSUING_CA}.${KEY_SUFFIX}"
 ISSUING_CA_KEY_PASSWORD="${SSL_REALM}/${ISSUING_CA}.${PASS_SUFFIX}"
 ISSUING_CA_CERTIFICATE="${SSL_REALM}/${ISSUING_CA}.${CERTIFICATE_SUFFIX}"
-ISSUING_CA_SUBJECT='/DC=net/DC=openxpki/DC=ca-one/CN=OpenXPKI Issuing CA 1'
+ISSUING_CA_SUBJECT='/C=DE/O=OpenXPKI/OU=PKI/CN=OpenXPKI Demo Issuing CA 1'
 
 # SCEP registration authority certificate signed by root CA above
-SCEP='OpenXPKI_CA-One_SCEP_RA'
+SCEP='OpenXPKI_SCEP_RA'
 SCEP_REQUEST="${SSL_REALM}/${SCEP}.${REQUEST_SUFFIX}"
 SCEP_KEY="${SSL_REALM}/${SCEP}.${KEY_SUFFIX}"
 SCEP_KEY_PASSWORD="${SSL_REALM}/${SCEP}.${PASS_SUFFIX}"
 SCEP_CERTIFICATE="${SSL_REALM}/${SCEP}.${CERTIFICATE_SUFFIX}"
-SCEP_SUBJECT='/DC=net/DC=openxpki/DC=ca-one/CN=OpenXPKI CA-One SCEP RA 1'
+SCEP_SUBJECT="/CN=${FQDN}:scep-ra"
 
 # Apache WEB certificate signed by root CA above
-WEB='OpenXPKI_CA-One_Web_CA'
+WEB='OpenXPKI_WebUI'
 WEB_REQUEST="${SSL_REALM}/${WEB}.${REQUEST_SUFFIX}"
 WEB_KEY="${SSL_REALM}/${WEB}.${KEY_SUFFIX}"
 WEB_KEY_PASSWORD="${SSL_REALM}/${WEB}.${PASS_SUFFIX}"
 WEB_CERTIFICATE="${SSL_REALM}/${WEB}.${CERTIFICATE_SUFFIX}"
-WEB_SUBJECT='/DC=net/DC=openxpki/DC=ca-one/CN=issuing.ca-one.openxpki.net'
-WEB_SERVER_FQDN='issuing.ca-one.openxpki.net'
+WEB_SUBJECT="/CN=${FQDN}"
+WEB_SERVER_FQDN="${FQDN}"
 
 # data vault certificate selfsigned
-DATAVAULT='OpenXPKI_CA-One_DataVault'
+DATAVAULT='OpenXPKI_DataVault'
 DATAVAULT_REQUEST="${SSL_REALM}/${DATAVAULT}.${REQUEST_SUFFIX}"
 DATAVAULT_KEY="${SSL_REALM}/${DATAVAULT}.${KEY_SUFFIX}"
 DATAVAULT_KEY_PASSWORD="${SSL_REALM}/${DATAVAULT}.${PASS_SUFFIX}"
 DATAVAULT_CERTIFICATE="${SSL_REALM}/${DATAVAULT}.${CERTIFICATE_SUFFIX}"
-DATAVAULT_SUBJECT='/DC=net/DC=openxpki/DC=ca-one/DC=OpenXPKI Internal/CN=OpenXPKI CA-One DataVault'
+DATAVAULT_SUBJECT='/CN=Internal DataVault'
 
 #
 # openssl.conf
@@ -97,20 +98,9 @@ BITS=4096
 DAYS=371 # 2 years (default value not used for further enhancements)
 RDAYS="3655" # 10 years for root
 IDAYS="1828" # 5 years for issuing
-SDAYS="$IDAYS" # 5 years for scep (same as issuing)
+SDAYS="365" # 1 years for scep
 WDAYS="1096" # 3 years web
 DDAYS="$RDAYS" # 10 years datavault (same a root)
-
-# used by v3 extension for issuing ca certificate
-ROOT_CA_HTTP_URI="URI:http://${ROOT_CA_SERVER_FQDN}/CertEnroll"
-ROOT_CA_CERTIFICATE_STRING="OpenXPKI_CA-One_Root_CA"
-ROOT_CA_CERTIFICATE_URI="${ROOT_CA_HTTP_URI}/${ROOT_CA_CERTIFICATE_STRING}.${CERTIFICATE_SUFFIX}"
-ROOT_CA_REVOCATION_URI="${ROOT_CA_HTTP_URI}/${ROOT_CA_CERTIFICATE_STRING}.${REVOCATION_SUFFIX}"
-
-# used by v3 extension for web certificate
-ISSUING_HTTP_URI="URI:http://${WEB_SERVER_FQDN}/CertEnroll"
-ISSUING_CERTIFICATE_URI="${ISSUING_HTTP_URI}/${ISSUING_CA}.${CERTIFICATE_SUFFIX}"
-ISSUING_REVOCATION_URI="${ISSUING_HTTP_URI}/${ISSUING_CA}.${REVOCATION_SUFFIX}"
 
 # creation neccessary directories and files
 echo -n "creating configuration for openssl ($OPENSSL_CONF) .. "
@@ -158,6 +148,8 @@ default_days		= ${DAYS}
 # x509_extensions               = v3_web_extensions
 
 [policy_none]
+countryName             = optional
+organizationName        = optional
 domainComponent		= optional
 organizationalUnitName	= optional
 commonName		= supplied
@@ -204,8 +196,8 @@ subjectKeyIdentifier    = hash
 keyUsage                = digitalSignature, keyCertSign, cRLSign
 basicConstraints        = critical,CA:TRUE
 authorityKeyIdentifier  = keyid:always,issuer:always
-crlDistributionPoints	= ${ROOT_CA_REVOCATION_URI}
-authorityInfoAccess	= caIssuers;${ROOT_CA_CERTIFICATE_URI}
+#crlDistributionPoints	= ${ROOT_CA_REVOCATION_URI}
+#authorityInfoAccess	= caIssuers;${ROOT_CA_CERTIFICATE_URI}
 
 [ v3_datavault_extensions ]
 subjectKeyIdentifier    = hash
@@ -225,8 +217,8 @@ keyUsage                = critical, digitalSignature, keyEncipherment
 extendedKeyUsage        = serverAuth, clientAuth
 basicConstraints        = critical,CA:FALSE
 subjectAltName		= DNS:${WEB_SERVER_FQDN}
-crlDistributionPoints	= ${ISSUING_REVOCATION_URI}
-authorityInfoAccess	= caIssuers;${ISSUING_CERTIFICATE_URI}
+#crlDistributionPoints	= ${ISSUING_REVOCATION_URI}
+#authorityInfoAccess	= caIssuers;${ISSUING_CERTIFICATE_URI}
 " > "${OPENSSL_CONF}"
 
 echo "done."
@@ -346,18 +338,19 @@ chown root:root ${SSL_REALM}/*.${REQUEST_SUFFIX} ${SSL_REALM}/*.${KEY_SUFFIX} ${
 chown root:${group} ${SSL_REALM}/*.${CERTIFICATE_SUFFIX} ${SSL_REALM}/*.${KEY_SUFFIX}
 
 echo -n "Starting import ... "
-echo "done."
-echo ""
 
 openxpkiadm certificate import --file "${ROOT_CA_CERTIFICATE}"
 openxpkiadm certificate import --file "${ISSUING_CA_CERTIFICATE}" --realm "${REALM}" --token certsign
 openxpkiadm certificate import --file "${SCEP_CERTIFICATE}" --realm "${REALM}" --token scep
 openxpkiadm certificate import --file "${DATAVAULT_CERTIFICATE}" --realm "${REALM}" --token datasafe
 
+echo "done."
+echo ""
+
 # Create symlinks for the aliases used by the default config
 ln -s "${ISSUING_CA_KEY}" "${SSL_REALM}/ca-signer-1.pem"
 ln -s "${SCEP_KEY}" "${SSL_REALM}/scep-1.pem"
-ln -s "${DATAVAULT_KEY}" "${SSL_REALM}/vault-1.pem"
+ln -s "${DATAVAULT_KEY}" "${BASE}/ca/vault-1.pem"
 
 echo "Place web certificate, private key, ... in web server configuration to enable ssl on openxpki web pages!"
 echo ""
