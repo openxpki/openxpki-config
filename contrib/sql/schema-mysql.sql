@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `certificate` (
   `issuer_identifier` varchar(64) NOT NULL,
   `identifier` varchar(64) DEFAULT NULL,
   `subject` varchar(1000) DEFAULT NULL,
-  `status` varchar(255) DEFAULT NULL,
+  `status` enum('ISSUED','HOLD','CRL_ISSUANCE_PENDING','REVOKED','UNKNOWN') DEFAULT 'UNKNOWN',
   `subject_key_identifier` varchar(255) DEFAULT NULL,
   `authority_key_identifier` varchar(255) DEFAULT NULL,
   `notbefore` int(10) unsigned DEFAULT NULL,
@@ -45,7 +45,6 @@ CREATE TABLE IF NOT EXISTS `certificate` (
   `reason_code` varchar(50) DEFAULT NULL,
   `hold_instruction_code` varchar(50) DEFAULT NULL,
   `req_key` bigint(20) unsigned DEFAULT NULL,
-  `public_key` text,
   `data` longtext
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -73,7 +72,6 @@ CREATE TABLE IF NOT EXISTS `csr` (
   `pki_realm` varchar(255) NOT NULL,
   `format` varchar(25) DEFAULT NULL,
   `profile` varchar(255) DEFAULT NULL,
-  `loa` varchar(255) DEFAULT NULL,
   `subject` varchar(1000) DEFAULT NULL,
   `data` longtext
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -184,10 +182,11 @@ CREATE TABLE IF NOT EXISTS `workflow` (
   `workflow_type` varchar(255) DEFAULT NULL,
   `workflow_state` varchar(255) DEFAULT NULL,
   `workflow_last_update` timestamp NOT NULL,
-  `workflow_proc_state` varchar(32) DEFAULT NULL,
+  `workflow_proc_state` enum('init','running','manual','pause','finished','archived','failed','wakeup','resume','exception','retry_exceeded') DEFAULT 'init',
   `workflow_wakeup_at` int(10) unsigned DEFAULT NULL,
   `workflow_count_try` int(10) unsigned DEFAULT NULL,
   `workflow_reap_at` int(10) unsigned DEFAULT NULL,
+  `workflow_archive_at` int(10) unsigned DEFAULT NULL,
   `workflow_session` longtext,
   `watchdog_key` varchar(64) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -224,31 +223,61 @@ CREATE TABLE IF NOT EXISTS `ocsp_responses` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ALTER TABLE `aliases`
- ADD PRIMARY KEY (`pki_realm`,`alias`);
+ ADD PRIMARY KEY (`pki_realm`,`alias`),
+ ADD KEY `realm_group` (`pki_realm`,`group_id`);
 
 ALTER TABLE `application_log`
- ADD PRIMARY KEY (`application_log_id`),  ADD KEY `workflow_id` (`workflow_id`), ADD KEY `workflow_id_2` (`workflow_id`,`category`,`priority`);
+ ADD PRIMARY KEY (`application_log_id`),
+ ADD KEY `workflow_id` (`workflow_id`),
+ ADD KEY `workflow_id_2` (`workflow_id`,`category`,`priority`);
 
 ALTER TABLE `audittrail`
  ADD PRIMARY KEY (`audittrail_key`);
 
 ALTER TABLE `certificate`
- ADD PRIMARY KEY (`issuer_identifier`,`cert_key`), ADD KEY `pki_realm` (`pki_realm`), ADD UNIQUE `identifier` (`identifier`), ADD KEY `issuer_identifier` (`issuer_identifier`), ADD KEY `subject` (`subject`(255)), ADD KEY `status` (`status`), ADD KEY `pki_realm_2` (`pki_realm`,`req_key`), ADD KEY `notbefore` (`notbefore`), ADD KEY `notafter` (`notafter`), ADD KEY `revocation_time` (`revocation_time`), ADD KEY `invalidity_time` (`invalidity_time`), ADD KEY `reason_code` (`reason_code`), ADD KEY `hold_instruction_code` (`hold_instruction_code`);
+ ADD PRIMARY KEY (`issuer_identifier`,`cert_key`),
+ ADD KEY `pki_realm` (`pki_realm`),
+ ADD UNIQUE `identifier` (`identifier`),
+ ADD KEY `issuer_identifier` (`issuer_identifier`),
+ ADD KEY `subject` (`subject`(255)),
+ ADD KEY `status` (`status`),
+ ADD KEY `pki_realm_2` (`pki_realm`,`req_key`),
+ ADD KEY `notbefore` (`notbefore`),
+ ADD KEY `notafter` (`notafter`),
+ ADD KEY `revocation_time` (`revocation_time`),
+ ADD KEY `invalidity_time` (`invalidity_time`),
+ ADD KEY `reason_code` (`reason_code`),
+ ADD KEY `hold_instruction_code` (`hold_instruction_code`);
 
 ALTER TABLE `certificate_attributes`
- ADD PRIMARY KEY (`attribute_key`,`identifier`), ADD KEY `attribute_contentkey` (`attribute_contentkey`), ADD KEY `attribute_value` (`attribute_value`(255)), ADD KEY `identifier` (`identifier`), ADD KEY `identifier_2` (`identifier`,`attribute_contentkey`), ADD KEY `attribute_contentkey_2` (`attribute_contentkey`,`attribute_value`(255));
+ ADD PRIMARY KEY (`attribute_key`,`identifier`),
+ ADD KEY `attribute_contentkey` (`attribute_contentkey`),
+ ADD KEY `attribute_value` (`attribute_value`(255)),
+ ADD KEY `identifier` (`identifier`),
+ ADD KEY `identifier_2` (`identifier`,`attribute_contentkey`),
+ ADD KEY `attribute_contentkey_2` (`attribute_contentkey`,`attribute_value`(255));
 
 ALTER TABLE `crl`
- ADD PRIMARY KEY (`issuer_identifier`,`crl_key`), ADD KEY `issuer_identifier` (`issuer_identifier`), ADD KEY `pki_realm` (`pki_realm`), ADD KEY `issuer_identifier_2` (`issuer_identifier`,`last_update`), ADD KEY `crl_number` (`issuer_identifier`,`crl_number`);
+ ADD PRIMARY KEY (`issuer_identifier`,`crl_key`),
+ ADD KEY `issuer_identifier` (`issuer_identifier`),
+ ADD KEY `pki_realm` (`pki_realm`),
+ ADD KEY `issuer_identifier_2` (`issuer_identifier`,`last_update`),
+ ADD KEY `crl_number` (`issuer_identifier`,`crl_number`);
 
 ALTER TABLE `csr`
- ADD PRIMARY KEY (`pki_realm`,`req_key`), ADD KEY `pki_realm` (`pki_realm`), ADD KEY `profile` (`profile`), ADD KEY `subject` (`subject`(255));
+ ADD PRIMARY KEY (`pki_realm`,`req_key`),
+ ADD KEY `pki_realm` (`pki_realm`),
+ ADD KEY `profile` (`pki_realm`,`profile`),
+ ADD KEY `subject` (`subject`(255));
 
 ALTER TABLE `csr_attributes`
- ADD PRIMARY KEY (`attribute_key`,`pki_realm`,`req_key`), ADD KEY `attribute_contentkey` (`attribute_contentkey`), ADD KEY `req_key` (`req_key`), ADD KEY `attribute_contentkey_2` (`attribute_contentkey`,`req_key`), ADD KEY `pki_realm` (`pki_realm`);
+ ADD PRIMARY KEY (`attribute_key`,`pki_realm`,`req_key`),
+ ADD KEY `req_key` (`req_key`);
 
 ALTER TABLE `datapool`
- ADD PRIMARY KEY (`pki_realm`,`namespace`,`datapool_key`), ADD KEY `pki_realm` (`pki_realm`,`namespace`), ADD KEY `notafter` (`notafter`);
+ ADD PRIMARY KEY (`pki_realm`,`namespace`,`datapool_key`),
+ ADD KEY `pki_realm` (`pki_realm`,`namespace`),
+ ADD KEY `notafter` (`notafter`);
 
 ALTER TABLE `report`
  ADD PRIMARY KEY (`report_name`,`pki_realm`);
@@ -257,10 +286,12 @@ ALTER TABLE `secret`
  ADD PRIMARY KEY (`pki_realm`,`group_id`);
 
 ALTER TABLE `backend_session`
- ADD PRIMARY KEY (`session_id`), ADD INDEX(`modified`);
+ ADD PRIMARY KEY (`session_id`),
+ ADD INDEX(`modified`);
 
 ALTER TABLE `frontend_session`
- ADD PRIMARY KEY (`session_id`), ADD INDEX(`modified`);
+ ADD PRIMARY KEY (`session_id`),
+ ADD INDEX(`modified`);
 
 ALTER TABLE `seq_application_log`
  ADD PRIMARY KEY (`seq_number`);
@@ -293,19 +324,31 @@ ALTER TABLE `seq_workflow_history`
  ADD PRIMARY KEY (`seq_number`);
 
 ALTER TABLE `workflow`
- ADD PRIMARY KEY (`workflow_id`), ADD KEY `workflow_state` (`workflow_state`), ADD KEY `pki_realm` (`pki_realm`), ADD KEY `pki_realm_2` (`pki_realm`,`workflow_type`), ADD KEY `workflow_proc_state` (`workflow_proc_state`,`workflow_wakeup_at`), ADD KEY `workflow_proc_state_2` (`workflow_proc_state`,`workflow_reap_at`), ADD KEY `pki_realm_3` (`pki_realm`,`workflow_state`), ADD KEY `pki_realm_4` (`pki_realm`,`workflow_proc_state`);
+ ADD PRIMARY KEY (`workflow_id`),
+ ADD KEY `pki_realm` (`pki_realm`),
+ ADD KEY `pki_realm_type` (`pki_realm`,`workflow_type`),
+ ADD KEY `pki_realm_state` (`pki_realm`, `workflow_state`),
+ ADD KEY `workflow_proc_state` (`pki_realm`, `workflow_proc_state`),
+ ADD KEY `watchdog_wakeup` (`workflow_wakeup_at`, `watchdog_key`, `workflow_proc_state`),
+ ADD KEY `watchdog_reap` (`workflow_reap_at`, `watchdog_key`, `workflow_proc_state`);
 
 ALTER TABLE `workflow_attributes`
- ADD PRIMARY KEY (`workflow_id`,`attribute_contentkey`), ADD KEY `workflow_id` (`workflow_id`), ADD KEY `attribute_contentkey` (`attribute_contentkey`), ADD KEY `attribute_value` (`attribute_value`(255)), ADD KEY `attribute_contentkey_2` (`attribute_contentkey`,`attribute_value`(255));
+ ADD PRIMARY KEY (`workflow_id`,`attribute_contentkey`),
+ ADD KEY `workflow_id` (`workflow_id`),
+ ADD KEY `attribute_contentkey` (`attribute_contentkey`),
+ ADD KEY `attribute_value` (`attribute_value`(255)),
+ ADD KEY `attribute_contentkey_2` (`attribute_contentkey`,`attribute_value`(255));
 
 ALTER TABLE `workflow_context`
  ADD PRIMARY KEY (`workflow_id`,`workflow_context_key`);
 
 ALTER TABLE `workflow_history`
- ADD PRIMARY KEY (`workflow_hist_id`), ADD KEY `workflow_id` (`workflow_id`);
+ ADD PRIMARY KEY (`workflow_hist_id`),
+ ADD KEY `workflow_id` (`workflow_id`);
 
 ALTER TABLE `ocsp_responses`
- ADD PRIMARY KEY (`serial_number`,`authority_key_identifier`), ADD KEY `identifier` (`identifier`);
+ ADD PRIMARY KEY (`serial_number`,`authority_key_identifier`),
+ ADD KEY `identifier` (`identifier`);
 
 
 ALTER TABLE `audittrail`
