@@ -5,7 +5,7 @@
 
 # A renewal request is only accpeted if the used certificate will
 # expire within this period of time.
-renewal_period: 03
+renewal_period: 000060
 
 # If the request was a replacement, optionally revoke the replaced
 # certificate after a grace period
