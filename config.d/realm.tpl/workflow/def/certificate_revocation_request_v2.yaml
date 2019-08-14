@@ -21,7 +21,9 @@ state:
     CHECK_FOR_REVOCATION:
         autorun: 1
         action:
-          - global_check_for_revocation > SUCCESS
+          - global_noop > SUCCESS
+          # if you want the workflow to wait until the CRL was published
+          # - global_check_for_revocation > SUCCESS
         output:
           - cert_identifier
           - reason_code
