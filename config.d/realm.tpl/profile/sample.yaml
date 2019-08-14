@@ -30,8 +30,8 @@ unpublish:
 
 style:
     00_basic_style:
-        label: I18N_OPENXPKI_PROFILE_TLS_BASIC_STYLE
-        description: I18N_OPENXPKI_PROFILE_TLS_BASIC_DESC
+        label: I18N_OPENXPKI_UI_PROFILE_BASIC_STYLE_LABEL
+        description: I18N_OPENXPKI_UI_PROFILE_BASIC_STYLE_DESC
         # Define which input fields you want on the UI
         # Just put their names here and define them at the end
         # in the "template" section.
@@ -56,9 +56,8 @@ style:
             san: dns=[% hostname %]
 
     05_advanced_style:
-        label: I18N_OPENXPKI_PROFILE_ADVANCED_STYLE
-        description: I18N_OPENXPKI_PROFILE_ADVANCED_DESC
-
+        label: I18N_OPENXPKI_UI_PROFILE_ADVANCED_STYLE_LABEL
+        description: I18N_OPENXPKI_UI_PROFILE_ADVANCED_STYLE_DESC
         ui:
             subject:
                 - cn

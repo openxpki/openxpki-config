@@ -21,7 +21,7 @@ policy:
     export_certificate: chain
 
 profile:
-    cert_profile: I18N_OPENXPKI_PROFILE_TLS_SERVER
+    cert_profile: tls_server
     cert_subject_style: enroll
 
 
