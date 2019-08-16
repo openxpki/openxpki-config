@@ -4,8 +4,8 @@ head:
     label: I18N_OPENXPKI_UI_WF_TYPE_MOTD_LABEL
 
 state:
-    INITIAL:      
-        action: 
+    INITIAL:
+        action:
           - initialize > PERSIST
 
     PERSIST:
@@ -19,7 +19,7 @@ state:
           - message
           - level
           - link
-          - role          
+          - role
           - notafter
 
 action:
@@ -31,11 +31,11 @@ action:
           - message
           - level
           - link
-          - role          
+          - role
           - notafter
-
         validator:
          - full_uri
+         - is_expiry_date_in_future
 
     add_message:
         class:  OpenXPKI::Server::Workflow::Activity::Tools::WFHash
@@ -61,14 +61,15 @@ action:
     set_motd:
         class: OpenXPKI::Server::Workflow::Activity::Tools::Datapool::SetEntry
         param:
-            ds_namespace: webui.motd
-            ds_key_param: role
-            ds_value_param: motd
-            ds_force: 1
-            ds_encrypt: 0
-            _map_ds_expiration_date: $notafter
+            namespace: webui.motd
+            _map_key: $role
+            _map_value: $motd
+            force: 1
+            encrypt: 0
+            serialize: 1
+            _map_expiration_date: $notafter
 
-        
+
 field:
     level:
         name: level
@@ -113,11 +114,20 @@ field:
 validator:
     full_uri:
         class: OpenXPKI::Server::Workflow::Validator::Regex
-        arg: 
+        arg:
          - $link
         param:
             regex: "\\A http(s)?://[a-zA-Z0-9-\\.]+"
             error: I18N_OPENXPKI_UI_WORKFLOW_MOTD_VALIDATOR_LINK_FAILED
+
+    is_expiry_date_in_future:
+        class: OpenXPKI::Server::Workflow::Validator::ValidityString
+        param:
+            format: detect
+            condition: gte
+            error: I18N_OPENXPKI_UI_WORKFLOW_MOTD_VALIDATOR_EXPIRATION_DATE_FAILED
+        arg:
+         - $notafter
 
 acl:
     CA Operator:
