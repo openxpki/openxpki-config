@@ -1,7 +1,7 @@
 # By default, all scep endpoints wll use the default token defined
 # by the scep token group, if you pass a name here, it is considered
 # a group name from the alias table
-#token: ca-one-special-scep
+#token: scep-altra
 
 # A renewal request is only accpeted if the used certificate will
 # expire within this period of time.

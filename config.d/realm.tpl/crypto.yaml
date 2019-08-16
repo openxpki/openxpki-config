@@ -47,7 +47,7 @@ token:
     #backend: OpenXPKI::Crypto::Tool::LibSCEP
 
   # A different scep token for another scep server, served from datapool
-  #ca-special-scep:
+  #scep-altra:
   #  inherit: ca-scep
   #  key_store: DATAPOOL
   #  key: "[% ALIAS %]"
