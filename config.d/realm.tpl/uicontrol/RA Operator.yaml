@@ -307,3 +307,15 @@ certaction:
 
    - label: I18N_OPENXPKI_UI_CERT_ACTION_UPDATE_METADATA
      workflow: change_metadata
+
+certdetails:
+    metadata:
+      - label: I18N_OPENXPKI_UI_WORKFLOW_FIELD_ENTITY_LABEL
+        value: meta_entity
+      - label: I18N_OPENXPKI_UI_WORKFLOW_FIELD_META_REQUESTOR_LABEL
+        value: meta_requestor
+      - template: >
+          I18N_OPENXPKI_UI_WORKFLOW_FIELD_META_EMAIL_LABEL:
+          [% FOREACH mail = meta_email %]
+              <a href="mailto:[% mail %]">[% mail %]</a>,
+          [% END %]
