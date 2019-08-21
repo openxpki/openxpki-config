@@ -15,7 +15,7 @@ main:
 
   - key:   info
     label: I18N_OPENXPKI_UI_MENU_INFORMATION
-    entries: 
+    entries:
       - key:   information!issuer
         label: I18N_OPENXPKI_UI_MENU_CA_CERTIFICATES
       - key:   crl!index
@@ -25,5 +25,14 @@ main:
       - key:   workflow!start!wf_type!status_system
         label: I18N_OPENXPKI_UI_MENU_SYSTEM_STATUS
 
- 
-
+certdetails:
+    metadata:
+      - label: I18N_OPENXPKI_UI_WORKFLOW_FIELD_ENTITY_LABEL
+        value: meta_entity
+      - label: I18N_OPENXPKI_UI_WORKFLOW_FIELD_META_REQUESTOR_LABEL
+        value: meta_requestor
+      - template: >
+          I18N_OPENXPKI_UI_WORKFLOW_FIELD_META_EMAIL_LABEL:
+          [% FOREACH mail = meta_email %]
+              <a href="mailto:[% mail %]">[% mail %]</a>,
+          [% END %]
