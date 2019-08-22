@@ -104,7 +104,7 @@ DDAYS="$RDAYS" # 10 years datavault (same a root)
 
 # creation neccessary directories and files
 echo -n "creating configuration for openssl ($OPENSSL_CONF) .. "
-test -d "${SSL_REALM}" || mkdir -m 750 -p "${SSL_REALM}" && chown ${user}:root "${SSL_REALM}"
+test -d "${SSL_REALM}" || mkdir -m 755 -p "${SSL_REALM}" && chown ${user}:root "${SSL_REALM}"
 OPENSSL_DIR="${SSL_REALM}/.openssl"
 test -d "${OPENSSL_DIR}" || mkdir -m 700 "${OPENSSL_DIR}" && chown root:root "${OPENSSL_DIR}"
 cd "${OPENSSL_DIR}";
@@ -351,6 +351,25 @@ echo ""
 ln -s "${ISSUING_CA_KEY}" "${SSL_REALM}/ca-signer-1.pem"
 ln -s "${SCEP_KEY}" "${SSL_REALM}/scep-1.pem"
 ln -s "${DATAVAULT_KEY}" "${BASE}/ca/vault-1.pem"
+
+# Setup the Webserver
+a2dismod openxpki
+a2enmod ssl rewrite
+a2ensite openxpki
+a2dissite 000-default default-ssl
+if [ ! -e "/etc/apache2/ssl.crt/openxpki.crt" ]; then
+    mkdir -m755 -p /etc/apache2/ssl.crt
+    mkdir -m700 -p /etc/apache2/ssl.key
+    cp ${WEB_CERTIFICATE} /etc/apache2/ssl.crt/openxpki.crt
+    cat ${ISSUING_CA_CERTIFICATE} >> /etc/apache2/ssl.crt/openxpki.crt
+    openssl rsa -in ${WEB_KEY} -passin file:${WEB_KEY_PASSWORD} -out /etc/apache2/ssl.key/openxpki.key
+    chmod 400 /etc/apache2/ssl.key/openxpki.key
+    service apache2 restart
+fi;
+
+cp ${ISSUING_CA_CERTIFICATE} /etc/ssl/certs
+cp ${ROOT_CA_CERTIFICATE} /etc/ssl/certs
+c_rehash /etc/ssl/certs
 
 echo "Place web certificate, private key, ... in web server configuration to enable ssl on openxpki web pages!"
 echo ""
