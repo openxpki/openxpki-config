@@ -7,7 +7,8 @@ crl:
     crl@: connector:publishing.connectors.cdp
 
 cacert:
-    disk@: connector:publishing.connectors.cacert
+    disk-pem@: connector:publishing.connectors.cacert-pem
+    disk-der@: connector:publishing.connectors.cacert-der
 
 connectors:
     ldap-ext:
@@ -39,14 +40,18 @@ connectors:
 
     cdp:
         class: Connector::Builtin::File::Path
-        LOCATION: /tmp/
-        file: "[% ARGS.0 %].pem"
-        content: "[% pem %]"
+        LOCATION: /var/www/download/
+        file: "[% ARGS.0.replace(' ','_') %].crl"
+        content: "[% der %]"
 
-
-    cacert:
+    cacert-pem:
         class: Connector::Builtin::File::Path
-        LOCATION: /tmp/
-        file: "[% ARGS.0 %].pem"
+        LOCATION: /var/www/download/
+        file: "[% ARGS.0.replace(' ','_') %].crt"
         content: "[% pem %]"
 
+    cacert-der:
+        class: Connector::Builtin::File::Path
+        LOCATION: /var/www/download/
+        file: "[% ARGS.0.replace(' ','_') %].cer"
+        content: "[% der %]"

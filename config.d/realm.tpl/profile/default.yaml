@@ -103,25 +103,25 @@ extensions:
     crl_distribution_points:
         critical: 0
         uri:
-            - http://localhost/crl/[% ISSUER.CN.0 %].pem
-            - ldap://localhost/[% ISSUER.DN %]
+            - http://pki.example.com/download/[% ISSUER.CN.0.replace(' ','_') %].crl
 
     authority_info_access:
         critical: 0
-        ca_issuers: http://localhost/cacert.crt
-        ocsp: http://ocsp.openxpki.org/
+        ca_issuers: http://pki.example.com/download/[% ISSUER.CN.0.replace(' ','_') %].cer
+        ocsp: http://ocsp.example.com/
 
     policy_identifier:
         critical: 0
         # you can combine both notations but do not use the same OID twice
         # short notation, if you just need OIDs
-        oid: 1.2.3.5
+        # this is the globally defined "any policy"
+        # oid: 2.5.29.32.0
         # for OIDs with CPS/Notice, put the OID as key.
         1.2.3.4:
           # CPS/Notice can be scalar or list
           cps:
-            - http://openxpki.org/cps.html
-            - http://openxpki.net/cps.html
+            - http://pki.example.com/cps.html
+            - http://pki.example.com/cps.html
           user_notice: This is a comment for policy oid 1.2.3.4
 
 # I18N Placeholders for key settings
