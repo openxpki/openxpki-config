@@ -64,3 +64,10 @@ certdetails:
           [% FOREACH mail = meta_email %]
               <a href="mailto:[% mail %]">[% mail %]</a>,
           [% END %]
+
+#
+# Workflow search - detail block
+#
+# For a configuration example see "RA Operator.yaml".
+# Here we just load the default configuration:
+wfdetails: null
