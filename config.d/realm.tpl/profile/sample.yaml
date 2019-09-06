@@ -83,7 +83,8 @@ style:
         # Note: Fields which have max > 1 are always passed as array
         subject:
             dn: CN=[% hostname %][% IF port AND port != 443 %]:[% port %][% END %],DC=Test Deployment,DC=OpenXPKI,DC=org
-        # No SAN definition here!
+        # no san definitions are required here as items from ui.san are directly written to the SAN
+        # if you add a SAN section here, those are merged with the "direct" sans
 
 
 # Profile extensions - set 0/1 as needed
