@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS `aliases` (
 
 CREATE TABLE IF NOT EXISTS `application_log` (
   `application_log_id` bigint(20) unsigned NOT NULL,
-  `logtimestamp` decimal(20,0) unsigned DEFAULT NULL,
+  `logtimestamp` decimal(20,5) unsigned DEFAULT NULL,
   `workflow_id` decimal(49,0) NOT NULL,
   `priority` int(11) DEFAULT '0',
   `category` varchar(255) NOT NULL,

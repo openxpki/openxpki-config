@@ -47,7 +47,7 @@ CREATE TABLE aliases (
 
 CREATE TABLE application_log (
     application_log_id numeric(49,0) NOT NULL,
-    logtimestamp numeric(49,0),
+    logtimestamp numeric(20,5),
     workflow_id numeric(49,0),
     category text,
     priority numeric(49,0),
