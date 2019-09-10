@@ -43,8 +43,8 @@ state:
     CHECK_APPROVALS:
         autorun: 1
         action:
-          - global_noop > NOTIFY_APPROVAL ? is_approved
-          - global_noop2 > NOTIFY_CSR_PENDING ?  !is_approved
+          - notify_approval > APPROVED ? is_approved
+          - global_noop > NOTIFY_CSR_PENDING ?  !is_approved
 
     CHECK_POLICY_VIOLATION:
         autorun: 1
@@ -72,7 +72,7 @@ state:
         description: I18N_OPENXPKI_UI_WORKFLOW_STATE_CSR_ENTER_CERT_INFO_DESC
         action:
           - edit_cert_info > BUILD_SUBJECT ? profile_has_info_section
-          - global_skip  > BUILD_SUBJECT ? !profile_has_info_section
+          - global_skip > BUILD_SUBJECT ? !profile_has_info_section
 
     ENTER_SAN:
         label: I18N_OPENXPKI_UI_WORKFLOW_STATE_CSR_ENTER_SAN_LABEL
@@ -86,11 +86,6 @@ state:
         description: I18N_OPENXPKI_UI_WORKFLOW_STATE_CSR_ENTER_SUBJECT_DESC
         action:
           - edit_subject > ENTER_SAN
-
-    EVAL_ELIGIBILITY:
-        autorun: 1
-        action:
-          - eval_eligibility > CHECK_APPROVALS
 
     FAILURE:
         label: I18N_OPENXPKI_UI_WORKFLOW_STATE_FAILURE_LABEL
@@ -137,38 +132,13 @@ state:
     NICE_CERTIFICATE_ISSUED:
         autorun: 1
         action:
-          - persist_metadata > NICE_METADATA_PERSISTED
-
-    NICE_ISSUE_CERTIFICATE:
-        autorun: 1
-        action:
-          - global_nice_issue_certificate > NICE_PICKUP_CERTIFICATE
-
-    NICE_METADATA_PERSISTED:
-        autorun: 1
-        action:
-          - global_noop > NICE_SEND_NOTIFICATION
+          - persist_metadata notify_issued publish_certificate > SUCCESS
 
     NICE_PICKUP_CERTIFICATE:
         autorun: 1
         action:
           - global_noop > NICE_CERTIFICATE_ISSUED ? is_certificate_issued
           - global_nice_fetch_certificate > NICE_CERTIFICATE_ISSUED ? !is_certificate_issued
-
-    NICE_PUBLISH_CERTIFICATE:
-        autorun: 1
-        action:
-          - publish_certificate > SUCCESS
-
-    NICE_SEND_NOTIFICATION:
-        autorun: 1
-        action:
-          - notify_issued > NICE_PUBLISH_CERTIFICATE
-
-    NOTIFY_APPROVAL:
-        autorun: 1
-        action:
-          - notify_approval > APPROVED
 
     NOTIFY_CSR_PENDING:
         autorun: 1
@@ -320,7 +290,7 @@ state:
     APPROVED:
         autorun: 1
         action:
-          - global_persist_csr > NICE_ISSUE_CERTIFICATE
+          - global_persist_csr global_nice_issue_certificate > NICE_PICKUP_CERTIFICATE
 
     SETUP_REQUEST_TYPE:
         label: I18N_OPENXPKI_UI_WORKFLOW_STATE_CSR_SETUP_REQUEST_TYPE_LABEL
@@ -582,7 +552,6 @@ action:
           - enc_alg
           - key_gen_params
           - password_type
-          - csr_type
         param:
             source: USER
         validator:
