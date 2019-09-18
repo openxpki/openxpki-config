@@ -51,6 +51,7 @@ action:
           _map_cert_subject: "[% USE Certificate %][% Certificate.body( context.cert_identifier, 'subject') %]"
           entity_only: 1
           target_key: renewed_identifier
+          limit: single
 
     send_notification:
         class: OpenXPKI::Server::Workflow::Activity::Tools::Notify
@@ -115,10 +116,9 @@ field:
 
 condition:
     is_renewed:
-        class: OpenXPKI::Server::Workflow::Condition::WFArray
+        class: Workflow::Condition::Evaluate
         param:
-            array_name: renewed_identifier
-            condition: is_empty
+            test: $context->{renewed_identifier}
 
 acl:
     RA Operator:
