@@ -109,6 +109,7 @@ CREATE TABLE certificate_attributes (
 CREATE TABLE crl (
     pki_realm text NOT NULL,
     issuer_identifier text NOT NULL,
+    profile text,
     crl_key numeric(49,0) NOT NULL,
     crl_number numeric(49,0),
     items integer,
@@ -155,6 +156,7 @@ CREATE TABLE datapool (
     datapool_key text NOT NULL,
     datapool_value text,
     encryption_key text,
+    access_key text,
     notafter numeric(49,0),
     last_update numeric(49,0)
 );
@@ -541,6 +543,7 @@ CREATE INDEX cert_attributes_keyvalue_index ON certificate_attributes USING btre
 
 
 CREATE INDEX crl_issuer_index ON crl USING btree (issuer_identifier);
+CREATE INDEX crl_profile ON crl USING btree (profile);
 CREATE INDEX crl_realm_index ON crl USING btree (pki_realm);
 CREATE INDEX crl_issuer_update_index ON crl USING btree (issuer_identifier, last_update);
 CREATE INDEX crl_issuer_number_index ON crl USING btree (issuer_identifier, crl_number);
@@ -564,6 +567,7 @@ CREATE INDEX workflow_state_index ON workflow USING btree (pki_realm, workflow_s
 CREATE INDEX workflow_state_index ON workflow USING btree (pki_realm, workflow_proc_state);
 CREATE INDEX workflow_wakeup_index ON workflow USING btree (workflow_proc_state, watchdog_key, workflow_wakeup_at);
 CREATE INDEX workflow_reapat_index ON workflow USING btree (workflow_proc_state, watchdog_key, workflow_reap_at);
+CREATE INDEX workflow_archive_index ON workflow USING btree (workflow_proc_state, watchdog_key, workflow_archive_at);
 
 CREATE INDEX wfl_attributes_id_index ON workflow_attributes USING btree (workflow_id);
 CREATE INDEX wfl_attributes_key_index ON workflow_attributes USING btree (attribute_contentkey);

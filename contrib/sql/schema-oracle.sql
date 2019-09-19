@@ -104,6 +104,7 @@ DROP TABLE crl CASCADE CONSTRAINTS;
 CREATE TABLE crl (
   pki_realm varchar2(255) NOT NULL,
   issuer_identifier varchar2(64) NOT NULL,
+  profile varchar2(64),
   crl_key number(38,0) NOT NULL,
   crl_number number(38,0),
   items number,
@@ -158,6 +159,7 @@ CREATE TABLE datapool (
   datapool_key varchar2(255) NOT NULL,
   datapool_value clob,
   encryption_key varchar2(255),
+  access_key varchar2(255),
   notafter number,
   last_update number,
   PRIMARY KEY (pki_realm, namespace, datapool_key)

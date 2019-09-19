@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `application_log` (
 
 CREATE TABLE IF NOT EXISTS `audittrail` (
   `audittrail_key` bigint(20) unsigned NOT NULL,
-  `logtimestamp` decimal(20,0) unsigned DEFAULT NULL,
+  `logtimestamp` decimal(20,5) unsigned DEFAULT NULL,
   `category` varchar(255) DEFAULT NULL,
   `loglevel` varchar(255) DEFAULT NULL,
   `message` text
@@ -58,6 +58,7 @@ CREATE TABLE IF NOT EXISTS `certificate_attributes` (
 CREATE TABLE IF NOT EXISTS `crl` (
   `pki_realm` varchar(255) NOT NULL,
   `issuer_identifier` varchar(64) NOT NULL,
+  `profile` varchar(64) DEFAULT NULL,
   `crl_key` decimal(49,0) NOT NULL,
   `crl_number` decimal(49,0) DEFAULT NULL,
   `items` int(10) DEFAULT 0,
@@ -91,6 +92,7 @@ CREATE TABLE IF NOT EXISTS `datapool` (
   `datapool_key` varchar(255) NOT NULL,
   `datapool_value` longtext,
   `encryption_key` varchar(255) DEFAULT NULL,
+  `access_key` VARCHAR(255) NULL DEFAULT NULL,
   `notafter` int(10) unsigned DEFAULT NULL,
   `last_update` int(10) unsigned DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -260,6 +262,7 @@ ALTER TABLE `certificate_attributes`
 ALTER TABLE `crl`
  ADD PRIMARY KEY (`issuer_identifier`,`crl_key`),
  ADD KEY `issuer_identifier` (`issuer_identifier`),
+ ADD KEY `profile` (`profile`),
  ADD KEY `pki_realm` (`pki_realm`),
  ADD KEY `issuer_identifier_2` (`issuer_identifier`,`last_update`),
  ADD KEY `crl_number` (`issuer_identifier`,`crl_number`);
@@ -330,7 +333,8 @@ ALTER TABLE `workflow`
  ADD KEY `pki_realm_state` (`pki_realm`, `workflow_state`),
  ADD KEY `workflow_proc_state` (`pki_realm`, `workflow_proc_state`),
  ADD KEY `watchdog_wakeup` (`workflow_wakeup_at`, `watchdog_key`, `workflow_proc_state`),
- ADD KEY `watchdog_reap` (`workflow_reap_at`, `watchdog_key`, `workflow_proc_state`);
+ ADD KEY `watchdog_reap` (`workflow_reap_at`, `watchdog_key`, `workflow_proc_state`),
+ ADD KEY `watchdog_archive_at` (`workflow_archive_at`, `watchdog_key`, `workflow_proc_state`);
 
 ALTER TABLE `workflow_attributes`
  ADD PRIMARY KEY (`workflow_id`,`attribute_contentkey`),

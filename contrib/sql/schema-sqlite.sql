@@ -28,7 +28,7 @@ DROP TABLE IF EXISTS application_log;
 
 CREATE TABLE application_log (
   application_log_id INTEGER PRIMARY KEY NOT NULL,
-  logtimestamp bigint,
+  logtimestamp decimal(20,5),
   workflow_id decimal(49,0) NOT NULL,
   priority integer DEFAULT 0,
   category varchar(255) NOT NULL,
@@ -42,7 +42,7 @@ DROP TABLE IF EXISTS audittrail;
 
 CREATE TABLE audittrail (
   audittrail_key INTEGER PRIMARY KEY NOT NULL,
-  logtimestamp bigint,
+  logtimestamp  decimal(20,5),
   category varchar(255),
   loglevel varchar(255),
   message text
@@ -95,6 +95,7 @@ DROP TABLE IF EXISTS crl;
 CREATE TABLE crl (
   pki_realm varchar(255) NOT NULL,
   issuer_identifier varchar(64) NOT NULL,
+  profile varchar(64),
   crl_key decimal(49,0) NOT NULL,
   crl_number decimal(49,0),
   items integer,
@@ -146,6 +147,7 @@ CREATE TABLE datapool (
   datapool_key varchar(255) NOT NULL,
   datapool_value longtext,
   encryption_key varchar(255),
+  access_key varchar(255),
   notafter integer,
   last_update integer,
   PRIMARY KEY (pki_realm, namespace, datapool_key)
