@@ -13,7 +13,7 @@ Testing:
 OTP:
   handler: OneTimePassword
 
-Client Certificate:
+Certificate:
     handler: Certificate
 
 _System:

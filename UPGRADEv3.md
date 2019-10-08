@@ -4,6 +4,18 @@
 
 The internal session handler `openxpki` is no longer supported. We recommend to use `driver:openxpki` which is an improved version of CGI:Session::DBI. On debian, the driver is available as an extra package `openxpki-cgi-session-driver`
 
+### Authentication
+
+The syntax for the Authentication::ClientX509 handler has changed. The
+keywords `realm` and `cacert` to set the trust anchors are now keys below
+to the new node `trust_anchor`:
+
+```yaml
+trust_anchor:
+    realm: user-ca
+    cacert: zJovVgaxAFthT4TXDRP9VyhFrBY
+```
+
 ## Workflow
 
 ### Enrollment (certificate_enroll)
