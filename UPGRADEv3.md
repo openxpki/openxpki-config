@@ -16,6 +16,12 @@ trust_anchor:
     cacert: zJovVgaxAFthT4TXDRP9VyhFrBY
 ```
 
+### ACL
+
+The per command ACL feature is now active by default on the socket interface.
+Create a node `api.acl.disabled: 1` in each realm config to keep the old
+behaviour or deploy your own ACLs, see OpenXPKI::Server::API2.
+
 ## Workflow
 
 ### Enrollment (certificate_enroll)
