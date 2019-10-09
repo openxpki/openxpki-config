@@ -5,7 +5,6 @@ tokenapi:
   crlsign:       OpenXPKI::Crypto::Backend::API
   datasafe:      OpenXPKI::Crypto::Backend::API
   scep:          OpenXPKI::Crypto::Tool::LibSCEP::API
-  #scep:          OpenXPKI::Crypto::Tool::SCEP::API
 
 
 # System wide token (non key based tokens)
