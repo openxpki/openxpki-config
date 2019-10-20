@@ -26,7 +26,6 @@ state:
           - global_check_authorized_signer > SIGNED_REQUEST ? global_is_signed_request global_is_valid_key global_is_subject_valid
 
 
-
     # Determine the type of request
     # inital anonymous = self signed (key and subject)
     # initial on behalf = signed by other entity
@@ -275,8 +274,8 @@ state:
           - signer_cert_identifier
 
     FAILURE:
-        label: I18N_OPENXPKI_UI_WORKFLOW_STATE_CSR_FAILURE_LABEL
-        description: I18N_OPENXPKI_UI_WORKFLOW_STATE_CSR_FAILURE_DESC
+        label: I18N_OPENXPKI_UI_WORKFLOW_STATE_FAILURE_LABEL
+        description: I18N_OPENXPKI_UI_WORKFLOW_STATE_FAILURE_DESC
         output:
           - error_code
           - check_policy_subject_duplicate
@@ -357,7 +356,7 @@ action:
             _map_comment: "Auto-Approval based on eligibility result: [% context.eligibility_result %]"
 
     calculate_hmac:
-        class: OpenXPKI::Server::Workflow::Activity::SCEPv2::CalculateRequestHMAC
+        class: OpenXPKI::Server::Workflow::Activity::Tools::CalculateRequestHMAC
         param:
             target_key: csr_hmac
 
@@ -496,7 +495,7 @@ action:
     set_mode_onbehalf:
         class: OpenXPKI::Server::Workflow::Activity::Tools::SetContext
         param:
-            request_mode: initial
+            request_mode: onbehalf
 
     set_replace_validity:
         class: OpenXPKI::Server::Workflow::Activity::Tools::SetContext
@@ -752,6 +751,7 @@ acl:
         wakeup: 1
         history: 1
         techlog: 1
+        attribute: 1
         context: 1
 
 

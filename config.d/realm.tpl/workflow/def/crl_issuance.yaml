@@ -3,13 +3,14 @@ head:
     label: I18N_OPENXPKI_UI_WORKFLOW_TYPE_CRL_ISSUANCE_LABEL
     description: I18N_OPENXPKI_UI_WORKFLOW_TYPE_CRL_ISSUANCE_DESC
 
-
 state:
     CREATE_QUEUE:
         autorun: 1
         action:
-          - create_ca_list > LOAD_NEXT_CA ? !global_run_in_background
-          - global_noop create_ca_list > BACKGROUNDING ? global_run_in_background
+          - create_ca_list > LOAD_NEXT_CA ? !global_run_in_background !has_ca_alias_set
+          - global_noop create_ca_list > BACKGROUNDING ? global_run_in_background !has_ca_alias_set
+          - global_noop2 > ISSUE_CRL ? has_ca_alias_set !global_run_in_background
+          - global_run_in_background > ISSUE_CRL ? has_ca_alias_set global_run_in_background
 
     # This is only required if you use CRL generation from the UI and you
     # are seeing timeouts due to too large CRLs. Change the action above to:
@@ -62,6 +63,7 @@ action:
           - force_issue
           - run_in_background
           - crl_validity
+          - ca_alias
 
     create_ca_list:
         class: OpenXPKI::Server::Workflow::Activity::CRLIssuance::CreateQueue
@@ -98,6 +100,11 @@ condition:
             array_name: ca_alias_list
             condition: is_empty
 
+    has_ca_alias_set:
+        class: Workflow::Condition::Evaluate
+        param:
+          test: $context->{ca_alias}
+
 field:
     ca_alias:
         name: ca_alias
@@ -114,6 +121,10 @@ field:
     crl_list:
         label: CRL Lists created
         name: crl_list
+
+    ca_alias:
+        name: ca_alias
+        type: server
 
     crl_validity:
         name: crl_validity
@@ -133,6 +144,7 @@ acl:
         wakeup: 1
         history: 1
         techlog: 1
+        attribute: 1
         context: 1
 
 

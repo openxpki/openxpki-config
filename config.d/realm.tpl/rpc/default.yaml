@@ -12,5 +12,5 @@ authorized_signer:
 # You must set at least one of both options or remove the is_policy_loaded
 # condition in the workflow definition
 policy:
-    profile: I18N_OPENXPKI_PROFILE_TLS_SERVER
+    profile: tls_server
 #    subject: "*"

@@ -13,21 +13,9 @@ Testing:
 OTP:
   handler: OneTimePassword
 
-#External Dynamic:
-#    handler: External Dynamic Role
-
-#External Static:
-#    handler: External Static Role
-
-#Certificate Challenge/Response:
-#    handler: Signature
-
-Client Certificate:
+Certificate:
     handler: Certificate
 
 _System:
     handler: System
-
-_SmartCard:
-    handler: SmartCard
 

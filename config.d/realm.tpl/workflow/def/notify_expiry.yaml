@@ -28,7 +28,8 @@ state:
          - log_renewed > LOOP ? is_renewed
 
     SUCCESS:
-        label: ""
+        label: I18N_OPENXPKI_UI_WORKFLOW_STATE_SUCCESS_LABEL
+        description: I18N_OPENXPKI_UI_WORKFLOW_STATE_SUCCESS_DESC
         output:
          - cert_notified_list
          - cert_renewed_list
@@ -50,6 +51,7 @@ action:
           _map_cert_subject: "[% USE Certificate %][% Certificate.body( context.cert_identifier, 'subject') %]"
           entity_only: 1
           target_key: renewed_identifier
+          limit: single
 
     send_notification:
         class: OpenXPKI::Server::Workflow::Activity::Tools::Notify
@@ -114,10 +116,9 @@ field:
 
 condition:
     is_renewed:
-        class: OpenXPKI::Server::Workflow::Condition::WFArray
+        class: Workflow::Condition::Evaluate
         param:
-            array_name: renewed_identifier
-            condition: is_empty
+            test: $context->{renewed_identifier}
 
 acl:
     RA Operator:
@@ -125,6 +126,7 @@ acl:
         context: 1
         history: 1
         techlog: 1
+        attribute: 1
         fail: 1
         resume: 1
         wakeup: 1

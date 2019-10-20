@@ -3,7 +3,8 @@ Certificate:
     label: Certificate
     description: I18N_OPENXPKI_CONFIG_AUTH_HANDLER_DESCRIPTION_CERTIFICATE_WEBSERVER
     role: User
-    realm: democa 
+    trust_anchor:
+        realm: democa
 
 Anonymous:
     type: Anonymous
@@ -36,41 +37,10 @@ Operator Password:
         raop: "{ssha}JQ2BAoHQZQgecmNjGF143k4U2st6bE5B"
         raop2: "{ssha}JQ2BAoHQZQgecmNjGF143k4U2st6bE5B"
 
-External Dynamic Role:
-    type: External
-    label: External Dynamic Role
-    description: I18N_OPENXPKI_CONFIG_AUTH_HANDLER_DESCRIPTION_EXTERNAL
-    command: echo -n $PASSWD
-    # if this field is empty then the role is determined dynamically -->
-    role: ''
-    pattern: x
-    replacement: x
-    env:
-       LOGIN: __USER__
-       PASSWD: __PASSWD__
-
-External Static Role:
-    type: External
-    label: External Static Role
-    description: I18N_OPENXPKI_CONFIG_AUTH_HANDLER_DESCRIPTION_EXTERNAL
-    command: echo -n $PASSWD
-    role: RA Operator
-    pattern: x
-    replacement: x
-    env:
-       LOGIN: __USER__
-       PASSWD: __PASSWD__
-
 System:
     type: Anonymous
     label: System
     role: System
-
-SmartCard:
-    type: Anonymous
-    label: SmartCard
-    role: SmartCard
-    user: scpers
 
 OneTimePassword:
   type: OneTimePassword
