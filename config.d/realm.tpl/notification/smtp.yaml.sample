@@ -3,6 +3,8 @@
 backend:
     class: OpenXPKI::Server::Notification::SMTP
     host: localhost
+    # FQDN for helo - defaults to system fqdn
+    #helo: my.own.fqdn
     port: 25
     username: ~
     password: ~
