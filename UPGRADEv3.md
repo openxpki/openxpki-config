@@ -16,6 +16,14 @@ trust_anchor:
     cacert: zJovVgaxAFthT4TXDRP9VyhFrBY
 ```
 
+### SCEP
+
+The old SCEP tools dont work with OpenSSL 1.1, so if you are upgrading to
+Buster you must install the libscep packages and change the config to use
+the new SCEP layer. Affected files are `config.d/system/server.yaml`,
+`config.d/system/crypto.yaml`, `config.d/<realm/crypto.yaml` and the SCEP
+wrapper configs in `scep/`.
+
 ### ACL
 
 The per command ACL feature is now active by default on the socket interface.
