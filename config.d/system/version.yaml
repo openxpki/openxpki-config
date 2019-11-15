@@ -3,3 +3,4 @@
 # values are listed on the system status page and are returned via
 # "openxpkicli version" call
 config: 3.1.2
+commit: ~
