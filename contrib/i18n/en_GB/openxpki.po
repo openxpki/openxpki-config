@@ -309,9 +309,8 @@ msgstr "Creator"
 msgid "I18N_OPENXPKI_UI_DELAYED_REVOCATION_REQUESTED"
 msgstr "Delayed revocation requested."
 
-#, fuzzy
 msgid "I18N_OPENXPKI_UI_DNS_CHECK_FAIL"
-msgstr "ok"
+msgstr "FAIL"
 
 msgid "I18N_OPENXPKI_UI_DNS_CHECK_OK"
 msgstr "ok"

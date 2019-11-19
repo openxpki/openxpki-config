@@ -305,9 +305,8 @@ msgstr "Ersteller"
 msgid "I18N_OPENXPKI_UI_DELAYED_REVOCATION_REQUESTED"
 msgstr "verzögerte Sperrung beantragt"
 
-#, fuzzy
 msgid "I18N_OPENXPKI_UI_DNS_CHECK_FAIL"
-msgstr "ok"
+msgstr "fehlerhaft"
 
 msgid "I18N_OPENXPKI_UI_DNS_CHECK_OK"
 msgstr "ok"
