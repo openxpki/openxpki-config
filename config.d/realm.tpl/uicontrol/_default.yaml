@@ -67,7 +67,7 @@ certdetails:
 
 #
 # Workflow search - detail block
-#
 # For a configuration example see "RA Operator.yaml".
-# Here we just load the default configuration:
-wfdetails: null
+# Setting undef here hides the grey box on the right
+# Do not set this node to se the builtin default
+wfdetails: ~
