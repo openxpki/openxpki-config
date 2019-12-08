@@ -5,3 +5,4 @@ param:
     _map_key_id: "[% USE Certificate; Certificate.key_id(context.cert_identifier) %]"
     _map_password: $_password
     target_key: _private_key 
+
