@@ -106,10 +106,6 @@ condition:
           test: $context->{ca_alias}
 
 field:
-    ca_alias:
-        name: ca_alias
-        type: text
-
     force_issue:
         label: I18N_OPENXPKI_UI_WORKFLOW_FIELD_FORCE_ISSUE_LABEL
         name: force_issue
