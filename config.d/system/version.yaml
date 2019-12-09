@@ -2,5 +2,6 @@
 # management tools - you can extend the file with your own attributes all
 # values are listed on the system status page and are returned via
 # "openxpkicli version" call
-config: 3.1.2
+config: 3.2
+api: 3.2
 commit: ~
