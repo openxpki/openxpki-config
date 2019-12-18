@@ -382,7 +382,7 @@ state:
         autorun: 1
         action:
           - global_noop > ENTER_KEY_PASSWORD ? server_key_generation
-          - global_noop2 > CHECK_POLICY_VIOLATION ? !server_key_generation
+          - global_noop2 > NOTIFY_CSR_PENDING ? !server_key_generation
 
     ENTER_KEY_PASSWORD:
         label: I18N_OPENXPKI_UI_WORKFLOW_STATE_CSR_ENTER_KEY_PASSWORD_LABEL
@@ -400,7 +400,7 @@ state:
     KEY_GENERATED:
         autorun: 1
         action:
-          - generate_pkcs10 global_store_pkey_in_datapool > CHECK_POLICY_VIOLATION ? has_privkey_and_password_in_context
+          - generate_pkcs10 global_store_pkey_in_datapool > NOTIFY_CSR_PENDING ? has_privkey_and_password_in_context
           - global_noop > ENTER_KEY_PASSWORD ? !has_privkey_and_password_in_context
 
 action:
