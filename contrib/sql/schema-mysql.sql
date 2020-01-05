@@ -1,6 +1,10 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
+CREATE DATABASE IF NOT EXISTS `openxpki`;
+
+USE openxpki;
+
 CREATE TABLE IF NOT EXISTS `aliases` (
   `identifier` varchar(64) DEFAULT NULL,
   `pki_realm` varchar(255) NOT NULL,
