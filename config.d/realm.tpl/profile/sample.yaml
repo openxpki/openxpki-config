@@ -89,6 +89,11 @@ style:
 
 # Profile extensions - set 0/1 as needed
 extensions:
+    # Enable this to copy extensions from the CSR to the Certificate
+    # THIS MIGHT BE DANGEROUS, see copy_extensions of openssl ca command
+    # For security reasons hhis can NOT be set in default.yaml
+    #copy: copy
+  
     basic_constraints:
         critical: 1
         ca: 0
