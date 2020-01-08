@@ -134,5 +134,5 @@ acl:
         context: 1
 
     System:
-        creator: self
+        creator: any
 

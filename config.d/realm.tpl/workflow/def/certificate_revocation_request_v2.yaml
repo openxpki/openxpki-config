@@ -360,14 +360,9 @@ acl:
         attribute: 1
         context: 1
 
-
-
     System:
-        creator: self
-
-    SmartCard:
-        creator: self
-
+        creator: any
+        
     User:
         creator: self
 

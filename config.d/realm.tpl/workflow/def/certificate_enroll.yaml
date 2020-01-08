@@ -756,7 +756,7 @@ acl:
 
 
     System:
-        creator: self
+        creator: any
 
     User:
         creator: self

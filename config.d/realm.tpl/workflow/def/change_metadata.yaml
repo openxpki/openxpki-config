@@ -133,10 +133,8 @@ acl:
         attribute: 1
         context: 1
 
-
-
     System:
-        creator: self
+        creator: any
 
     User:
         creator: self
