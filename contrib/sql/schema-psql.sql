@@ -86,6 +86,7 @@ CREATE TABLE certificate (
     invalidity_time numeric(49,0),
     reason_code text,
     hold_instruction_code text,
+    revocation_id numeric(49,0),
     req_key numeric(49,0),
     data text,
     role text
@@ -113,6 +114,7 @@ CREATE TABLE crl (
     crl_key numeric(49,0) NOT NULL,
     crl_number numeric(49,0),
     items integer,
+    max_revocation_id numeric(49,0),
     data text,
     last_update numeric(49,0),
     next_update numeric(49,0),
@@ -534,6 +536,7 @@ CREATE INDEX cert_revocation_time_index ON certificate USING btree (revocation_t
 CREATE INDEX cert_invalidity_time_index ON certificate USING btree (invalidity_time);
 CREATE INDEX cert_reason_code_index ON certificate USING btree (reason_code);
 CREATE INDEX cert_hold_index ON certificate USING btree (hold_instruction_code);
+CREATE UNIQUE INDEX cert_revocation_id ON certificate USING btree (revocation_id);
 
 CREATE INDEX cert_attributes_key_index ON certificate_attributes USING btree (attribute_contentkey);
 CREATE INDEX cert_attributes_value_index ON certificate_attributes USING btree (attribute_value);
@@ -547,7 +550,8 @@ CREATE INDEX crl_profile ON crl USING btree (profile);
 CREATE INDEX crl_realm_index ON crl USING btree (pki_realm);
 CREATE INDEX crl_issuer_update_index ON crl USING btree (issuer_identifier, last_update);
 CREATE INDEX crl_issuer_number_index ON crl USING btree (issuer_identifier, crl_number);
-
+CREATE INDEX crl_revocation_id ON crl USING btree (max_revocation_id);
+ 
 CREATE INDEX csr_subject_index ON csr USING btree (subject);
 CREATE INDEX csr_realm_index ON csr USING btree (pki_realm);
 CREATE INDEX csr_realm_profile_index ON csr USING btree (pki_realm, profile);

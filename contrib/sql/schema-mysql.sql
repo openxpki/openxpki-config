@@ -44,6 +44,7 @@ CREATE TABLE IF NOT EXISTS `certificate` (
   `invalidity_time` int(10) unsigned DEFAULT NULL,
   `reason_code` varchar(50) DEFAULT NULL,
   `hold_instruction_code` varchar(50) DEFAULT NULL,
+  `revocation_id` INT NULL DEFAULT NULL, 
   `req_key` bigint(20) unsigned DEFAULT NULL,
   `data` longtext
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -62,6 +63,7 @@ CREATE TABLE IF NOT EXISTS `crl` (
   `crl_key` decimal(49,0) NOT NULL,
   `crl_number` decimal(49,0) DEFAULT NULL,
   `items` int(10) DEFAULT 0,
+  `max_revocation_id` INT NULL DEFAULT NULL,   
   `data` longtext,
   `last_update` int(10) unsigned DEFAULT NULL,
   `next_update` int(10) unsigned DEFAULT NULL,
@@ -249,7 +251,8 @@ ALTER TABLE `certificate`
  ADD KEY `revocation_time` (`revocation_time`),
  ADD KEY `invalidity_time` (`invalidity_time`),
  ADD KEY `reason_code` (`reason_code`),
- ADD KEY `hold_instruction_code` (`hold_instruction_code`);
+ ADD KEY `hold_instruction_code` (`hold_instruction_code`),
+ ADD UNIQUE `revocation_id` (`revocation_id`);
 
 ALTER TABLE `certificate_attributes`
  ADD PRIMARY KEY (`attribute_key`,`identifier`),
@@ -263,6 +266,7 @@ ALTER TABLE `crl`
  ADD PRIMARY KEY (`issuer_identifier`,`crl_key`),
  ADD KEY `issuer_identifier` (`issuer_identifier`),
  ADD KEY `profile` (`profile`),
+ ADD KEY `revocation_id` (`max_revocation_id`),
  ADD KEY `pki_realm` (`pki_realm`),
  ADD KEY `issuer_identifier_2` (`issuer_identifier`,`last_update`),
  ADD KEY `crl_number` (`issuer_identifier`,`crl_number`);
