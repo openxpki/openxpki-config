@@ -6,6 +6,7 @@ backend:
     # FQDN for helo - defaults to system fqdn
     #helo: my.own.fqdn
     port: 25
+    starttls: 0
     username: ~
     password: ~
     debug: 0
