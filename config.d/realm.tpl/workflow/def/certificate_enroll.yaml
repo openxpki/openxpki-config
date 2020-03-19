@@ -9,22 +9,29 @@ state:
     INITIAL:
         action: initialize global_map_url_params set_transaction_id set_workflow_attributes global_load_policy global_set_profile parse_pkcs10 > PARSED
 
-    # check for certificateTemplate to override profile
+    # check for certificateTemplate or url param to override profile
     PARSED:
         autorun: 1
         action:
-          - set_profile_from_extension render_subject set_workflow_attributes > READY_TO_PROCESS ? has_certificate_template
-          - render_subject set_workflow_attributes > READY_TO_PROCESS ? !has_certificate_template
+          - set_profile_from_workflow_param > PROFILE_SET ? has_profile_in_workflow_param
+          - set_profile_from_url_param > PROFILE_SET ? has_profile_in_url_params !has_profile_in_workflow_param
+          - set_profile_from_extension > PROFILE_SET ? has_certificate_template !has_profile_in_url_params !has_profile_in_workflow_param
+          - global_noop > PROFILE_SET ? !has_profile_in_url_params !has_certificate_template !has_profile_in_workflow_param
+
+    # All information required for the certificate are in place
+    PROFILE_SET:
+        autorun: 1
+        action:
+          - render_subject set_workflow_attributes > READY_TO_PROCESS ? global_is_valid_key has_profile_set
+          - global_set_error_policy_invalid_key_param > FAILURE ? !global_is_valid_key has_profile_set
+          - global_set_error_invalid_profile > FAILURE ? !has_profile_set
 
     # shortcut to inital if no signer cert is set
     READY_TO_PROCESS:
         autorun: 1
         action:
-          - global_set_error_policy_invalid_key_param > FAILURE ? !global_is_valid_key
-          - global_set_error_invalid_subject > FAILURE ? global_is_valid_key !global_is_subject_valid
-          - set_mode_initial > START_INITIAL ? !global_is_signed_request global_is_valid_key global_is_subject_valid
-          - global_check_authorized_signer > SIGNED_REQUEST ? global_is_signed_request global_is_valid_key global_is_subject_valid
-
+          - set_mode_initial > START_INITIAL ? !global_is_signed_request
+          - global_check_authorized_signer > SIGNED_REQUEST ? global_is_signed_request
 
     # Determine the type of request
     # inital anonymous = self signed (key and subject)
@@ -33,9 +40,10 @@ state:
     SIGNED_REQUEST:
         autorun: 1
         action:
-          - set_mode_initial > START_INITIAL ? is_self_signed
-          - set_mode_onbehalf > START_ONBEHALF ? !signer_subject_matches_csr_subject
-          - set_mode_renewal > START_RENEWAL ? signer_subject_matches_csr_subject !signer_key_matches_subject_key
+          - set_mode_initial > START_INITIAL ? signer_key_matches_subject_key # is_self_signed
+#          - set_mode_onbehalf > START_ONBEHALF ? !signer_key_matches_subject_key !signer_subject_matches_csr_subject
+#          - set_mode_renewal > START_RENEWAL ? signer_subject_matches_csr_subject !signer_key_matches_subject_key
+          - set_mode_renewal > START_RENEWAL ? !signer_key_matches_subject_key
 
     # Authorizations for Inital Enrollment
     START_INITIAL:
@@ -56,14 +64,14 @@ state:
         action:
           - global_validate_challenge_password > VALIDATE_CHALLENGE_PASSWORD ? need_challenge_password
           - global_noop > MANUAL_AUTHORIZATION ? !need_challenge_password is_manual_authentication_allowed
-          - global_set_error_request_not_authorized > FAILURE ? !need_challenge_password !is_manual_authentication_allowed
+          - global_set_error_signer_not_authorized > FAILURE ? !need_challenge_password !is_manual_authentication_allowed
 
     VALIDATE_CHALLENGE_PASSWORD:
         autorun: 1
         action:
           - global_noop > AUTHORIZED ? is_valid_challenge_password
           - global_noop2 > MANUAL_AUTHORIZATION ? !is_valid_challenge_password is_manual_authentication_allowed
-          - global_set_error_request_not_authorized > FAILURE ? !is_valid_challenge_password !is_manual_authentication_allowed
+          - global_set_error_signer_not_authorized > FAILURE ? !is_valid_challenge_password !is_manual_authentication_allowed
 
     MANUAL_AUTHORIZATION:
         label: I18N_OPENXPKI_UI_WORKFLOW_STATE_ENROLL_MANUAL_AUTHORIZATION_LABEL
@@ -124,9 +132,7 @@ state:
     # common workflow
     AUTHORIZED:
         autorun: 1
-        action:
-          - search_subject_duplicate > CHECK_FOR_DUPLICATES ? need_subject_duplicate_check
-          - global_noop > START_APPROVAL ? !need_subject_duplicate_check
+        action: search_subject_duplicate > CHECK_FOR_DUPLICATES
 
     CHECK_FOR_DUPLICATES:
         autorun: 1
@@ -274,8 +280,8 @@ state:
           - signer_cert_identifier
 
     FAILURE:
-        label: I18N_OPENXPKI_UI_WORKFLOW_STATE_FAILURE_LABEL
-        description: I18N_OPENXPKI_UI_WORKFLOW_STATE_FAILURE_DESC
+        label: I18N_OPENXPKI_UI_WORKFLOW_STATE_CSR_FAILURE_LABEL
+        description: I18N_OPENXPKI_UI_WORKFLOW_STATE_CSR_FAILURE_DESC
         output:
           - error_code
           - check_policy_subject_duplicate
@@ -308,8 +314,10 @@ action:
             - interface
             - signer_cert
             - comment
+            - hmac
             - _url_params
             - transaction_id
+            - profile
 
     accept_request:
         class: OpenXPKI::Server::Workflow::Activity::Noop
@@ -363,7 +371,7 @@ action:
     compare_hmac:
         class: OpenXPKI::Server::Workflow::Activity::Tools::SetContext
         param:
-            _map_is_valid_hmac: "[% IF (context.csr_hmac && context.url_hmac) && (context.csr_hmac == context.url_hmac) %]1[% ELSE %]0[% END %]"
+            _map_is_valid_hmac: "[% IF (context.csr_hmac && context.hmac) && (context.csr_hmac == context.hmac) %]1[% ELSE %]0[% END %]"
 
     calculate_approval_points:
         class: OpenXPKI::Server::Workflow::Activity::Tools::CalculateApprovalPoints
@@ -460,6 +468,18 @@ action:
           target_key: cert_profile
           _map_default_value: $cert_profile
 
+    set_profile_from_workflow_param:
+        class: OpenXPKI::Server::Workflow::Activity::Tools::Connector::GetValue
+        param:
+          _map_config_path: "[% context.interface %].[% context.server %].profile_map.[% context.profile %]"
+          target_key: cert_profile
+
+    set_profile_from_url_param:
+        class: OpenXPKI::Server::Workflow::Activity::Tools::Connector::GetValue
+        param:
+          _map_config_path: "[% context.interface %].[% context.server %].profile_map.[% context.url_profile %]"
+          target_key: cert_profile
+
     set_renewal_period:
         class: OpenXPKI::Server::Workflow::Activity::Tools::Connector::GetValue
         param:
@@ -495,7 +515,7 @@ action:
     set_mode_onbehalf:
         class: OpenXPKI::Server::Workflow::Activity::Tools::SetContext
         param:
-            request_mode: onbehalf
+            request_mode: initial
 
     set_replace_validity:
         class: OpenXPKI::Server::Workflow::Activity::Tools::SetContext
@@ -600,6 +620,21 @@ condition:
             condition: key_nonempty
             ds_key: certificateTemplateName
 
+    has_profile_in_workflow_param:
+        class: Workflow::Condition::Evaluate
+        param:
+            test: $context->{profile};
+
+    has_profile_in_url_params:
+        class: Workflow::Condition::Evaluate
+        param:
+            test: $context->{url_profile};
+
+    has_profile_set:
+        class: Workflow::Condition::Evaluate
+        param:
+            test: $context->{cert_profile};
+
     is_eligible:
         class: Workflow::Condition::Evaluate
         param:
@@ -662,11 +697,6 @@ condition:
         class: Workflow::Condition::Evaluate
         param:
              test: ($context->{check_policy_subject_duplicate})
-
-    need_subject_duplicate_check:
-        class: Workflow::Condition::Evaluate
-        param:
-             test: ($context->{p_max_active_certs})
 
     is_cert_count_ok_for_initial:
         class: OpenXPKI::Server::Workflow::Condition::WFArray
@@ -736,6 +766,13 @@ field:
         label: I18N_OPENXPKI_UI_WORKFLOW_FIELD_REQUEST_MODE_LABEL
         name: request_mode
 
+    profile:
+        name: profile
+        type: server
+
+    hmac:
+        name: hmac
+        type: server
 
 acl:
     Anonymous:
@@ -751,12 +788,11 @@ acl:
         wakeup: 1
         history: 1
         techlog: 1
-        attribute: 1
         context: 1
 
 
     System:
-        creator: any
+        creator: self
 
     User:
         creator: self
