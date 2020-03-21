@@ -30,8 +30,9 @@ state:
     READY_TO_PROCESS:
         autorun: 1
         action:
-          - set_mode_initial > START_INITIAL ? !global_is_signed_request
-          - global_check_authorized_signer > SIGNED_REQUEST ? global_is_signed_request
+          - set_mode_initial > START_INITIAL ? !global_is_signed_request global_is_subject_valid
+          - global_check_authorized_signer > SIGNED_REQUEST ? global_is_signed_request global_is_subject_valid
+          - global_set_error_invalid_subject > FAILURE ? !global_is_subject_valid
 
     # Determine the type of request
     # inital anonymous = self signed (key and subject)
@@ -40,10 +41,9 @@ state:
     SIGNED_REQUEST:
         autorun: 1
         action:
-          - set_mode_initial > START_INITIAL ? signer_key_matches_subject_key # is_self_signed
-#          - set_mode_onbehalf > START_ONBEHALF ? !signer_key_matches_subject_key !signer_subject_matches_csr_subject
-#          - set_mode_renewal > START_RENEWAL ? signer_subject_matches_csr_subject !signer_key_matches_subject_key
-          - set_mode_renewal > START_RENEWAL ? !signer_key_matches_subject_key
+          - set_mode_initial > START_INITIAL ? is_self_signed
+          - set_mode_onbehalf > START_ONBEHALF ? !signer_key_matches_subject_key !signer_subject_matches_csr_subject
+          - set_mode_renewal > START_RENEWAL ? signer_subject_matches_csr_subject !signer_key_matches_subject_key
 
     # Authorizations for Inital Enrollment
     START_INITIAL:
