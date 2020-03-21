@@ -57,7 +57,11 @@ secret:
     export: 0
     method: literal
     value: root
-    cache: daemon
 
-
-
+    # if you want to enter the password after startup via the Webui
+    # replace method and value aboev with this block, kcv is optional 
+    # but highly recommended as wrong passwords let the engine crash
+    # you can generate the kcv with "openxpkiadm hashpwd -s argon2"
+    #method: plain
+    #cache: daemon
+    #kcv: $argon2id$v=19$m=32768,t=3,p=1$R1VmZC9sQVJTdE05WDRReDBIMTlDUT09$KXsh6Ow1A9mIZtyAP2TXbA
