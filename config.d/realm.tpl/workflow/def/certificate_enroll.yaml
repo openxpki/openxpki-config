@@ -790,9 +790,11 @@ acl:
         techlog: 1
         context: 1
 
-
     System:
         creator: self
-
+        fail: 1
+        resume: 1
+        wakeup: 1
+        
     User:
         creator: self
