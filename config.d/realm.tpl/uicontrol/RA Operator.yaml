@@ -161,18 +161,18 @@ bulk:
 
     buttons:
       -  label: I18N_OPENXPKI_UI_BULK_APPROVE_CSR_LABEL
-         action: workflow!bulk!wf_action!csr_approve_csr
+         # this is the action to execute
+         action: csr_approve_csr
          format: expected
-         # this is the string used as key
-         select: serial
-         # this is the name of the object property used as value
-         selection: wf_id
+         # this is the string used as key - serial is the default
+         select: serial         
       -  label: I18N_OPENXPKI_UI_BULK_REJECT_CSR_LABEL
-         format: failure
-         action: workflow!bulk!wf_action!csr_reject
-         select: serial
-         selection: wf_id
-
+         format: failure         
+         action: reject_request
+         # those parameters are added to the execute action call
+         param:
+             reject_comment: Rejected by bulk operation
+         
   - label: I18N_OPENXPKI_UI_BULK_PENDING_REVOCATION_LABEL
     description: I18N_OPENXPKI_UI_BULK_PENDING_REVOCATION_DESCRIPTION
     attributes:
@@ -200,19 +200,12 @@ bulk:
         field: context.creator
 
     buttons:
-      -  label: I18N_OPENXPKI_UI_BULK_APPROVE_CRR_LABEL
-         action: workflow!bulk!wf_action!crr_approve_crr
-         format: expected
-         # this is the string used as key
-         select: serial
-         # this is the name of the object property used as value
-         selection: wf_id
-      -  label: I18N_OPENXPKI_UI_BULK_REJECT_CRR_LABEL
+      -  label:  I18N_OPENXPKI_UI_BULK_APPROVE_CRR_LABEL
+         action: crr_approve_crr
+         format: expected         
+      -  label:  I18N_OPENXPKI_UI_BULK_REJECT_CRR_LABEL
          format: failure
-         action: workflow!bulk!wf_action!crr_reject_crr
-         select: serial
-         selection: wf_id
-
+         action: crr_reject_crr
 
 wfsearch:
     default:
