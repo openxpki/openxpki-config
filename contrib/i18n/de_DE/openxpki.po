@@ -95,6 +95,27 @@ msgstr "Profil"
 msgid "I18N_OPENXPKI_UI_CERTIFICATE_PROFILE_HINT"
 msgstr "Zertifikate die basierend auf diesem Profil erstellt wurden"
 
+msgid "I18N_OPENXPKI_UI_CERTIFICATE_REASON_CODE"
+msgstr "Grund der Revozierung"
+
+msgid "I18N_OPENXPKI_UI_CERTIFICATE_REASON_CODE_AFFILIATIONCHANGED"
+msgstr "affiliation changed"
+
+msgid "I18N_OPENXPKI_UI_CERTIFICATE_REASON_CODE_CACOMPROMISE"
+msgstr "CA key compromised"
+
+msgid "I18N_OPENXPKI_UI_CERTIFICATE_REASON_CODE_CESSATIONOFOPERATION"
+msgstr "cessation of operation"
+
+msgid "I18N_OPENXPKI_UI_CERTIFICATE_REASON_CODE_KEYCOMPROMISE"
+msgstr "key compromise"
+
+msgid "I18N_OPENXPKI_UI_CERTIFICATE_REASON_CODE_SUPERSEDED"
+msgstr "superseded"
+
+msgid "I18N_OPENXPKI_UI_CERTIFICATE_REASON_CODE_UNSPECIFIED"
+msgstr "nicht angegeben"
+
 msgid "I18N_OPENXPKI_UI_CERTIFICATE_RELATED_WORKFLOW_LABEL"
 msgstr "Zugehörige Workflows"
 
@@ -302,6 +323,9 @@ msgstr "Certificate Template"
 msgid "I18N_OPENXPKI_UI_CSR_EXT_CHALLENGE_PASSWORD"
 msgstr "Challenge Password"
 
+msgid "I18N_OPENXPKI_UI_CSR_KEY_GENERATION_FAILED"
+msgstr "Schlüsselerzeugung fehlgeschlagen"
+
 msgid "I18N_OPENXPKI_UI_DELAYED_REVOCATION_REQUESTED"
 msgstr "verzögerte Sperrung beantragt"
 
@@ -362,6 +386,9 @@ msgstr "Download als PEM + Text"
 msgid "I18N_OPENXPKI_UI_ELIGIBILITY_CHECK_UNEXPECTED_ERROR"
 msgstr "Berechtigungsprüfung nicht möglich (Backend nicht erreichbar)"
 
+msgid "I18N_OPENXPKI_UI_ENROLLMENT_ERROR_CLEANUP"
+msgstr "Antrag wurde aufgrund Inaktivität beenden."
+
 msgid "I18N_OPENXPKI_UI_ENROLLMENT_ERROR_NOT_APPROVED"
 msgstr "Antrag wurde nicht genehmigt"
 
@@ -391,6 +418,9 @@ msgstr "Policy Verletzung: Der Antrag entspricht nicht den Vorgaben"
 
 msgid "I18N_OPENXPKI_UI_ENROLLMENT_ERROR_REJECTED"
 msgstr "Antrag wurde abgelehnt."
+
+msgid "I18N_OPENXPKI_UI_ENROLLMENT_ERROR_REQUEST_DUPLICATE"
+msgstr "Es ist bereits ein anderer Workflow mit dieser Transaktions-ID aktiv."
 
 msgid "I18N_OPENXPKI_UI_ENROLLMENT_ERROR_REQUEST_NOT_AUTHORIZED"
 msgstr "Antrag ist nicht autorisiert"
@@ -1032,6 +1062,9 @@ msgstr ""
 msgid "I18N_OPENXPKI_UI_REQUEST_WORKFLOW_ID"
 msgstr "Antrags-Workflow"
 
+msgid "I18N_OPENXPKI_UI_REVOCATION_ID"
+msgstr "Sperr-Id"
+
 msgid "I18N_OPENXPKI_UI_REVOCATION_WORKFLOW_ID"
 msgstr "Sperr-Workflow"
 
@@ -1125,6 +1158,9 @@ msgstr "Entsperrung fehlgeschlagen"
 msgid "I18N_OPENXPKI_UI_SECRET_UNLOCK_BUTTON"
 msgstr "Entsperren"
 
+msgid "I18N_OPENXPKI_UI_SECRET_UNLOCK_KCV_MISMATCH"
+msgstr "Passwort entspricht nicht der hinterlegten Prüfsumme"
+
 msgid "I18N_OPENXPKI_UI_SECRET_UNLOCK_LABEL"
 msgstr "Entsperren"
 
@@ -1189,15 +1225,6 @@ msgstr "Laden des privaten Schlüssels fehlgeschlagen"
 
 msgid "I18N_OPENXPKI_UI_UNABLE_TO_PARSE_PKCS10_REQUEST_DATA"
 msgstr "PKCS10 Container kann nicht gelesen werden"
-
-msgid "I18N_OPENXPKI_UI_UNAUTHORIZED_ACCESS_TO_WORKFLOW_HISTORY"
-msgstr ""
-"Sie haben nicht die notwendigen Rechte um die Workflow-Historie zu betrachten"
-
-msgid "I18N_OPENXPKI_UI_UNAUTHORIZED_ACCESS_TO_WORKFLOW_LOG"
-msgstr ""
-"Sie haben nicht die notwendigen Rechte um das Workflow-Protokoll zu "
-"betrachten"
 
 msgid "I18N_OPENXPKI_UI_UNKNOWN_ERROR"
 msgstr "Unbekannter Fehler"
@@ -1769,9 +1796,8 @@ msgstr "Technical Information"
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_APPROVALS_LABEL"
 msgstr "Approvals"
 
-#, fuzzy
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_CERTIFICATE_DESC"
-msgstr "Information about the Request."
+msgstr " "
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_CERTIFICATE_IDENTIFIER_IGNORED_LABEL"
 msgstr "Ignored Certificate Identifiers"
@@ -1785,7 +1811,6 @@ msgstr "List of certificate identifiers, seperated by space or newline"
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_CERTIFICATE_LABEL"
 msgstr "Zertifikat"
 
-#, fuzzy
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_CERTIFICATE_PLACEHOLDER"
 msgstr " "
 
@@ -1908,7 +1933,6 @@ msgstr " "
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_CERT_SUBJECT_TOOLTIP"
 msgstr " "
 
-#, fuzzy
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_CHAIN_DESC"
 msgstr " "
 
@@ -2142,6 +2166,15 @@ msgstr "OnHold Reason, e.g. authorisation unclear, etc."
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_ONHOLD_COMMENT_TOOLTIP"
 msgstr " "
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_OPERATOR_COMMENT_DESC"
+msgstr " "
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_OPERATOR_COMMENT_LABEL"
+msgstr "Kommentar (Operator)"
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_OPERATOR_COMMENT_PLACEHOLDER"
+msgstr "Information/Begründung für diese Aktion"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_PASSWORD_DESC"
 msgstr " "
@@ -2422,9 +2455,8 @@ msgstr "User"
 msgid "I18N_OPENXPKI_UI_WORKFLOW_ID_LABEL"
 msgstr "Workflow Id"
 
-#, fuzzy
 msgid "I18N_OPENXPKI_UI_WORKFLOW_INFO"
-msgstr "Technical Log"
+msgstr "Technische Informationen"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_INFO_EXCEPTION_DESC"
 msgstr ""
@@ -2580,6 +2612,11 @@ msgstr "paused"
 msgid "I18N_OPENXPKI_UI_WORKFLOW_PROC_STATE_RETRY_EXCEEDED"
 msgstr "retry exceeded"
 
+msgid "I18N_OPENXPKI_UI_WORKFLOW_PROPERTY_ACCESS_NOT_ALLOWED_FOR_ROLE"
+msgstr ""
+"Der Zugriff auf diese Workfloweigenschaft ist für ihre Benutzerrolle nicht "
+"gestattet"
+
 msgid "I18N_OPENXPKI_UI_WORKFLOW_REPORT_FIELD_NEAR_EXPIRY"
 msgstr "Certificates near Expiration"
 
@@ -2616,7 +2653,7 @@ msgid "I18N_OPENXPKI_UI_WORKFLOW_REPORT_FIELD_VALID_REVOKED"
 msgstr "In Validity but Revoked Certificates"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_REQUESTED_ACTION_NOT_AVAILABLE"
-msgstr "Requested action not available"
+msgstr "Die gewünschte Aktion ist nicht verfügbar - öffne aktuellen Status"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_RESET_BUTTON"
 msgstr "zurück"
@@ -2813,6 +2850,14 @@ msgstr "This workflow has finished with success and can not be restarted"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_CSR_ENTER_SUBJECT_LABEL"
 msgstr "Zertifikatsinhalte festlegen"
+
+#, fuzzy
+msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_CSR_FAILURE_DESC"
+msgstr "This workflow failed finally."
+
+#, fuzzy
+msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_CSR_FAILURE_LABEL"
+msgstr "FAILURE"
 
 #, fuzzy
 msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_CSR_INITIAL_DESC"
@@ -3213,13 +3258,11 @@ msgstr "Search for SCEP workflows by  transaction id"
 msgid "I18N_OPENXPKI_UI_WORKFLOW_TYPE_SCEP_SEARCH_LABEL"
 msgstr "SCEP Search"
 
-#, fuzzy
 msgid "I18N_OPENXPKI_UI_WORKFLOW_TYPE_SHOW_METADATA_DESC"
-msgstr "Change a certificates metadata."
+msgstr "Ändert die Metadaten eines Zertifikates."
 
-#, fuzzy
 msgid "I18N_OPENXPKI_UI_WORKFLOW_TYPE_SHOW_METADATA_LABEL"
-msgstr "Change Metadata"
+msgstr "Metadaten ändern"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_UNABLE_TO_LOAD_WORKFLOW_INFORMATION"
 msgstr "Unable to load workflow information."
@@ -3242,6 +3285,32 @@ msgstr "Yes"
 
 #~ msgid "I18N_OPENXPKI_UI_KEY_KEY_LENGTH_3072"
 #~ msgstr "3072 bit"
+
+#, fuzzy
+#~ msgid "I18N_OPENXPKI_UI_OPENVPN_EXPORT_FILENAME_LABEL"
+#~ msgstr "Keystore Download"
+
+#, fuzzy
+#~ msgid "I18N_OPENXPKI_UI_OPENVPN_EXPORT_KEY_FORMAT"
+#~ msgstr "Download Format"
+
+#, fuzzy
+#~ msgid "I18N_OPENXPKI_UI_OPENVPN_EXPORT_KEY_FORMAT_DESC"
+#~ msgstr ""
+#~ "Format des Downloads, die meisten Anwendungen benötigen einen PKCS12 "
+#~ "Container."
+
+#, fuzzy
+#~ msgid "I18N_OPENXPKI_UI_OPENVPN_EXPORT_KEY_FORMAT_LABEL"
+#~ msgstr "Download Format"
+
+#, fuzzy
+#~ msgid "I18N_OPENXPKI_UI_OPENVPN_EXPORT_PASSWORD_DESC"
+#~ msgstr "Das Passwort für die Verschlüsselung der Exportdatei."
+
+#, fuzzy
+#~ msgid "I18N_OPENXPKI_UI_OPENVPN_EXPORT_PASSWORD_LABEL"
+#~ msgstr "Passwort"
 
 #~ msgid "I18N_OPENXPKI_UI_PAUSED_CRL_TOKEN_NOT_USABLE"
 #~ msgstr "CA Schlüssel ist nicht verfügbar"
@@ -3300,6 +3369,16 @@ msgstr "Yes"
 #~ msgid "I18N_OPENXPKI_UI_PROFILE_TLS_CLIENT_BASIC_LABEL"
 #~ msgstr "TLS Client / Default Naming"
 
+#~ msgid "I18N_OPENXPKI_UI_UNAUTHORIZED_ACCESS_TO_WORKFLOW_HISTORY"
+#~ msgstr ""
+#~ "Sie haben nicht die notwendigen Rechte um die Workflow-Historie zu "
+#~ "betrachten"
+
+#~ msgid "I18N_OPENXPKI_UI_UNAUTHORIZED_ACCESS_TO_WORKFLOW_LOG"
+#~ msgstr ""
+#~ "Sie haben nicht die notwendigen Rechte um das Workflow-Protokoll zu "
+#~ "betrachten"
+
 #~ msgid "I18N_OPENXPKI_UI_VALIDATOR_KEYLENGTH_CONFIGURATION_ERROR_INVALID_ALGORITHM_OR_LENGTH"
 #~ msgstr "Die Angabe der Schlüsselparameter ist ungültig"
 
@@ -3357,8 +3436,12 @@ msgstr "Yes"
 #~ msgstr "Fail"
 
 #, fuzzy
-#~ msgid "I18N_OPENXPKI_UI_WORKFLOW_ACTION_SCEPGETCA_INITIALIZE_DESC"
+#~ msgid "I18N_OPENXPKI_UI_WORKFLOW_ACTION_OPENVPN_EXPORT_INITIALIZE_DESC"
 #~ msgstr "Export initial state"
+
+#, fuzzy
+#~ msgid "I18N_OPENXPKI_UI_WORKFLOW_ACTION_OPENVPN_EXPORT_INITIALIZE_LABEL"
+#~ msgstr "Set Information"
 
 #, fuzzy
 #~ msgid "I18N_OPENXPKI_UI_WORKFLOW_ACTION_SCEPGETCA_INITIALIZE_LABEL"
@@ -3518,11 +3601,13 @@ msgstr "Yes"
 #~ msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_ENROLL_PENDING_POLICY_LABEL"
 #~ msgstr "Approval pending"
 
-#~ msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_ENROLL_SUCCESS_DESC"
+#, fuzzy
+#~ msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_OPENVPN_EXPORT_SUCCESS_DESC"
 #~ msgstr ""
 #~ "The certificate was issued and will be send to the SCEP client on request."
 
-#~ msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_ENROLL_SUCCESS_LABEL"
+#, fuzzy
+#~ msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_OPENVPN_EXPORT_SUCCESS_LABEL"
 #~ msgstr "SUCCESS"
 
 #, fuzzy
@@ -3563,6 +3648,14 @@ msgstr "Yes"
 
 #, fuzzy
 #~ msgid "I18N_OPENXPKI_UI_WORKFLOW_TYPE_CERT_AUTH_LABEL"
+#~ msgstr "Certificate Export"
+
+#, fuzzy
+#~ msgid "I18N_OPENXPKI_UI_WORKFLOW_TYPE_OPENVPN_EXPORT_DESC"
+#~ msgstr "Certificate Export"
+
+#, fuzzy
+#~ msgid "I18N_OPENXPKI_UI_WORKFLOW_TYPE_OPENVPN_EXPORT_LABEL"
 #~ msgstr "Certificate Export"
 
 #, fuzzy
