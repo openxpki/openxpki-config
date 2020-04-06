@@ -2,3 +2,4 @@ backend: Local
 
 api:
     use_revocation_id: 1
+
