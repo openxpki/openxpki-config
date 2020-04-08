@@ -139,7 +139,7 @@ state:
         action:
           - global_noop > HANDLE_DUPLICATES ? has_subject_duplicate !is_renewal_mode
           - global_noop2 > START_APPROVAL ? has_subject_duplicate is_renewal_mode is_cert_count_ok_for_renewal
-          - global_set_error_policy_violated > PENDING_POLICY_VIOLATION ? has_subject_duplicate is_renewal_mode !is_cert_count_ok_for_renewal
+          - global_set_error_policy_violated > HAS_POLICY_VIOLATION ? has_subject_duplicate is_renewal_mode !is_cert_count_ok_for_renewal
           - global_noop3 > START_APPROVAL ? !has_subject_duplicate
 
     HANDLE_DUPLICATES:
@@ -147,7 +147,13 @@ state:
         action:
           - queue_duplicates_to_revoke > START_APPROVAL ? need_auto_revoke_existing_certs
           - global_noop > START_APPROVAL ? !need_auto_revoke_existing_certs is_cert_count_ok_for_initial
-          - global_set_error_policy_violated > PENDING_POLICY_VIOLATION ? !need_auto_revoke_existing_certs !is_cert_count_ok_for_initial
+          - global_set_error_policy_violated > HAS_POLICY_VIOLATION ? !need_auto_revoke_existing_certs !is_cert_count_ok_for_initial
+
+    HAS_POLICY_VIOLATION:
+        autorun: 1
+        action:
+          - global_noop > PENDING_POLICY_VIOLATION ? is_manual_approval_allowed
+          - global_noop2 > FAILURE ? !is_manual_approval_allowed
 
     PENDING_POLICY_VIOLATION:
         label:  I18N_OPENXPKI_UI_WORKFLOW_STATE_POLICY_VIOLATION_LABEL
@@ -618,7 +624,7 @@ condition:
         param:
             hash_name: req_extensions
             condition: key_nonempty
-            ds_key: certificateTemplateName
+            hash_key: certificateTemplateName
 
     has_profile_in_workflow_param:
         class: Workflow::Condition::Evaluate
