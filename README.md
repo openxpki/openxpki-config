@@ -16,15 +16,19 @@ is /etc/openxpki/log.conf. The file is ready for use, just copy it.
 Global system configuration, such as path to binaries and database. Should do
 as is on most systems, minimal action: configure your database.
 
+### Note on mysql
+
+In case you are using mysql (not mariadb) you must deactivate the
+"revocation_id" feature in realm.tpl/nice.yaml.
 
 ## realm configuration (config.d/realm/)
 
-A single OpenXPKI instance can be used to run more than one logical 
+A single OpenXPKI instance can be used to run more than one logical
 certification authority - we call this a "realm". A fully working config
 can be found in realm.tpl, to setup a working CA either make a copy of this
 directory or just create a symlink to it from inside the `realm` directory
-and put the name of the realm in the file system/realms.yaml. 
+and put the name of the realm in the file system/realms.yaml.
 
-A demo realm named "democa" is part of the repository. It is recommended to 
+A demo realm named "democa" is part of the repository. It is recommended to
 not use this for a production system.
 
