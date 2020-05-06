@@ -356,13 +356,21 @@ a2dismod openxpki
 a2enmod ssl rewrite
 a2ensite openxpki
 a2dissite 000-default default-ssl
-if [ ! -e "/etc/apache2/ssl.crt/openxpki.crt" ]; then
-    mkdir -m755 -p /etc/apache2/ssl.crt
-    mkdir -m700 -p /etc/apache2/ssl.key
-    cp ${WEB_CERTIFICATE} /etc/apache2/ssl.crt/openxpki.crt
-    cat ${ISSUING_CA_CERTIFICATE} >> /etc/apache2/ssl.crt/openxpki.crt
-    openssl rsa -in ${WEB_KEY} -passin file:${WEB_KEY_PASSWORD} -out /etc/apache2/ssl.key/openxpki.key
-    chmod 400 /etc/apache2/ssl.key/openxpki.key
+
+if [ ! -e "/etc/openxpki/tls/chain" ]; then
+    mkdir -m755 -p /etc/openxpki/tls/chain
+    cp ${ROOT_CA_CERTIFICATE} /etc/openxpki/tls/chain/
+    cp ${ISSUING_CA_CERTIFICATE} /etc/openxpki/tls/chain/
+    c_rehash /etc/openxpki/tls/chain/
+fi;
+
+if [ ! -e "/etc/openxpki/tls/endentity/openxpki.crt" ]; then
+    mkdir -m755 -p /etc/openxpki/tls/endentity
+    mkdir -m700 -p /etc/openxpki/tls/private
+    cp ${WEB_CERTIFICATE} /etc/openxpki/tls/endentity/openxpki.crt
+    cat ${ISSUING_CA_CERTIFICATE} >> /etc/openxpki/tls/endentity/openxpki.crt
+    openssl rsa -in ${WEB_KEY} -passin file:${WEB_KEY_PASSWORD} -out /etc/openxpki/tls/private/openxpki.pem
+    chmod 400 /etc/openxpki/tls/private/openxpki.pem
     service apache2 restart
 fi;
 
@@ -370,8 +378,6 @@ cp ${ISSUING_CA_CERTIFICATE} /etc/ssl/certs
 cp ${ROOT_CA_CERTIFICATE} /etc/ssl/certs
 c_rehash /etc/ssl/certs
 
-echo "Place web certificate, private key, ... in web server configuration to enable ssl on openxpki web pages!"
-echo ""
 echo "OpenXPKI configuration should be done now, 'openxpkictl start' to fire up server'"
 echo ""
 echo "Thanks for using OpenXPKI - Have a nice day ;)"
