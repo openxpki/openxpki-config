@@ -62,6 +62,13 @@ policy:
     # This substitutes the "replace_window" from the OpenXPKI v1 config
     allow_replace: 1
 
+    # by default only the certificate identifier is written to the workflow
+    # set to a true value to get the PEM encoded certificate in the context,
+    # set to "chain" to get the issuer certificate and "fullchain" to get
+    # the chain including the root certificate (key chain).
+    export_certificate: chain
+
+
 profile:
   cert_profile: tls_server
   cert_subject_style: enroll
