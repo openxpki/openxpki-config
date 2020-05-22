@@ -64,14 +64,14 @@ state:
         action:
           - global_validate_challenge_password > VALIDATE_CHALLENGE_PASSWORD ? need_challenge_password
           - global_noop > MANUAL_AUTHORIZATION ? !need_challenge_password is_manual_authentication_allowed
-          - global_set_error_signer_not_authorized > FAILURE ? !need_challenge_password !is_manual_authentication_allowed
+          - global_set_error_not_authenticated > FAILURE ? !need_challenge_password !is_manual_authentication_allowed
 
     VALIDATE_CHALLENGE_PASSWORD:
         autorun: 1
         action:
           - global_noop > AUTHORIZED ? is_valid_challenge_password
           - global_noop2 > MANUAL_AUTHORIZATION ? !is_valid_challenge_password is_manual_authentication_allowed
-          - global_set_error_signer_not_authorized > FAILURE ? !is_valid_challenge_password !is_manual_authentication_allowed
+          - global_set_error_not_authenticated > FAILURE ? !is_valid_challenge_password !is_manual_authentication_allowed
 
     MANUAL_AUTHORIZATION:
         label: I18N_OPENXPKI_UI_WORKFLOW_STATE_ENROLL_MANUAL_AUTHORIZATION_LABEL
