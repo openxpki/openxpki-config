@@ -32,7 +32,7 @@ default:
 
 # template settings
 template:
-    dir:   /etc/openxpki/notification/email/
+    dir:   /etc/openxpki/template/email/
 
 message:
     testmail:
@@ -101,5 +101,3 @@ message:
             template: enroll_cert_issued
             cc: "[% data.notify_cc %]"
             subject: Enrollment request ISSUED - [% cert_subject %]
-
-
