@@ -188,6 +188,11 @@ extensions:
                field2=INT:100
                field3=INT:0
 
+    # the ocsp nocheck extension, usually used for OCSP responder certificates
+    # the actual value must just be something "true" as the extension has no
+    # configurable value. critical is not supported for this extension.
+    ocsp_nocheck: 1
+
     # This extension is deprecated and should not be used unless required
     netscape:
         comment:
