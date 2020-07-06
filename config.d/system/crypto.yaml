@@ -31,3 +31,19 @@ token:
         key_store: OPENXPKI
         shell: /usr/bin/keytool
         randfile: /var/openxpki/rand
+
+# Secret group to be shared in all realms
+secret:
+    default:
+        label: Global secret group
+        export: 0
+        method: literal
+        value: root
+        # if you want to enter the password after startup via the Webui
+        # replace method and value above with this block, kcv is optional
+        # but highly recommended as wrong passwords let the engine crash
+        # you can generate the kcv with "openxpkiadm hashpwd -s argon2"
+        # Shared secrets are avail in all realms after been unlocked in one
+        #method: plain
+        #cache: daemon
+        #kcv: $argon2id$v=19$m=32768,t=3,p=1$R1VmZC9sQVJTdE05WDRReDBIMTlDUT09$KXsh6Ow1A9mIZtyAP2TXbA
