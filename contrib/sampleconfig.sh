@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # Debug='true'
 # MyPerl='true'
 [ "$MyPerl" = ' true' ] && [ -d /opt/myperl/bin ] && export PATH=/opt/myperl/bin:$PATH
@@ -14,7 +16,7 @@ then
    eval `egrep '^user:|^group:' "${OPENXPKI_CONFIG}" | sed -e 's/:  */=/g'`
 else
    echo "ERROR: It seems that openXPKI is not installed at the default location (${BASE})!" >&2
-   echo "Please install openXPKI or set BASE to the new PATH!" >&2
+   echo "Please install OpenXPKI or set BASE to the new PATH!" >&2
    exit 1
 fi
 
@@ -336,23 +338,21 @@ chmod 444 ${SSL_REALM}/*.${CERTIFICATE_SUFFIX}
 chown root:root ${SSL_REALM}/*.${REQUEST_SUFFIX} ${SSL_REALM}/*.${KEY_SUFFIX} ${SSL_REALM}/*.${PASS_SUFFIX}
 chown root:${group} ${SSL_REALM}/*.${CERTIFICATE_SUFFIX} ${SSL_REALM}/*.${KEY_SUFFIX}
 
-echo -n "Starting import ... "
+echo -n "Starting server before running import ... "
+openxpkictl start
 
+# the import command with the --key parameter takes care to copy the key
+# files to the datapool or filesystem locations
 openxpkiadm certificate import --file "${ROOT_CA_CERTIFICATE}"
-openxpkiadm certificate import --file "${ISSUING_CA_CERTIFICATE}" --realm "${REALM}" --token certsign
-openxpkiadm certificate import --file "${SCEP_CERTIFICATE}" --realm "${REALM}" --token scep
-openxpkiadm certificate import --file "${DATAVAULT_CERTIFICATE}" --realm "${REALM}" --token datasafe
+openxpkiadm certificate import --file "${DATAVAULT_CERTIFICATE}" --realm "${REALM}" --token datasafe --key ${DATAVAULT_KEY}
+sleep 1;
+openxpkiadm certificate import --file "${ISSUING_CA_CERTIFICATE}" --realm "${REALM}" --token certsign --key ${ISSUING_CA_KEY}
+openxpkiadm certificate import --file "${SCEP_CERTIFICATE}" --realm "${REALM}" --token scep  --key ${SCEP_KEY}
 
 echo "done."
 echo ""
 
-# Create symlinks for the aliases used by the default config
-ln -s "${ISSUING_CA_KEY}" "${SSL_REALM}/ca-signer-1.pem"
-ln -s "${SCEP_KEY}" "${SSL_REALM}/scep-1.pem"
-ln -s "${DATAVAULT_KEY}" "${BASE}/ca/vault-1.pem"
-
 # Setup the Webserver
-a2dismod openxpki
 a2enmod ssl rewrite
 a2ensite openxpki
 a2dissite 000-default default-ssl
@@ -378,7 +378,7 @@ cp ${ISSUING_CA_CERTIFICATE} /etc/ssl/certs
 cp ${ROOT_CA_CERTIFICATE} /etc/ssl/certs
 c_rehash /etc/ssl/certs
 
-echo "OpenXPKI configuration should be done now, 'openxpkictl start' to fire up server'"
+echo "OpenXPKI configuration should be and server should be running..."
 echo ""
 echo "Thanks for using OpenXPKI - Have a nice day ;)"
 echo ""
