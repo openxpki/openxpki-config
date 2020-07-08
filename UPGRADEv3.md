@@ -70,5 +70,5 @@ Legacy parameters used the set_motd action have been removed and need to be upda
 * crl.profile
 * datapool.access_key
 * workflow_archive_at
-* crl.revocation_id
+* crl.max_revocation_id
 * certificate.revocation_id 
