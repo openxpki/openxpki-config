@@ -63,7 +63,7 @@ Legacy parameters used the set_motd action have been removed and need to be upda
 
 ### Type Changes
 
-* logtimestamp in application_log and auditlog should have 5 decimals (DECIMAL 20,5)
+* logtimestamp in application_log and audittrail should have 5 decimals (DECIMAL 20,5)
 
 ### New Fields (see schemas for details)
 
