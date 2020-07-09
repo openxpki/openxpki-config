@@ -63,12 +63,12 @@ Legacy parameters used the set_motd action have been removed and need to be upda
 
 ### Type Changes
 
-* logtimestamp in application_log and auditlog should have 5 decimals (DECIMAL 20,5)
+* logtimestamp in application_log and audittrail should have 5 decimals (DECIMAL 20,5)
 
 ### New Fields (see schemas for details)
 
 * crl.profile
 * datapool.access_key
 * workflow_archive_at
-* crl.revocation_id
+* crl.max_revocation_id
 * certificate.revocation_id 
