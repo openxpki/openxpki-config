@@ -298,6 +298,12 @@ certaction:
      workflow: certificate_revocation_request_v2
      condition: issued
 
+   - label: I18N_OPENXPKI_UI_CERT_ACTION_PUBLISH
+     workflow: certificate_publishing
+
+   - label: I18N_OPENXPKI_UI_CERT_ACTION_SHOW_METADATA
+     workflow: show_metadata
+
    - label: I18N_OPENXPKI_UI_CERT_ACTION_UPDATE_METADATA
      workflow: change_metadata
 
