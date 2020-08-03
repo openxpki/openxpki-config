@@ -45,13 +45,13 @@ Open `config.d/system/realms.yaml` and add your realms.
 For each realm, create a corresponding directory in `config.d/realm/`, for a test drive you can just add a symlink to `realm.tpl`, for a production setup we recommend to create a directory and add the basic artefacts as follows:
 
 ```bash
-mkdir workflow profile notification
+mkdir workflow workflow/def profile notification
 ln -s ../../realm.tpl/api/
 ln -s ../../realm.tpl/auth/
 ln -s ../../realm.tpl/crl/
 ln -s ../../realm.tpl/crypto.yaml
 ln -s ../../realm.tpl/uicontrol/
-ln -s ../../system.yaml
+ln -s ../../system
 cp ../../realm.tpl/profile/default.yaml profile/
 ln -s ../../../realm.tpl/profile/template/ profile/
 cp ../../realm.tpl/notification/smtp.yaml.sample notification/smtp.yaml
