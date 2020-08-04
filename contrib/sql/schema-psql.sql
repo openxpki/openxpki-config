@@ -568,7 +568,7 @@ CREATE INDEX frontend_session_modified_index ON frontend_session USING btree (mo
 CREATE INDEX workflow_pki_realm_index ON workflow USING btree (pki_realm);
 CREATE INDEX workflow_realm_type_index ON workflow USING btree (pki_realm, workflow_type);
 CREATE INDEX workflow_state_index ON workflow USING btree (pki_realm, workflow_state);
-CREATE INDEX workflow_state_index ON workflow USING btree (pki_realm, workflow_proc_state);
+CREATE INDEX workflow_proc_state_index ON workflow USING btree (pki_realm, workflow_proc_state);
 CREATE INDEX workflow_wakeup_index ON workflow USING btree (workflow_proc_state, watchdog_key, workflow_wakeup_at);
 CREATE INDEX workflow_reapat_index ON workflow USING btree (workflow_proc_state, watchdog_key, workflow_reap_at);
 CREATE INDEX workflow_archive_index ON workflow USING btree (workflow_proc_state, watchdog_key, workflow_archive_at);
