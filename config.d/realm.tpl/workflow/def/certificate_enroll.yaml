@@ -132,7 +132,9 @@ state:
     # common workflow
     AUTHORIZED:
         autorun: 1
-        action: search_subject_duplicate > CHECK_FOR_DUPLICATES
+        action:
+          - search_subject_duplicate > CHECK_FOR_DUPLICATES ? need_subject_duplicate_check
+          - global_noop > START_APPROVAL ? !need_subject_duplicate_check
 
     CHECK_FOR_DUPLICATES:
         autorun: 1
@@ -705,6 +707,11 @@ condition:
         class: Workflow::Condition::Evaluate
         param:
              test: ($context->{check_policy_subject_duplicate})
+
+    need_subject_duplicate_check:
+        class: Workflow::Condition::Evaluate
+        param:
+             test: ($context->{p_max_active_certs})
 
     is_cert_count_ok_for_initial:
         class: OpenXPKI::Server::Workflow::Condition::WFArray
