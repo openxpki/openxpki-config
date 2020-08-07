@@ -45,7 +45,7 @@ Open `config.d/system/realms.yaml` and add your realms.
 For each realm, create a corresponding directory in `config.d/realm/`, for a test drive you can just add a symlink to `realm.tpl`, for a production setup we recommend to create a directory and add the basic artefacts as follows:
 
 ```bash
-mkdir workflow profile notification
+mkdir workflow workflow/def profile notification 
 ln -s ../../realm.tpl/api/
 ln -s ../../realm.tpl/auth/
 ln -s ../../realm.tpl/crl/
@@ -60,6 +60,7 @@ ln -s ../../../realm.tpl/workflow/persister.yaml workflow/
 (cd workflow/def/ && find ../../../../realm.tpl/workflow/def/ -type f | xargs -L1 ln -s)
 # In most cases you do not need all workflows and we recommend to removethem
 # those items are rarely used
+cd workflow/def
 rm certificate_export.yaml certificate_revoke_by_entity.yaml report_list.yaml
 # if you dont plan to use EST remove those too
 rm est_cacerts.yaml est_csrattrs.yaml
