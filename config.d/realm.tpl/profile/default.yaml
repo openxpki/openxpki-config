@@ -16,8 +16,6 @@ key:
     # Supported encryption algorithms (as taken by openssl)
     enc:
       - aes256
-      - _3des
-      - idea
 
     # one of escrow, server, client, both
     # escrow is not implemented in workflows, yet!
@@ -28,7 +26,6 @@ key:
         key_length:
           - 2048
           - 4096
-          - _1024
 
     ec:
         # those names are used for validation and to render the
@@ -87,7 +84,7 @@ extensions:
     authority_key_identifier:
         critical: 0
         keyid:  1
-        issuer: 1
+        issuer: 0
 
     issuer_alt_name:
         critical: 0

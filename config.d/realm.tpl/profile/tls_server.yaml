@@ -94,20 +94,20 @@ extensions:
         ocsp_signing:     0
 
 
-    # This is really outdated and should not be used unless really necessary
-    netscape:
-        comment:
-            critical: 0
-            text: This is a generic certificate. Generated with OpenXPKI trustcenter software.
-
-        certificate_type:
-            critical: 0
-            ssl_client:        0
-            smime_client:      0
-            object_signing:    0
-            ssl_client_ca:     0
-            smime_client_ca:   0
-            object_signing_ca: 0
+#    # This is really outdated and should not be used unless really necessary
+#    netscape:
+#        comment:
+#            critical: 0
+#            text: This is a generic certificate. Generated with OpenXPKI trustcenter software.
+#
+#        certificate_type:
+#            critical: 0
+#            ssl_client:        0
+#            smime_client:      0
+#            object_signing:    0
+#            ssl_client_ca:     0
+#            smime_client_ca:   0
+#            object_signing_ca: 0
 
         cdp:
             critical: 0

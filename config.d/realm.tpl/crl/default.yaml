@@ -24,7 +24,7 @@ extensions:
     authority_key_identifier:
         critical: 0
         keyid:  1
-        issuer: 1
+        issuer: 0
 
 
     issuer_alt_name:        

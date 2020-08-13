@@ -6,7 +6,7 @@
 # see OpenXPKI::DateTime for more details
 validity:
     # notbefore defaults to now if it is omitted
-    notbefore: 20120101000000
+    #notbefore: 20120101000000
     # absolute date or relative to notbefore
     notafter: +0006
 
@@ -100,7 +100,7 @@ extensions:
         path_length: 0
 
     key_usage:
-        critical: 0
+        critical: 1
         digital_signature: 0
         non_repudiation:   0
         key_encipherment:  0
