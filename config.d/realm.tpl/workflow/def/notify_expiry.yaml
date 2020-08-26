@@ -24,8 +24,9 @@ state:
     CHECK_IF_RENEWED:
         autorun: 1
         action:
-         - send_notification log_notified > LOOP  ? !is_renewed
-         - log_renewed > LOOP ? is_renewed
+         - send_notification mark_notified log_notified > LOOP  ? !is_renewed !is_notified
+         - log_renewed > LOOP ? is_renewed !is_notified
+         - global_noop > LOOP ? is_notified
 
     SUCCESS:
         label: I18N_OPENXPKI_UI_WORKFLOW_STATE_SUCCESS_LABEL
@@ -75,6 +76,13 @@ action:
             function: push
             context_key: cert_identifier
 
+    mark_notified:
+        class: OpenXPKI::Server::Workflow::Activity::Tools::AppendCertificateMetadata
+        param:
+            _map_cert_identifier: $cert_identifier
+            _map_meta_expiry_notification: "[% USE date; date.now() %]"
+            mode: overwrite
+
     cleanup:
         class: OpenXPKI::Server::Workflow::Activity::Tools::SetContext
         param:
@@ -119,6 +127,11 @@ condition:
         class: Workflow::Condition::Evaluate
         param:
             test: $context->{renewed_identifier}
+
+    is_notified:
+        class: OpenXPKI::Server::Workflow::Condition::CertificateAttribute
+        param:
+            attribute: meta_expiry_notification
 
 acl:
     RA Operator:
