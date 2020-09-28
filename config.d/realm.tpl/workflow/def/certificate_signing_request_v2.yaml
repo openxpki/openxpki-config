@@ -73,6 +73,7 @@ state:
         action:
           - edit_cert_info > BUILD_SUBJECT ? profile_has_info_section
           - global_skip > BUILD_SUBJECT ? !profile_has_info_section
+          - global_cancel > CLEANUP_BEFORE_CANCEL ? profile_has_info_section
 
     ENTER_SAN:
         label: I18N_OPENXPKI_UI_WORKFLOW_STATE_CSR_ENTER_SAN_LABEL
@@ -80,12 +81,14 @@ state:
         action:
           - edit_san > ENTER_CERT_INFO ? profile_has_san_section
           - global_skip > ENTER_CERT_INFO ? !profile_has_san_section
+          - global_cancel > CLEANUP_BEFORE_CANCEL ? profile_has_san_section
 
     ENTER_SUBJECT:
         label: I18N_OPENXPKI_UI_WORKFLOW_STATE_CSR_ENTER_SUBJECT_LABEL
         description: I18N_OPENXPKI_UI_WORKFLOW_STATE_CSR_ENTER_SUBJECT_DESC
         action:
           - edit_subject > ENTER_SAN
+          - global_cancel > CLEANUP_BEFORE_CANCEL
 
     FAILURE:
         label: I18N_OPENXPKI_UI_WORKFLOW_STATE_FAILURE_LABEL
@@ -296,9 +299,10 @@ state:
         label: I18N_OPENXPKI_UI_WORKFLOW_STATE_CSR_SETUP_REQUEST_TYPE_LABEL
         description: I18N_OPENXPKI_UI_WORKFLOW_STATE_CSR_SETUP_REQUEST_TYPE_DESC
         action:
-          - provide_server_key_params > ENTER_SUBJECT ? can_use_server_key
           - upload_pkcs10 > CHECK_FOR_DUPLICATE_KEY ? can_use_client_key
+          - provide_server_key_params > ENTER_SUBJECT ? can_use_server_key
           - select_profile > SETUP_REQUEST_TYPE
+          - global_cancel > CLEANUP_BEFORE_CANCEL
         output:
           - cert_profile
           - cert_subject_style
@@ -306,7 +310,7 @@ state:
           _head: I18N_OPENXPKI_UI_WORKFLOW_HINT_SELECT_TO_PROCEED
           provide_server_key_params:
             description: I18N_OPENXPKI_UI_WORKFLOW_HINT_SERVER_KEY_PARAMS
-            format: expected
+            format: alternative
           upload_pkcs10:
             description: I18N_OPENXPKI_UI_WORKFLOW_HINT_PKCS10_UPLOAD
             format: expected
@@ -390,6 +394,7 @@ state:
         action:
           - retype_server_password > HAS_KEY_PASSWORD ? key_password_server
           - ask_client_password > HAS_KEY_PASSWORD ? !key_password_server
+          - global_cancel > CLEANUP_BEFORE_CANCEL
 
     HAS_KEY_PASSWORD:
         autorun: 1
