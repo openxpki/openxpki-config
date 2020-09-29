@@ -362,7 +362,7 @@ if [ ! -e "/etc/openxpki/tls/chain" ]; then
     cp ${ROOT_CA_CERTIFICATE} /etc/openxpki/tls/chain/
     cp ${ISSUING_CA_CERTIFICATE} /etc/openxpki/tls/chain/
     c_rehash /etc/openxpki/tls/chain/
-fi;
+fi
 
 if [ ! -e "/etc/openxpki/tls/endentity/openxpki.crt" ]; then
     mkdir -m755 -p /etc/openxpki/tls/endentity
@@ -372,7 +372,7 @@ if [ ! -e "/etc/openxpki/tls/endentity/openxpki.crt" ]; then
     openssl rsa -in ${WEB_KEY} -passin file:${WEB_KEY_PASSWORD} -out /etc/openxpki/tls/private/openxpki.pem
     chmod 400 /etc/openxpki/tls/private/openxpki.pem
     service apache2 restart
-fi;
+fi
 
 cp ${ISSUING_CA_CERTIFICATE} /etc/ssl/certs
 cp ${ROOT_CA_CERTIFICATE} /etc/ssl/certs
