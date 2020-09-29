@@ -353,7 +353,7 @@ echo "done."
 echo ""
 
 # Setup the Webserver
-a2enmod ssl rewrite
+a2enmod ssl rewrite headers
 a2ensite openxpki
 a2dissite 000-default default-ssl
 
