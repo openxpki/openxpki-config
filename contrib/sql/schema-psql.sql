@@ -392,12 +392,24 @@ CREATE TABLE ocsp_responses (
     expiry timestamp with time zone
 );
 
+CREATE TABLE users (
+  username text NOT NULL,
+  password text,
+  pki_realm text,
+  mail text NOT NULL,
+  realname text,
+  role text
+);
 --
 -- Name: workflow_history; Type: TABLE; Schema: public; Tablespace:
 --
 
 ALTER TABLE ONLY ocsp_responses
     ADD CONSTRAINT ocsp_responses_pkey PRIMARY KEY (serial_number, authority_key_identifier);
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (username, pki_realm),
+    ADD CONSTRAINT users_mail UNIQUE (mail, pki_realm);
 
 --
 -- Name: audittrail_key; Type: DEFAULT; Schema: public;

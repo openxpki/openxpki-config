@@ -69,7 +69,8 @@ main:
 
   - key:   bulk
     label: I18N_OPENXPKI_UI_MENU_BULK
-
+  - key: users!index
+    label: I18N_OPENXPKI_UI_MENU_USERS
 tasklist:
   - label: I18N_OPENXPKI_UI_TASKLIST_PENDING_REQUEST_LABEL
     description: I18N_OPENXPKI_UI_TASKLIST_PENDING_REQUEST_DESCRIPTION

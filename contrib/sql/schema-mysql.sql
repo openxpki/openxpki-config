@@ -226,6 +226,15 @@ CREATE TABLE IF NOT EXISTS `ocsp_responses` (
   `expiry` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS `users` (
+  `username` varchar(255) NOT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `pki_realm` varchar(255) DEFAULT NULL,
+  `mail` varchar(255) NOT NULL,
+  `realname` varchar(255) DEFAULT NULL,
+  `role` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 ALTER TABLE `aliases`
  ADD PRIMARY KEY (`pki_realm`,`alias`),
  ADD KEY `realm_group` (`pki_realm`,`group_id`);
@@ -358,6 +367,9 @@ ALTER TABLE `ocsp_responses`
  ADD PRIMARY KEY (`serial_number`,`authority_key_identifier`),
  ADD KEY `identifier` (`identifier`);
 
+ALTER TABLE `users`
+ ADD PRIMARY KEY (`username`,`pki_realm`),
+ ADD UNIQUE `mail` (`mail`,`pki_realm`);
 
 ALTER TABLE `audittrail`
 MODIFY `audittrail_key` bigint(20) unsigned NOT NULL AUTO_INCREMENT;
