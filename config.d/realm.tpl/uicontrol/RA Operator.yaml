@@ -209,7 +209,7 @@ bulk:
          action: crr_reject_crr
 
 wfsearch:
-    default:
+    default:        
         cols:
           - label: I18N_OPENXPKI_UI_WORKFLOW_SEARCH_SERIAL_LABEL
             field: WORKFLOW_SERIAL
@@ -223,7 +223,8 @@ wfsearch:
             template: "[% IF context.cert_subject %][% context.cert_subject %][% ELSIF context.cert_identifier %][% USE Certificate %][% Certificate.body(context.cert_identifier, 'subject') %][% ELSE %]-[% END %]"
           - label: I18N_OPENXPKI_UI_WORKFLOW_CREATOR_LABEL
             field: attribute.creator
-
+        preset:
+            last_update_after: "-000060"
         attributes:
           - label: I18N_OPENXPKI_UI_SEARCH_CERT_SUBJECT_LABEL
             key: cert_subject
