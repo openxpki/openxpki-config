@@ -322,7 +322,7 @@ action:
             - interface
             - signer_cert
             - comment
-            - hmac
+            - signature
             - _url_params
             - transaction_id
             - profile
@@ -381,7 +381,7 @@ action:
     compare_hmac:
         class: OpenXPKI::Server::Workflow::Activity::Tools::SetContext
         param:
-            _map_is_valid_hmac: "[% IF (context.csr_hmac && context.hmac) && (context.csr_hmac == context.hmac) %]1[% ELSE %]0[% END %]"
+            _map_is_valid_hmac: "[% IF (context.csr_hmac && context.signature) && (context.csr_hmac == context.signature) %]1[% ELSE %]0[% END %]"
 
     calculate_approval_points:
         class: OpenXPKI::Server::Workflow::Activity::Tools::CalculateApprovalPoints
@@ -785,8 +785,8 @@ field:
         name: profile
         type: server
 
-    hmac:
-        name: hmac
+    signature:
+        name: signature
         type: server
 
 acl:
