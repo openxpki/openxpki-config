@@ -1,13 +1,11 @@
 label: I18N_OPENXPKI_UI_WORKFLOW_FIELD_POLICY_CERTIFICATE_KEY_DUPLICATE
 name: check_policy_key_duplicate_certificate
-format: rawlist
+format: linklist
+preamble: I18N_OPENXPKI_UI_CERTIFICATE_COMMON_NAME / I18N_OPENXPKI_UI_CERTIFICATE_IDENTIFIER / I18N_OPENXPKI_UI_PKI_REALM_LABEL
 template: >
   [% USE Certificate %]
-  [% IF value %]
-    I18N_OPENXPKI_UI_CERTIFICATE_COMMON_NAME / I18N_OPENXPKI_UI_CERTIFICATE_IDENTIFIER / I18N_OPENXPKI_UI_PKI_REALM_LABEL |
-    [% FOREACH identifier = value %]
-      <a target="modal" href="#certificate!detail!identifier![% identifier %]">
-        [% Certificate.dn(identifier,'CN') %] / [% identifier %] / [% Certificate.realm(identifier) %]</a>|
-    [% END %]
+  [% FOREACH identifier = value %]
+    - page: certificate!detail!identifier![% identifier %]
+      lanel: "[% Certificate.dn(identifier,'CN') %] / [% identifier %] / [% Certificate.realm(identifier) %]</a>"
   [% END %]
 

@@ -15,7 +15,7 @@ option:
       - cessationOfOperation
     label: I18N_OPENXPKI_UI_WORKFLOW_FIELD_REASON_CODE_OPTION
 api_type: Str
-
+match: \A(unspecified|keyCompromise|CACompromise|affiliationChanged|superseded|cessationOfOperation)\z
 
 #labels for i18n parser
 #I18N_OPENXPKI_UI_WORKFLOW_FIELD_REASON_CODE_OPTION_UNSPECIFIED
