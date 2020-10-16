@@ -8,3 +8,4 @@ param:
     pause_on_error: 1
     _map_ca_alias: $ca_alias
     _map_cert_owner: $creator
+    _map_transaction_id: "[% context.transaction_id %]:[% context.csr_serial %]"
