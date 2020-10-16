@@ -294,6 +294,9 @@ msgstr "Reset Login"
 msgid "I18N_OPENXPKI_UI_CLICK_TO_DOWNLOAD"
 msgstr "Click here to download."
 
+msgid "I18N_OPENXPKI_UI_CMDB_FAILED"
+msgstr "Lookup in CMDB failed!"
+
 msgid "I18N_OPENXPKI_UI_CONFIG_STATUS_LABEL"
 msgstr "Config Version"
 
@@ -767,7 +770,7 @@ msgid "I18N_OPENXPKI_UI_MENU_CRL"
 msgstr "Show Revocation Lists (CRL)"
 
 msgid "I18N_OPENXPKI_UI_MENU_CRL_ISSUE"
-msgstr "Issue a certificate revocation list (CRL)"
+msgstr "Issue a Certificate Revocation List (CRL)"
 
 msgid "I18N_OPENXPKI_UI_MENU_CSR_CHECK"
 msgstr "Request Checker"
@@ -1106,7 +1109,7 @@ msgid "I18N_OPENXPKI_UI_PROFILE_USERNAME_DESC"
 msgstr "Username"
 
 msgid "I18N_OPENXPKI_UI_PROFILE_USER_LABEL"
-msgstr "People (Secure eMail / Authentication)"
+msgstr "People (Secure Email / Authentication)"
 
 msgid "I18N_OPENXPKI_UI_PROFILE_VALIDITY"
 msgstr "Validity"
@@ -1325,7 +1328,7 @@ msgid "I18N_OPENXPKI_UI_USER_LIST_EMPTY_LABEL"
 msgstr "No user matching your search was found"
 
 msgid "I18N_OPENXPKI_UI_USER_MAIL"
-msgstr "eMail"
+msgstr "Email"
 
 msgid "I18N_OPENXPKI_UI_USER_REALNAME"
 msgstr "Realname"
@@ -1442,7 +1445,7 @@ msgid "I18N_OPENXPKI_UI_VALIDATOR_PKCS10_SIGNATURE_ERROR"
 msgstr "PKCS10 signature is not valid"
 
 msgid "I18N_OPENXPKI_UI_VALIDATOR_REGEX_EMAIL_FAILED"
-msgstr "Given eMail address has an invalid format"
+msgstr "Given email address has an invalid format"
 
 msgid "I18N_OPENXPKI_UI_VALIDATOR_REGEX_FAILED"
 msgstr "Validator failed on given expression"
@@ -1867,7 +1870,7 @@ msgstr "Set New Password"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_ACTION_RESETPASS_ASK_RESET_PASSWORD_DESC"
 msgstr ""
-"An eMail has been sent to you. Please provide the contained password below "
+"An email has been sent to you. Please provide the contained password below "
 "to confirm the password reset"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_ACTION_RESETPASS_ASK_RESET_PASSWORD_LABEL"
@@ -2029,13 +2032,13 @@ msgid "I18N_OPENXPKI_UI_WORKFLOW_EXTRA_INFO_LABEL"
 msgstr "Technical Information"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_ADDUSER_EMAIL_DESC"
-msgstr "eMail of user"
+msgstr "Email of user"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_ADDUSER_EMAIL_LABEL"
-msgstr "eMail"
+msgstr "Email"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_ADDUSER_EMAIL_PLACEHOLDER"
-msgstr "eMail"
+msgstr "Email"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_ADDUSER_REALNAME_DESC"
 msgstr "Real name of user"
@@ -2047,7 +2050,7 @@ msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_ADDUSER_REALNAME_PLACEHOLDER"
 msgstr "Realname"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_ADDUSER_ROLE_DESC"
-msgstr "Role of the user e.g., User, RA Operator,..."
+msgstr "Role of the user e.g. User, RA Operator,..."
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_ADDUSER_ROLE_LABEL"
 msgstr "Role"
@@ -2059,7 +2062,7 @@ msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_ADDUSER_ROLE_USER"
 msgstr "User"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_ADDUSER_USERNAME_DESC"
-msgstr "username of the account that should be edited"
+msgstr "Username of the account that should be edited"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_ADDUSER_USERNAME_LABEL"
 msgstr "Username"
@@ -2205,7 +2208,6 @@ msgstr " "
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_CERT_SUBJECT_TOOLTIP"
 msgstr " "
 
-#, fuzzy
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_CHAIN_DESC"
 msgstr " "
 
@@ -2218,6 +2220,12 @@ msgstr "~"
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_CHAIN_TOOLTIP"
 msgstr ""
 "Copy the required chain certificates as concatenated PEM or PKCS7 bundle"
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_CLIENT_IP_DESC"
+msgstr "IP address of the incoming client connection."
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_CLIENT_IP_LABEL"
+msgstr "Client IP"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_COMMENT_DESC"
 msgstr " "
@@ -2267,13 +2275,13 @@ msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_DELAY_REVOCATION_TOOLTIP"
 msgstr "the revocation will be scheduled after the given date"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_EDITUSER_EMAIL_DESC"
-msgstr "eMail of user"
+msgstr "Email of user"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_EDITUSER_EMAIL_LABEL"
-msgstr "eMail"
+msgstr "Email"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_EDITUSER_EMAIL_PLACEHOLDER"
-msgstr "eMail"
+msgstr "Email"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_EDITUSER_REALNAME_DESC"
 msgstr "Real name of user"
@@ -2285,7 +2293,7 @@ msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_EDITUSER_REALNAME_PLACEHOLDER"
 msgstr "Realname"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_EDITUSER_ROLE_DESC"
-msgstr "Role of the user e.g., User, RA Operator,..."
+msgstr "Role of the user e.g. User, RA Operator,..."
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_EDITUSER_ROLE_LABEL"
 msgstr "Role"
@@ -2297,7 +2305,7 @@ msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_EDITUSER_ROLE_USER"
 msgstr "User"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_EDITUSER_USERNAME_DESC"
-msgstr "username of the account that should be edited"
+msgstr "Username of the account that should be edited"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_EDITUSER_USERNAME_LABEL"
 msgstr "Username"
@@ -2309,13 +2317,13 @@ msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_EMAIL_DESC"
 msgstr " "
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_EMAIL_LABEL"
-msgstr "eMail"
+msgstr "Email"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_EMAIL_PLACEHOLDER"
 msgstr "my.name@mycompany.com"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_EMAIL_TOOLTIP"
-msgstr "Please enter a valid eMail address"
+msgstr "Please enter a valid email address"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_ENC_ALG_DESC"
 msgstr "The algorithm used to encrypt the private key for the download."
@@ -2617,16 +2625,18 @@ msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_REQUEST_MODE_LABEL"
 msgstr "Request Mode"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_RESETPASS_EMAIL_DESC"
-msgstr "The eMail of the user account for which you want to reset the password"
+msgstr ""
+"The email address of the user account for which you want to reset the "
+"password"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_RESETPASS_EMAIL_LABEL"
-msgstr "eMail"
+msgstr "Email"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_RESETPASS_EMAIL_PLACEHOLDER"
-msgstr "eMail"
+msgstr "Email"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_RESETPASS_RESET_PASSWORD_DESC"
-msgstr "The password you received per eMail"
+msgstr "The password you received per email"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_RESETPASS_RESET_PASSWORD_LABEL"
 msgstr "Reset Password"
@@ -2667,6 +2677,18 @@ msgstr "Signer Certificate"
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_SIGNER_CERT_LABEL"
 msgstr "Requestor/Signer"
 
+msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_SIGNER_CHAIN_DESC"
+msgstr " "
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_SIGNER_CHAIN_LABEL"
+msgstr "Signer Chain"
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_SIGNER_DN_DESC"
+msgstr " "
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_SIGNER_DN_LABEL"
+msgstr "Requestor/Signer"
+
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_SIGNER_REVOKED_LABEL"
 msgstr "Signer is Revoked"
 
@@ -2678,6 +2700,18 @@ msgstr "Signer is Trusted"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_SIGNER_VALIDITY_OK_LABEL"
 msgstr "Signer Validity ok"
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_TLS_CLIENT_CERT_DESC"
+msgstr " "
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_TLS_CLIENT_CERT_LABEL"
+msgstr "TLS Client certificate"
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_TLS_CLIENT_DN_DESC"
+msgstr " "
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_TLS_CLIENT_DN_LABEL"
+msgstr "TLS Client"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_TRANSACTION_ID_DESC"
 msgstr "Transaction Id of this request"
@@ -3050,10 +3084,10 @@ msgstr "State"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_ADDUSER_CHOOSE_ACTION_DESC"
 msgstr ""
-"Below you see the new user attributes Please choose from the actions below "
-"how to proceed. Abort will terminate the workflow without writing the "
-"attributes back to the database, update will show the form again while save "
-"will persist the data and finish the workflow."
+"Below you see the new user attributes. Please choose from the actions below "
+"how to proceed. 'Abort' will terminate the workflow without writing the "
+"attributes back to the database, 'Update' will show the form again while "
+"'Save' will persist the data and finish the workflow."
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_ADDUSER_CHOOSE_ACTION_LABEL"
 msgstr "Check Data"
@@ -3281,10 +3315,10 @@ msgstr "Certificate Issued"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_EDITUSER_CHOOSE_ACTION_DESC"
 msgstr ""
-"Below you see the new user attributes Please choose from the actions below "
-"how to proceed. Abort will terminate the workflow without writing the "
-"attributes back to the database, update will show the form again while save "
-"will persist the data and finish the workflow."
+"Below you see the new user attributes. Please choose from the actions below "
+"how to proceed. 'Abort' will terminate the workflow without writing the "
+"attributes back to the database, 'Update' will show the form again while "
+"'Save' will persist the data and finish the workflow."
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_EDITUSER_CHOOSE_ACTION_LABEL"
 msgstr "Check Data"
@@ -3305,7 +3339,7 @@ msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_EDITUSER_SUCCESS_DESC"
 msgstr "The changes have been persisted to the database."
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_EDITUSER_SUCCESS_LABEL"
-msgstr "User Account was updated"
+msgstr "User account was updated"
 
 #, fuzzy
 msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_ENROLL_MANUAL_AUTHORIZATION_DESC"
@@ -3468,22 +3502,22 @@ msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_RESETPASS_ASK_CLIENT_PASSWORD_LABEL"
 msgstr "Provide New Password"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_RESETPASS_ASK_RESET_PASSWORD_DESC"
-msgstr "The password you received per eMail"
+msgstr "The password you received per email"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_RESETPASS_ASK_RESET_PASSWORD_LABEL"
 msgstr "Reset Password"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_RESETPASS_INIT_DESC"
-msgstr "Reset the own user password"
+msgstr "Reset own user password"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_RESETPASS_INIT_LABEL"
 msgstr "State"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_RESETPASS_RETRY_EMAIL_DESC"
-msgstr "No user account is associated with the provided eMail"
+msgstr "No user account is associated with the provided email"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_RESETPASS_RETRY_EMAIL_LABEL"
-msgstr "eMail not Found"
+msgstr "Email not Found"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_RESETPASS_SUCCESS_DESC"
 msgstr "The new password was persisted in the database"
@@ -3737,7 +3771,7 @@ msgid "I18N_OPENXPKI_UI_WORKFLOW_TYPE_REQUEST_CHECKER_LABEL"
 msgstr "Request Checker"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_TYPE_RESETPASS_DESC"
-msgstr "Reset the own user password"
+msgstr "Reset own user password"
 
 # reset_password workflow
 msgid "I18N_OPENXPKI_UI_WORKFLOW_TYPE_RESETPASS_LABEL"
