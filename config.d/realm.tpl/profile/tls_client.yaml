@@ -30,7 +30,7 @@ style:
 
     enroll:
         subject:
-            dn: CN=[% serial %],DC=Test Deployment,DC=OpenXPKI,DC=org
+            dn: CN=[% CN.0 %],DC=Test Deployment,DC=OpenXPKI,DC=org
 
 
 # Profile extensions - set 0/1 as needed
