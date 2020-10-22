@@ -26,7 +26,7 @@ policy:
     # options below.
 
     # if set requests can be authenticated by an operator
-    allow_man_authen: 0
+    allow_man_authen: 1
 
     # if set, no authentication is required at all and hmac/challenge is
     # not evaluated even if it is set/present in the request!
@@ -79,6 +79,7 @@ profile_map:
     pc-client: tls_client
     tls-server: tls_server
     tls-client: tls_client
+    renewal-test: renewal_test
 
 # HMAC based authentication
 hmac: verysecret
