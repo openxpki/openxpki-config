@@ -40,7 +40,7 @@ token:
 
   vault:
     inherit: default
-    key: /etc/openxpki/ca/[% ALIAS %].pem
+    key: /etc/openxpki/local/keys/[% ALIAS %].pem
 
   scep:
     inherit: default
