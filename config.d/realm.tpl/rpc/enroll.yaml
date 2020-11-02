@@ -48,10 +48,7 @@ policy:
     # to exist at the same time, deducted by one if a renewal is seen
     # set to 0 if you dont want to check for duplicates at all
     max_active_certs: 1
-
-    # option will be removed
-    # allow_expired_signer: 0
-
+ 
     # If an initial enrollment is seen
     # all existing certificates with the same subject are revoked
     auto_revoke_existing_certs: 1
