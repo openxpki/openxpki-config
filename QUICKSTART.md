@@ -10,7 +10,7 @@ You can find the schema for the supported database systems in `contrib/sql` - ch
 
 Place the connection details for the database in `config.d/system/database.yaml`.
 
-Note that the driver names are case sensitive: `MySQL`, `PostgreSQL`, `Oracle`, `SQLite`.
+Note that the driver names are case sensitive: `MariaDB`, `MySQL`, `PostgreSQL`, `Oracle`, `SQLite`.
 
 ### Setup Tokens
 
