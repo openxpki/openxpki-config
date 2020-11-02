@@ -97,6 +97,7 @@ extensions:
     basic_constraints:
         critical: 1
         ca: 0
+        # only relevant with ca = 1
         path_length: 0
 
     key_usage:
@@ -138,7 +139,7 @@ extensions:
         # If the issuer has no subject alternative name, copying returns
         # an empty extension, which is problematic with both RSA SecurId
         # tokens and Cisco devices!
-        copy: 1
+        copy: 0
 
 
     crl_distribution_points:
