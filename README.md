@@ -51,14 +51,13 @@ ln -s ../../realm.tpl/auth/
 ln -s ../../realm.tpl/crl/
 ln -s ../../realm.tpl/crypto.yaml
 ln -s ../../realm.tpl/uicontrol/
-ln -s ../../system.yaml
 cp ../../realm.tpl/profile/default.yaml profile/
 ln -s ../../../realm.tpl/profile/template/ profile/
 cp ../../realm.tpl/notification/smtp.yaml.sample notification/smtp.yaml
 ln -s ../../../realm.tpl/workflow/global workflow/
 ln -s ../../../realm.tpl/workflow/persister.yaml workflow/
 (cd workflow/def/ && find ../../../../realm.tpl/workflow/def/ -type f | xargs -L1 ln -s)
-# In most cases you do not need all workflows and we recommend to removethem
+# In most cases you do not need all workflows and we recommend to remove them
 # those items are rarely used
 cd workflow/def
 rm certificate_export.yaml certificate_revoke_by_entity.yaml report_list.yaml
