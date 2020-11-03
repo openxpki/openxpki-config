@@ -206,7 +206,7 @@ state:
         autorun: 1
         action:
          - notify_approval_pending global_set_error_not_approved > PENDING ? !is_approved is_manual_approval_allowed
-         - notify_request_rejected global_set_error_rejected > FAILURE ? !is_approved !is_manual_approval_allowed
+         - notify_request_rejected global_set_error_not_approved > FAILURE ? !is_approved !is_manual_approval_allowed
          - global_clear_error_code > APPROVED ? is_approved
 
     PENDING:
