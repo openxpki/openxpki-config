@@ -77,7 +77,7 @@ extensions:
         non_repudiation:   0
         key_encipherment:  1
         data_encipherment: 0
-        key_agreement:     0
+        key_agreement:     1
         key_cert_sign:     0
         crl_sign:          0
         encipher_only:     0
