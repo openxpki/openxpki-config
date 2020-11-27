@@ -413,12 +413,11 @@ action:
             _map_cert_subject_style: "[% IF context.cert_subject_style %][% context.cert_subject_style %][% ELSE %]enroll[% END %]"
 
     search_subject_duplicate:
-        class: OpenXPKI::Server::Workflow::Activity::Tools::SearchCertificates
+        class: OpenXPKI::Server::Workflow::Activity::CSR::CheckPolicySubjectDuplicate
         param:
             _map_profile: $cert_profile
             _map_cert_subject: $cert_subject
-            target_key: check_policy_subject_duplicate
-            entity_only: 1
+
 
     queue_duplicates_to_revoke:
         class: OpenXPKI::Server::Workflow::Activity::Tools::SetContext
