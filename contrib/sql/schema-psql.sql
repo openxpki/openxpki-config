@@ -89,7 +89,6 @@ CREATE TABLE certificate (
     revocation_id numeric(49,0),
     req_key numeric(49,0),
     data text,
-    role text
 );
 
 --
