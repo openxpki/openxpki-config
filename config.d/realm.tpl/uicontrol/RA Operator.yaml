@@ -330,10 +330,10 @@ certdetails:
 #   context.*
 #   attribute.*
 #
-# To load the default configuration specify:
-#   wfdetails: null
+# To load the default configuration do not set the node
+# To hide the block set to undef wfdetails: ~
 #
-wfdetails:
+wfdetails2:
     - label: I18N_OPENXPKI_UI_WORKFLOW_ID_LABEL
       field: id
       link:

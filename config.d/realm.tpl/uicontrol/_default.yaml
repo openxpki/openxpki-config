@@ -65,9 +65,9 @@ certdetails:
               <a href="mailto:[% mail %]">[% mail %]</a>,
           [% END %]
 
-#
+
 # Workflow search - detail block
 # For a configuration example see "RA Operator.yaml".
 # Setting undef here hides the grey box on the right
-# Do not set this node to se the builtin default
+# Do not set this node to use the builtin default
 wfdetails: ~
