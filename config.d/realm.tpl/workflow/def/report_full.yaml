@@ -36,6 +36,7 @@ action:
         class: OpenXPKI::Server::Workflow::Activity::Reports::Detail
         param:            
             target_key: _report_data
+            _map_valid_at: $valid_at
             _map_report_config: $report_config
              
     generate_to_disk:
