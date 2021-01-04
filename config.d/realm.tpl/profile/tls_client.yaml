@@ -48,7 +48,7 @@ extensions:
         decipher_only:     0
 
     extended_key_usage:
-        critical:         1
+        critical:         0
         client_auth:      1
         server_auth:      0
         email_protection: 0

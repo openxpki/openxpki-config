@@ -84,7 +84,7 @@ extensions:
         decipher_only:     0
 
     extended_key_usage:
-        critical: 1
+        critical: 0
         # these are OIDs, some OIDs are known and have names
         client_auth:      0
         server_auth:      1
