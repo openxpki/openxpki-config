@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `application_log` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `audittrail` (
-  `audittrail_key` bigint(20) unsigned DEFAULT (next value for seq_audittrail),
+  `audittrail_key` bigint(20) unsigned NOT NULL,
   `logtimestamp` decimal(20,5) unsigned DEFAULT NULL,
   `category` varchar(255) DEFAULT NULL,
   `loglevel` varchar(255) DEFAULT NULL,
