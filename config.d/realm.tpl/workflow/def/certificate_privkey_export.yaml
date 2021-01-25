@@ -16,36 +16,24 @@ state:
     CHECKACCESS:
         autorun: 1
         action:
-          - make_uuid > SWITCHFORMAT ? global_is_certificate_owner
-          - global_noop2 > FAILURE ? !global_is_certificate_owner
-
-
-    SWITCHFORMAT:
-        autorun: 1
-        action:
-            - setfile_pkcs12 > GENERATE ? is_pkcs12
-            - setfile_pkcs8_pem > GENERATE ? is_pkcs8_pem
-            - setfile_pkcs8_der > GENERATE ? is_pkcs8_der
-            - setfile_java_keystore > GENERATE ? is_java_keystore
-            - setfile_openssl_privkey > GENERATE ? is_openssl_privkey
-
-    GENERATE:
-        autorun: 1
-        action:
-          - generate_unencrypted > EXPORT ? is_unencrypted
-          - generate > EXPORT ? !is_unencrypted
+          - generate > EXPORT ? global_is_certificate_owner
+          - global_set_error_rejected > FAILURE ? !global_is_certificate_owner
 
     EXPORT:
         autorun: 1
         action:
-          - export > SUCCESS ? key_exists
-          - global_set_error_export_private_key_failed > FAILED ? !key_exists
+            - setfile_pkcs12 > SUCCESS ? is_pkcs12 key_exists
+            - setfile_pkcs8_pem > SUCCESS ? is_pkcs8_pem key_exists
+            - setfile_pkcs8_der > SUCCESS ? is_pkcs8_der key_exists
+            - setfile_java_keystore > SUCCESS ? is_java_keystore key_exists
+            - setfile_openssl_privkey > SUCCESS ? is_openssl_privkey key_exists
+            - global_set_error_export_private_key_failed > FAILED ? !key_exists
 
     FAILED:
         label: I18N_OPENXPKI_UI_WORKFLOW_STATE_EXPORT_PRIVATEKEY_RETRY_PASSWORD_LABEL
         description: I18N_OPENXPKI_UI_WORKFLOW_STATE_EXPORT_PRIVATEKEY_RETRY_PASSWORD_DESC
         action:
-         - retry_password > GENERATE
+         - retry_password > CHECKACCESS
          - global_noop > CANCELED
         output:
           - error_code
@@ -69,8 +57,8 @@ state:
         description: I18N_OPENXPKI_UI_WORKFLOW_STATE_EXPORT_PRIVATEKEY_SUCCESS_DESC
         output:
          - cert_identifier
+         - key_format
          - download
-         - creator
 
     CANCELED:
         label: I18N_OPENXPKI_UI_WORKFLOW_STATE_CANCELED_LABEL
@@ -94,11 +82,6 @@ action:
           - global_cert_identifier_exists
           - keystore_alias
 
-    make_uuid:
-        class: OpenXPKI::Server::Workflow::Activity::Tools::SetContext
-        param:
-            _map_uuid:  "[% USE Utils %][% Utils.uuid() %]"
-
     generate:
         class: OpenXPKI::Server::Workflow::Activity::Tools::CertificateExport
         param:
@@ -107,68 +90,51 @@ action:
           _map_cert_identifier: $cert_identifier
           _map_key_password: $_password
           _map_alias: $alias
-          _map_export_password: $export_password
-
-    generate_unencrypted:
-        class: OpenXPKI::Server::Workflow::Activity::Tools::CertificateExport
-        param:
-          target_key: _export
-          _map_key_format: $key_format
-          _map_cert_identifier: $cert_identifier
-          _map_key_password: $_password
-          _map_alias: $alias
-          export_password: ''
-          unencrypted: 1
-
-    export:
-        class: OpenXPKI::Server::Workflow::Activity::Tools::Datapool::SetEntry
-        param:
-            namespace: workflow.download
-            _map_key: $uuid
-            _map_value: $_export
-            encrypt: 1
-            force: 1
-            expiration_date: "+0000000003"
+          _map_export_password: '[% IF context.unencrypted; ""; ELSE; context.export_password; END %]'
+          _map_unencrypted: $unencrypted
 
     setfile_pkcs12:
         class: OpenXPKI::Server::Workflow::Activity::Tools::SetContextHash
         param:
-          target_key: download
+          target_key: _download
           _map_filename: "[% USE Certificate %][% Certificate.dn(context.cert_identifier, 'CN') %].p12"
           mime: application/x-pkcs12
-          _map_source: datapool:[% context.uuid %]
+          _map_data: $_export
+          binary: 1
 
     setfile_pkcs8_pem:
         class: OpenXPKI::Server::Workflow::Activity::Tools::SetContextHash
         param:
-          target_key: download
+          target_key: _download
           _map_filename: "[% USE Certificate %][% Certificate.dn(context.cert_identifier, 'CN') %].key"
           mime: application/pkcs8
-          _map_source: datapool:[% context.uuid %]
+          _map_data: $_export
 
     setfile_pkcs8_der:
         class: OpenXPKI::Server::Workflow::Activity::Tools::SetContextHash
         param:
-          target_key: download
+          target_key: _download
           _map_filename: "[% USE Certificate %][% Certificate.dn(context.cert_identifier, 'CN') %].p8"
           mime: application/pkcs8
-          _map_source: datapool:[% context.uuid %]
+          _map_data: $_export
+          binary: 1
 
     setfile_openssl_privkey:
         class: OpenXPKI::Server::Workflow::Activity::Tools::SetContextHash
         param:
-          target_key: download
+          target_key: _download
           _map_filename: "[% USE Certificate %][% Certificate.dn(context.cert_identifier, 'CN') %].pem"
           mime: application/x-pem-file
-          _map_source: datapool:[% context.uuid %]
+          _map_data: $_export
 
     setfile_java_keystore:
         class: OpenXPKI::Server::Workflow::Activity::Tools::SetContextHash
         param:
-          target_key: download
+          target_key: _download
           _map_filename: "[% USE Certificate %][% Certificate.dn(context.cert_identifier, 'CN') %].jks"
           mime: application/x-java-keystore
-          _map_source: datapool:[% context.uuid %]
+          _map_data: $_export
+          binary: 1
 
     retry_password:
         class: OpenXPKI::Server::Workflow::Activity::Noop
@@ -221,8 +187,10 @@ field:
 
     download:
         label: I18N_OPENXPKI_UI_EXPORT_PRIVATEKEY_FILENAME_LABEL
-        name: download
+        name: _download
         format: download
+        param:
+            auto: 1
 
     alias:
         name: alias
