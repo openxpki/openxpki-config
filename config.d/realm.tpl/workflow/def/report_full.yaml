@@ -63,7 +63,6 @@ action:
         param:
           target_key: download
           _map_filename: "Certificate Detail Report [% USE date(format='%Y-%m-%dT%H:%M:%S') %][% date.format( context.valid_at ) %].csv"
-          mime: application/csv
           _map_source: >
               [% IF context.report_filename %]file:[% context.report_filename %]
               [% ELSE %]datapool:[% context.uuid %][% END %]
@@ -106,7 +105,10 @@ field:
     download:
         label: I18N_OPENXPKI_UI_REPORT_DOWNLOAD_LABEL
         name: download
-        format: download/text/csv
+        format: download
+        param:
+            mime: application/csv
+            auto: 1
 
 acl:
     CA Operator:
