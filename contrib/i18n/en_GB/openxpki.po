@@ -339,6 +339,21 @@ msgstr "CRL Status"
 msgid "I18N_OPENXPKI_UI_CRL_VIEW_IN_BROWSER"
 msgstr "show details in brower"
 
+msgid "I18N_OPENXPKI_UI_CRYPTO_SECRET_SHARE_ALREADY_ENTERED"
+msgstr "Same secret share has already been entered."
+
+msgid "I18N_OPENXPKI_UI_CRYPTO_SECRET_SPLITENCRYPTED_KEY_COUNT_DIFFERS_FROM_SHARE_COUNT"
+msgstr "Number of given keys does not match the number of shares."
+
+msgid "I18N_OPENXPKI_UI_CRYPTO_SECRET_SPLITENCRYPTED_UNABLE_TO_LOAD_ENCRYPTED_SHARE"
+msgstr "Unable to load encrypted secret share."
+
+msgid "I18N_OPENXPKI_UI_CRYPTO_SECRET_SPLITENCRYPTED_WRONG_SHARE_PASSPHRASE"
+msgstr "Wrong passphrase: no encrypted secret share could be unlocked."
+
+msgid "I18N_OPENXPKI_UI_CRYPTO_SECRET_SPLIT_EMPTY_SHARE"
+msgstr "Empty share or passphrase given."
+
 msgid "I18N_OPENXPKI_UI_CSR_EXT_CERTIFICATE_TEMPLATE"
 msgstr "Certificate Template"
 
@@ -442,7 +457,7 @@ msgid "I18N_OPENXPKI_UI_ENROLLMENT_ERROR_POLICY_VIOLATED"
 msgstr "Policy failed (too many valid certificates)"
 
 msgid "I18N_OPENXPKI_UI_ENROLLMENT_ERROR_REJECTED"
-msgstr "Request was rejected by an operator."
+msgstr "Request was rejected."
 
 #, fuzzy
 msgid "I18N_OPENXPKI_UI_ENROLLMENT_ERROR_REQUEST_DUPLICATE"
@@ -680,7 +695,7 @@ msgid "I18N_OPENXPKI_UI_KEY_CURVE_NAME_SECP384R1"
 msgstr "Curve secp384r1"
 
 msgid "I18N_OPENXPKI_UI_KEY_CURVE_NAME_SECP521R1"
-msgstr "Curve sect521r1"
+msgstr "Curve secp521r1"
 
 msgid "I18N_OPENXPKI_UI_KEY_CURVE_NAME_SECT571R1"
 msgstr "Curve sect571r1"
@@ -858,6 +873,9 @@ msgstr "Unable to generate a key without a password"
 msgid "I18N_OPENXPKI_UI_NO"
 msgstr "No"
 
+msgid "I18N_OPENXPKI_UI_NO_SUCH_REALM_OR_SERVICE"
+msgstr "The requested URL has no service assigned."
+
 msgid "I18N_OPENXPKI_UI_OOPS"
 msgstr "Oops, something went wrong"
 
@@ -1005,6 +1023,9 @@ msgstr "Hostname"
 
 msgid "I18N_OPENXPKI_UI_PROFILE_HOSTNAME_DESC"
 msgstr "Enter the fully qualified hostname (domain name) of your system."
+
+msgid "I18N_OPENXPKI_UI_PROFILE_OCSP_RESPONDER_LABEL"
+msgstr "OCSP Responder"
 
 msgid "I18N_OPENXPKI_UI_PROFILE_OU_DESC"
 msgstr "Organizational Unit"
@@ -1201,7 +1222,7 @@ msgid "I18N_OPENXPKI_UI_SEARCH_TRANSACTION_ID_LABEL"
 msgstr "Transaction Id"
 
 msgid "I18N_OPENXPKI_UI_SECRET_CLEAR_SECRET_LABEL"
-msgstr "clear secret"
+msgstr "Clear secret"
 
 msgid "I18N_OPENXPKI_UI_SECRET_COMPLETE"
 msgstr "Ready"
@@ -1220,8 +1241,8 @@ msgstr "Literal Secret"
 
 msgid "I18N_OPENXPKI_UI_SECRET_PAGE_DESC"
 msgstr ""
-"The list shows the state of your secret groups defined in this realm. To "
-"login/logout click on the row."
+"The list shows the state of your secret groups defined in this realm. Click "
+"a row to manage a group."
 
 msgid "I18N_OPENXPKI_UI_SECRET_PAGE_LABEL"
 msgstr "Manage Secrets"
@@ -1230,16 +1251,16 @@ msgid "I18N_OPENXPKI_UI_SECRET_PASSPHRASE_LABEL"
 msgstr "Passphrase"
 
 msgid "I18N_OPENXPKI_UI_SECRET_STATUS_ACCEPTED"
-msgstr "Secret Accepted"
+msgstr "Secret accepted"
 
 msgid "I18N_OPENXPKI_UI_SECRET_STATUS_CLEARED"
-msgstr "Secret Cleared"
+msgstr "Secret cleared"
 
 msgid "I18N_OPENXPKI_UI_SECRET_STATUS_CLEAR_FAILED"
-msgstr "Clear Failed"
+msgstr "Clearing secret failed"
 
 msgid "I18N_OPENXPKI_UI_SECRET_STATUS_UNLOCK_FAILED"
-msgstr "Unlock Failed"
+msgstr "Unlocking failed"
 
 msgid "I18N_OPENXPKI_UI_SECRET_UNLOCK_BUTTON"
 msgstr "Unlock"
@@ -3393,9 +3414,9 @@ msgstr "Unable to load Key"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_EXPORT_PRIVATEKEY_SUCCESS_DESC"
 msgstr ""
-"Click on the link below to download your certificate/key bundle. Note that "
-"this link will only work from within this browser window and become invalid "
-"after 60 seconds."
+"Download of your export will start shortly, for PEM encoded key material "
+"you also use the button to copy the data to your clipboard. Note that the "
+"download option will disappear when you leave this page."
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_EXPORT_PRIVATEKEY_SUCCESS_LABEL"
 msgstr "SUCCESS"

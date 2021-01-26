@@ -335,6 +335,25 @@ msgstr "CRL Status"
 msgid "I18N_OPENXPKI_UI_CRL_VIEW_IN_BROWSER"
 msgstr "Zeige Details im Browser"
 
+#, fuzzy
+msgid "I18N_OPENXPKI_UI_CRYPTO_SECRET_SHARE_ALREADY_ENTERED"
+msgstr "Passwort gelöscht"
+
+msgid "I18N_OPENXPKI_UI_CRYPTO_SECRET_SPLITENCRYPTED_KEY_COUNT_DIFFERS_FROM_SHARE_COUNT"
+msgstr "Die Anzahl der übergebenen Schlüssel stimmt nicht mit der Anzahl der Passwortteile überein."
+
+#, fuzzy
+msgid "I18N_OPENXPKI_UI_CRYPTO_SECRET_SPLITENCRYPTED_UNABLE_TO_LOAD_ENCRYPTED_SHARE"
+msgstr "Unverschlüsselt"
+
+#, fuzzy
+msgid "I18N_OPENXPKI_UI_CRYPTO_SECRET_SPLITENCRYPTED_WRONG_SHARE_PASSPHRASE"
+msgstr "Literales Passwort"
+
+#, fuzzy
+msgid "I18N_OPENXPKI_UI_CRYPTO_SECRET_SPLIT_EMPTY_SHARE"
+msgstr "Keine Daten verfügbar"
+
 msgid "I18N_OPENXPKI_UI_CSR_EXT_CERTIFICATE_TEMPLATE"
 msgstr "Certificate Template"
 
@@ -857,6 +876,9 @@ msgstr "Kann keinen Schlüssel ohne Passwort erstellen"
 msgid "I18N_OPENXPKI_UI_NO"
 msgstr "Nein"
 
+msgid "I18N_OPENXPKI_UI_NO_SUCH_REALM_OR_SERVICE"
+msgstr "Unter dieser Adresse ist keine Service eingerichtet."
+
 # Remove?
 msgid "I18N_OPENXPKI_UI_OOPS"
 msgstr "Oops, hier ist etwas schief gegangen"
@@ -1011,6 +1033,9 @@ msgstr "Servername"
 
 msgid "I18N_OPENXPKI_UI_PROFILE_HOSTNAME_DESC"
 msgstr "Geben Sie bitte den FQDN (Hostname) des Systems an."
+
+msgid "I18N_OPENXPKI_UI_PROFILE_OCSP_RESPONDER_LABEL"
+msgstr "OCSP Responder"
 
 msgid "I18N_OPENXPKI_UI_PROFILE_OU_DESC"
 msgstr "Organisationseinheit (OU)"
@@ -2826,7 +2851,6 @@ msgstr "Zertifikatskette Antragsteller"
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_SIGNER_DN_DESC"
 msgstr "Subject des TLS-Client-Zertifikates"
 
-
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_SIGNER_DN_LABEL"
 msgstr "Antragsteller/Signierer"
 
@@ -2850,7 +2874,6 @@ msgstr "Antragsteller/Signierer"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_TLS_CLIENT_DN_DESC"
 msgstr "Subject des TLS-Client-Zertifikates"
-
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_TLS_CLIENT_DN_LABEL"
 msgstr "Subject des TLS-Client-Zertifikates"
@@ -3592,9 +3615,10 @@ msgstr "Schlüsselexport fehlgeschlagen"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_EXPORT_PRIVATEKEY_SUCCESS_DESC"
 msgstr ""
-"Klicken Sie auf den untenstehenden Link um die erstellte Exportdatei "
-"herunterzuladen. Bitte beachten Sie, daß der Link nur innerhalb dieses "
-"Browserfensters gültig ist und in 60 Sekunden ungültig wird."
+"Der Download der Exportdatei sollte in Kürze automatisch starten, für PEM "
+"kodierte Formate können Sie auch den Schlüssel direkt in die Zwischenablage "
+"kopieren. Beachten Sie bitte dass die Exportdaten beim Verlassen der Seite "
+"gelöscht werden!"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_EXPORT_PRIVATEKEY_SUCCESS_LABEL"
 msgstr "SUCCESS"
@@ -4133,6 +4157,10 @@ msgstr "ja"
 
 #~ msgid "I18N_OPENXPKI_UI_PROFILE_TLS_CLIENT_BASIC_LABEL"
 #~ msgstr "TLS Client / Default Naming"
+
+#, fuzzy
+#~ msgid "I18N_OPENXPKI_UI_SECRET_GROUP_DOES_NOT_EXIST"
+#~ msgstr "Zertifikat existiert nicht"
 
 #~ msgid "I18N_OPENXPKI_UI_UNAUTHORIZED_ACCESS_TO_WORKFLOW_HISTORY"
 #~ msgstr ""
