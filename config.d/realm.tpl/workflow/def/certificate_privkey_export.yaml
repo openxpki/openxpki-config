@@ -144,11 +144,6 @@ action:
 
 
 condition:
-    is_unencrypted:
-        class: Workflow::Condition::Evaluate
-        param:
-            test: $context->{unencrypted}
-
     is_pkcs12:
         class: Workflow::Condition::Evaluate
         param:

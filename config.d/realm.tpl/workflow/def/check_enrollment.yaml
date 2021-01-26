@@ -66,11 +66,6 @@ condition:
         param:
             test: $context->{workflow_id}
 
-    has_pkcs10_set:
-        class: Workflow::Condition::Evaluate
-        param:
-            test: ($context->{pkcs10})
-
 acl:
     System:
         creator: any
