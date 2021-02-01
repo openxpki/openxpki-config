@@ -72,6 +72,10 @@ git -C /etc/openxpki add config.d/
 git commit -m "Initial commit with Realms"
 ```
 
+#### User Home Page
+
+The default configuration has a static HTML page set as the home for the `User` role. The code for this page must be manually placed to `/var/www/static/<realm>/home.html`, an example can be found in the `contrib` directory. If you don't want a static page, remove the `welcome` and `home` items from the `uicontrol/_default.yaml`.
+
 ### Define Profiles
 
 To issue certificates you need to define the profiles first. Adjust your realm wide CDP/AIA settings, validity and key parameters in `profile/default.yaml`.
