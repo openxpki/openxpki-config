@@ -1,8 +1,11 @@
+landmark:
+    welcome: source!html!file!home
+
 main:
   - key: home
     label: I18N_OPENXPKI_UI_MENU_HOME
     entries:
-      - key:    home!index
+      - key:    source!html!file!home
         label:  I18N_OPENXPKI_UI_MENU_HOME
       - key:    workflow!mine
         label:  I18N_OPENXPKI_UI_MENU_MY_WORKFLOW
