@@ -62,6 +62,8 @@ style:
             dn: CN=[% CN.0 %],DC=Test Deployment,DC=OpenXPKI,DC=org
             san:
                 dns: "[% FOREACH entry = SAN_DNS %][% entry.lower %] | [% END %]"
+                ip : "[% FOREACH entry = SAN_IP %][% entry %] | [% END %]"
+
 
         metadata:
             system_id: "[% data.cust_id %]"
