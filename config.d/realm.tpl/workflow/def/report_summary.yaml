@@ -7,17 +7,21 @@ head:
 state:
     INITIAL:
         action:
-          - initialize > GENERATE
+          - initialize > LOAD_CHARTDATA
 
-    GENERATE:
+    LOAD_CHARTDATA:
         autorun: 1
         action:
-          - generate > SUCCESS
-
+          - map_values load_timeline > SUCCESS ? has_show_chart
+          - global_noop > SUCCESS ? !has_show_chart
 
     SUCCESS:
         label: I18N_OPENXPKI_UI_WORKFLOW_STATE_REPORT_SUMMARY_SUCCESS_LABEL
         output:
+          - chart_overall
+          - chart_valid
+          - chart_profiles
+          - chart_timeline
           - valid_at
           - valid_count
           - valid_distinct
@@ -28,21 +32,37 @@ state:
           - total_distinct
           - total_revoked
           - total_expired
+          - profile_count
 
 action:
     initialize:
-        class: OpenXPKI::Server::Workflow::Activity::Noop
-        label: I18N_OPENXPKI_UI_WORKFLOW_ACTION_REPORT_SUMMARY_INITIALIZE_LABEL
+        class: OpenXPKI::Server::Workflow::Activity::Reports::Summary
         input:
           - valid_at
-
-    generate:
-        class: OpenXPKI::Server::Workflow::Activity::Reports::Summary
+          - show_chart
         param:
             near_expiry: +0000045
             recent_expiry: -0000030
+            recent_renewal: -0000030
             _map_valid_at: $valid_at
-  
+            _map_target_key: "[% IF context.show_chart; 'report_data'; END %]"
+
+    map_values:
+        class: OpenXPKI::Server::Workflow::Activity::Tools::SetContext
+        param:
+          _map_profile_report: $report_data.by_profile
+
+    load_timeline:
+        class: OpenXPKI::Server::Workflow::Activity::Reports::Timeline
+        param:
+            target_key: report_timeline
+
+condition:
+    has_show_chart:
+        class: Workflow::Condition::Evaluate
+        param:
+            test: $context->{show_chart}
+
 field:
     valid_at:
         name: valid_at
@@ -53,9 +73,15 @@ field:
         format: timestamp
         default: now
 
+    show_chart:
+      name: show_chart
+      label: I18N_OPENXPKI_UI_WORKFLOW_REPORT_DRAW_CHART
+      type: bool
+
+
     total_count:
-        name: total_count
         label: I18N_OPENXPKI_UI_WORKFLOW_REPORT_FIELD_TOTAL_COUNT
+        name: total_count
 
     total_revoked:
         name: total_revoked
@@ -88,6 +114,92 @@ field:
     recent_expiry:
         name: recent_expiry
         label: I18N_OPENXPKI_UI_WORKFLOW_REPORT_FIELD_RECENT_EXPIRY
+
+    recent_renewed:
+        name: recent_renewed
+        label: I18N_OPENXPKI_UI_WORKFLOW_REPORT_FIELD_TOTAL_RENEWED
+
+    profile_count:
+      name: by_profile
+      label: I18N_OPENXPKI_UI_WORKFLOW_REPORT_FIELD_PROFILES
+      format: rawlist
+      template: >
+          [% USE Profile %]
+          [% FOREACH profile = value.keys %]
+          [% Profile.name(profile) %]: [% value.$profile %] |
+          [% END %]
+
+    chart_overall:
+        label: I18N_OPENXPKI_UI_WORKFLOW_REPORT_SUMMARY_LABEL
+        name: report_data
+        format: chart
+        param:
+            type: bar
+            width: 800
+            height: 300
+            series:
+              - key: total_count
+                label: I18N_OPENXPKI_UI_WORKFLOW_REPORT_FIELD_TOTAL_COUNT
+              - key: total_revoked
+                label: I18N_OPENXPKI_UI_WORKFLOW_REPORT_FIELD_TOTAL_REVOKED
+              - key: total_expired
+                label: I18N_OPENXPKI_UI_WORKFLOW_REPORT_FIELD_TOTAL_EXPIRED
+              - key: total_distinct
+                label: I18N_OPENXPKI_UI_WORKFLOW_REPORT_FIELD_TOTAL_DISTINCT
+
+    chart_valid:
+        label: I18N_OPENXPKI_UI_WORKFLOW_REPORT_CURRENT_LABEL
+        name: report_data
+        format: chart
+        param:
+            type: bar
+            width: 800
+            height: 300
+            series:
+              - key: valid_count
+                label: I18N_OPENXPKI_UI_WORKFLOW_REPORT_FIELD_VALID_COUNT
+              - key: valid_distinct
+                label: I18N_OPENXPKI_UI_WORKFLOW_REPORT_FIELD_VALID_DISTINTCT
+              - key: valid_revoked
+                label: I18N_OPENXPKI_UI_WORKFLOW_REPORT_FIELD_VALID_REVOKED
+              - key: near_expiry
+                label: I18N_OPENXPKI_UI_WORKFLOW_REPORT_FIELD_NEAR_EXPIRY
+              - key: recent_expiry
+                label: I18N_OPENXPKI_UI_WORKFLOW_REPORT_FIELD_RECENT_EXPIRY
+              - key: recent_renewed
+                label: I18N_OPENXPKI_UI_WORKFLOW_REPORT_FIELD_RECENT_RENEWED
+
+    chart_profiles:
+        label: I18N_OPENXPKI_UI_WORKFLOW_REPORT_PROFILE_LABEL
+        name: profile_report
+        format: chart
+        param:
+            type: pie
+            width: 800
+            height: 300
+
+    chart_timeline:
+        label: I18N_OPENXPKI_UI_REPORT_TIMELINE_LABEL
+        name: report_timeline
+        format: chart
+        param:
+            type: line
+            width: 800
+            height: 500
+            series:
+              - label: I18N_OPENXPKI_UI_WORKFLOW_REPORT_FIELD_TOTAL_EXPIRED
+                key: expired
+                color: orange
+              - label: I18N_OPENXPKI_UI_WORKFLOW_REPORT_FIELD_TOTAL_REVOKED
+                key: revoked
+                color: red
+              - label: I18N_OPENXPKI_UI_WORKFLOW_REPORT_FIELD_TOTAL_ISSUED
+                key: issued
+                color: green
+              - label: I18N_OPENXPKI_UI_WORKFLOW_REPORT_FIELD_TOTAL_RENEWED
+                key: renewed
+                color: blue
+
 
 acl:
     CA Operator:
