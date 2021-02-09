@@ -11,7 +11,7 @@ key:
     alg:
       - rsa
       - ec
-      - dsa
+      #- dsa
 
     # Supported encryption algorithms (as taken by openssl)
     enc:
@@ -24,8 +24,10 @@ key:
     # Definition of key algorithms
     rsa:
         key_length:
+          - 3072
           - 2048
           - 4096
+          - 2048:4096
 
     ec:
         # those names are used for validation and to render the
@@ -53,12 +55,6 @@ key:
         key_length:
           - 2048
           - 4096
-
-    # I18N_OPENXPKI_UI_KEY_ALG_GOST94
-#    gost94:
-    # I18N_OPENXPKI_UI_KEY_ALG_GOST2001
-#    gost2001:
-
 
 validity:
     notafter: +01
