@@ -7,19 +7,16 @@ state:
     CREATE_QUEUE:
         autorun: 1
         action:
-          - create_ca_list > LOAD_NEXT_CA ? !global_run_in_background !has_ca_alias_set
-          - global_noop create_ca_list > BACKGROUNDING ? global_run_in_background !has_ca_alias_set
+          - create_ca_list > BACKGROUNDING ? !has_ca_alias_set
           - global_noop2 > ISSUE_CRL ? has_ca_alias_set !global_run_in_background
           - global_run_in_background > ISSUE_CRL ? has_ca_alias_set global_run_in_background
 
-    # This is only required if you use CRL generation from the UI and you
-    # are seeing timeouts due to too large CRLs. Change the action above to:
-    # "create_ca_list > BACKGROUNDING"
     BACKGROUNDING:
         autorun: 1
         action:
-          - global_run_in_background > LOAD_NEXT_CA ? !is_ca_list_empty
-          - global_noop > SUCCESS ? is_ca_list_empty
+          - global_run_in_background > LOAD_NEXT_CA ? !is_ca_list_empty global_run_in_background
+          - global_noop > LOAD_NEXT_CA ? !is_ca_list_empty !global_run_in_background
+          - global_noop2 > CANCELED ? is_ca_list_empty
 
     INITIAL:
         action:
@@ -52,6 +49,16 @@ state:
         output:
           - crl_list
           - force_issue
+          - crl_validity
+          - ca_alias
+          - crl_profile
+
+    CANCELED:
+        label: I18N_OPENXPKI_UI_WORKFLOW_STATE_CANCELED_LABEL
+        description: I18N_OPENXPKI_UI_WORKFLOW_STATE_CANCELED_DESC
+        output:
+          - crl_validity
+          - crl_profile
 
 
 action:
@@ -118,17 +125,27 @@ field:
     crl_list:
         label: CRL Lists created
         name: crl_list
+        format: linklist
+        yaml_template: >
+            [% USE Alias; USE Certificate; FOREACH alias = value.keys %]
+              - label: "[% Certificate.dn(Alias.cert_identifier(alias),'CN') %]: [% value.$alias %]"
+                page: "crl!detail!crl_key![% value.$alias %]"
+                target: modal
+            [% END %]
 
     ca_alias:
         name: ca_alias
+        label: I18N_OPENXPKI_UI_WORKFLOW_FIELD_CA_ALIAS_LABEL
         type: server
 
     crl_validity:
         name: crl_validity
+        label: I18N_OPENXPKI_UI_WORKFLOW_FIELD_CRL_VALIDITY_LABEL
         type: server
 
     crl_profile:
         name: crl_profile
+        label: I18N_OPENXPKI_UI_WORKFLOW_FIELD_CRL_PROFILE_LABEL
         type: server
 
 acl:
