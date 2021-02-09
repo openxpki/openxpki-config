@@ -123,7 +123,7 @@ field:
         required: 0
 
     crl_list:
-        label: CRL Lists created
+        label: I18N_OPENXPKI_UI_WORKFLOW_FIELD_CRL_LIST_LABEL
         name: crl_list
         format: linklist
         yaml_template: >
