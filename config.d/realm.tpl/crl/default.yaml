@@ -11,7 +11,7 @@ validity:
     renewal: +000003
 
     # validity of last crl issued before ca is end of life    
-    lastcrl: 20301231235900
+    lastcrl: 20491231235900
 
 digest: sha256
 extensions:
