@@ -13,7 +13,7 @@ token:
 
     # Template to create key, available vars are
     # ALIAS (ca-signer-1), GROUP (ca-signer), GENERATION (1)
-    key: /etc/openxpki/ca/[% PKI_REALM %]/[% ALIAS %].pem
+    key: /etc/openxpki/local/keys/[% PKI_REALM %]/[% ALIAS %].pem
 
     # possible values are OpenSSL, nCipher, LunaCA
     engine: OpenSSL

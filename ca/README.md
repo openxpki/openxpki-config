@@ -1,17 +1,13 @@
 ### Private Key Directory
 
-This is the right place to put the key files of your OpenXPKI installation.
+**This has moved**
 
-**CA Signer Token**: The default pattern of the CA signing keys is `<realm-name>/ca-signer-<X>.pem` where `<X>` is again the generation number and `<realm-name>` is the name of the realm (same as the name of the realm directory below `config.d/realm`).
+The default configuration now expects the *DataVault token* to be a global token shared over all realms and placed in `/etc/openxpki/local/keys/[% ALIAS %].pem` where the alias is `vault-X`.
 
-**Data Vault Token**: It is usually a good idea to share the vault token over all realms, therefore the tokens file name is `vault-<X>.pem` located in this directory. The `<X>` is the generation identifier of the alias - please make sure that you have the same alias generation in all realms.
+The CA Signer and SCEP tokens are loaded into the database so there is no need to keep them on the filesystem after import, in case you want/need to hold them on the filesystem the new default location has also changed to `/etc/openxpki/local/keys/` with the default pattern of `<realm-name>/ca-signer-<X>.pem` where `<X>` is again the generation number and `<realm-name>` is the name of the realm (same as the name of the realm directory below `config.d/realm`).
 
-Its a wise idea to also put the matching certificate aside, even if that is not necessary as the certs are read from the database.
-
-Once you have create key and certificate, just import and link the **certificate** using the command (sample assumes CA Signer Generation 1 in realm "democa"):
+Please do **NOT** copy the tokens there by hand but use this command line to load the tokens into the right place:
 
 ```bash
-openxpkiadm certificate import --realm democa --token certsign --gen 1 \
-    --file democa/ca-signer-1.crt
+openxpkiadm alias --realm <realm-name> --token certsign --file signer.crt --key signer.pem
 ```
-
