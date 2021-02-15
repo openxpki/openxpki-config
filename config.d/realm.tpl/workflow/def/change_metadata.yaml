@@ -13,8 +13,6 @@ state:
           - persist global_relate_workflow > SUCCESS
 
     DATA_UPDATE:
-        label: I18N_OPENXPKI_UI_WORKFLOW_STATE_METADATA_DATA_UPDATE_LABEL
-        description: I18N_OPENXPKI_UI_WORKFLOW_STATE_METADATA_DATA_UPDATE_DESC
         action:
           - update_context > CHOOSE_ACTION
 
@@ -23,8 +21,6 @@ state:
         description: I18N_OPENXPKI_UI_WORKFLOW_STATE_FAILURE_DESC
 
     INITIAL:
-        label: I18N_OPENXPKI_UI_WORKFLOW_STATE_METADATA_INITIAL_LABEL
-        description: I18N_OPENXPKI_UI_WORKFLOW_STATE_METADATA_INITIAL_DESC
         action:
           - load_data > DATA_UPDATE
 

@@ -12,8 +12,7 @@ state:
           - create_ca_list > LOAD_NEXT_CA
 
     INITIAL:
-        label: I18N_OPENXPKI_UI_WORKFLOW_STATE_CRL_ISSUE_INITIAL_LABEL
-        description: I18N_OPENXPKI_UI_WORKFLOW_STATE_CRL_ISSUE_INITIAL_DESC
+        label: I18N_OPENXPKI_UI_WORKFLOW_STATE_CAPUBLISH_INITIAL_LABEL
         action:
           - initialize > CREATE_QUEUE
 

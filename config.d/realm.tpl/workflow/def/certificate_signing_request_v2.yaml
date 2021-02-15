@@ -69,7 +69,6 @@ state:
 
     ENTER_CERT_INFO:
         label: I18N_OPENXPKI_UI_WORKFLOW_STATE_CSR_ENTER_CERT_INFO_LABEL
-        description: I18N_OPENXPKI_UI_WORKFLOW_STATE_CSR_ENTER_CERT_INFO_DESC
         action:
           - edit_cert_info > BUILD_SUBJECT ? profile_has_info_section
           - global_skip > BUILD_SUBJECT ? !profile_has_info_section
@@ -77,7 +76,6 @@ state:
 
     ENTER_SAN:
         label: I18N_OPENXPKI_UI_WORKFLOW_STATE_CSR_ENTER_SAN_LABEL
-        description: I18N_OPENXPKI_UI_WORKFLOW_STATE_CSR_ENTER_SAN_DESC
         action:
           - edit_san > ENTER_CERT_INFO ? profile_has_san_section
           - global_skip > ENTER_CERT_INFO ? !profile_has_san_section
@@ -390,7 +388,6 @@ state:
 
     ENTER_KEY_PASSWORD:
         label: I18N_OPENXPKI_UI_WORKFLOW_STATE_CSR_ENTER_KEY_PASSWORD_LABEL
-        description: I18N_OPENXPKI_UI_WORKFLOW_STATE_CSR_ENTER_KEY_PASSWORD_DESC
         action:
           - retype_server_password > HAS_KEY_PASSWORD ? key_password_server
           - ask_client_password > HAS_KEY_PASSWORD ? !key_password_server

@@ -56,7 +56,6 @@ state:
 
     INITIAL:
         label: I18N_OPENXPKI_UI_WORKFLOW_STATE_CRR_INITIAL_LABEL
-        description: I18N_OPENXPKI_UI_WORKFLOW_STATE_CRR_INITIAL_DESC
         action:
           - initialize set_workflow_attributes > CHECK_BATCHMODE
 
