@@ -66,6 +66,17 @@ policy:
     export_certificate: chain
 
 
+    # Those options are pulled by the revoke_by_entity workflow, they have no
+    # effect on the enrollment workflow! You must set at least one of them or
+    # remove the is_policy_loaded condition in the workflow definition
+
+    # Allow revocation of any certificate with a certain profile
+    # profile: tls_server
+
+    # Allow revocation if the subject matches the given pattern
+    # subject: "*"
+
+
 profile:
   cert_profile: tls_server
   cert_subject_style: enroll
