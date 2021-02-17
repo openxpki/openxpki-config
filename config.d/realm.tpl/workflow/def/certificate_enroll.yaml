@@ -381,7 +381,9 @@ action:
     compare_hmac:
         class: OpenXPKI::Server::Workflow::Activity::Tools::SetContext
         param:
-            _map_is_valid_hmac: "[% IF (context.csr_hmac && context.signature) && (context.csr_hmac == context.signature) %]1[% ELSE %]0[% END %]"
+            _map_is_valid_hmac: >
+                [% SET signature = context.signature || context.url_signature;
+                IF (context.csr_hmac && signature) && (context.csr_hmac == signature) %]1[% ELSE %]0[% END %]
 
     calculate_approval_points:
         class: OpenXPKI::Server::Workflow::Activity::Tools::CalculateApprovalPoints
