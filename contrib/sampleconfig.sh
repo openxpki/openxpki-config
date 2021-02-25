@@ -209,6 +209,7 @@ authorityKeyIdentifier  = keyid:always,issuer
 
 [ v3_scep_extensions ]
 subjectKeyIdentifier    = hash
+keyUsage                = digitalSignature, keyEncipherment
 basicConstraints        = CA:FALSE
 authorityKeyIdentifier  = keyid,issuer
 
