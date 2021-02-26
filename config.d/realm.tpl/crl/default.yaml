@@ -5,13 +5,24 @@
 # Validity control for the crl
 validity: 
     # validity interval used while the ca is active (relative date!)
+    # e.g. +000014 will set nextUpdate to the "now + 14 days" at the
+    # time of issuance. The format is +YYMMDDhhmmss.
     nextupdate: +000014
     
     # how long before next update a new crl should be issued
+    # this is evaluated by the CRL issuance workflow to decide
+    # weather a new CRL should be created when the workflow runs
+    # the nextUpdate timestamp of the latest existing CRL must be
+    # withthin this interval to trigger CRL issuance.
     renewal: +000003
 
-    # validity of last crl issued before ca is end of life    
-    lastcrl: 20491231235900
+    # validity of last crl issued before ca is end of life
+    # if the nextUpdate for a CRL would exceeed the notafter of the
+    # CA the CRL is created with an nextUpdate date set to this value
+    # this should be an absolute date given as YYYYMMDD[hhmm[ss]]
+    # due to limitations of openssl the exact date will be determined
+    # with a granularity of hours so this will become 23:xx on Dec 31th
+    lastcrl: 20500101
 
 digest: sha256
 extensions:
