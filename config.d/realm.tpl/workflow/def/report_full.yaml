@@ -107,7 +107,7 @@ field:
         name: download
         format: download
         param:
-            mime: application/csv
+            mime: application/csv; charset=utf-8
             auto: 1
 
 acl:
