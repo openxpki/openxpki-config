@@ -1,21 +1,40 @@
 Anonymous:
+    label: Anonymous
     handler: Anonymous
+    type: anon
 
 User:
+    label: User Login
     handler: User NoAuth
+    type: passwd
 
 Operator:
+    label: Operator Login
     handler: Operator Password
+    type: passwd
 
 Testing:
+    label: Use Test Accounts
     handler: TestAccounts
+    type: passwd
 
 OTP:
-  handler: OneTimePassword
+    label: OneTimePassword
+    handler: OneTimePassword
+    type: passwd
+    param:
+        label: I18N_OPENXPKI_UI_OTP_LOGIN_LABEL
+        description: I18N_OPENXPKI_UI_OTP_LOGIN_DESC
+        button: I18N_OPENXPKI_UI_OTP_LOGIN_BUTTON
+        field:
+          - name: token
+            label: I18N_OPENXPKI_UI_LOGIN_TOKEN
+            type: password
 
 Certificate:
+    label: Client certificate
     handler: Certificate
+    type: x509
 
 _System:
     handler: System
-

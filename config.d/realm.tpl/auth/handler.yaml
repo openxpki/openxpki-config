@@ -1,8 +1,6 @@
 Certificate:
     type: ClientX509
-    label: Certificate
-    description: I18N_OPENXPKI_CONFIG_AUTH_HANDLER_DESCRIPTION_CERTIFICATE_WEBSERVER
-    role: User
+    role: System
     trust_anchor:
         realm: democa
 
@@ -11,26 +9,18 @@ Anonymous:
     label: Anonymous
 
 User NoAuth:
-    type: External
-    label: User
+    type: Command
     command: /bin/true
-    description: I18N_OPENXPKI_CONFIG_AUTH_HANDLER_DESCRIPTION_USER
     role: User
-    env:
-       LOGIN: __USER__
 
 User Password:
     type: Password
-    label: User Password
-    description: I18N_OPENXPKI_CONFIG_AUTH_HANDLER_DESCRIPTION_PASSWORD
-    # Users are taken from a yaml file using a connector
     user@: connector:auth.connector.userdb
 
 Operator Password:
     type: Password
-    label: Operator Password
-    description: I18N_OPENXPKI_CONFIG_AUTH_HANDLER_DESCRIPTION_PASSWORD
     # The passwords can be generated with "openxpkiadm hashpwd"
+    # or with "openssl passwd -5"
     # The password below is "openxpki" for all three users
     role: RA Operator
     user:
@@ -39,7 +29,6 @@ Operator Password:
 
 System:
     type: Anonymous
-    label: System
     role: System
 
 OneTimePassword:
@@ -50,21 +39,18 @@ OneTimePassword:
 # Sample using a Password "bind" connector
 Password Connector:
     type: Connector
-    label: User Password
-    description: I18N_OPENXPKI_CONFIG_AUTH_HANDLER_DESCRIPTION_PASSWORD
     role: User
     source@: connector:auth.connector.localuser
 
 # Accounts for testing, Password for all accounts is "openxpki"
 TestAccounts:
     type: Password
-    label: Test Accounts
     user:
         caop:
             digest: "{ssha}JQ2BAoHQZQgecmNjGF143k4U2st6bE5B"
             role: CA Operator
         raop:
-            digest: "{ssha}JQ2BAoHQZQgecmNjGF143k4U2st6bE5B"
+            digest: "$5$YXQUdF.xJGuTdPjf$peg58UGjJ52a8rCnv13IWyH/y4b0PNdM12i7bzXqbuD"
             role: RA Operator
         raop2:
             digest: "{ssha}JQ2BAoHQZQgecmNjGF143k4U2st6bE5B"
@@ -75,5 +61,3 @@ TestAccounts:
         user2:
             digest: "{ssha}JQ2BAoHQZQgecmNjGF143k4U2st6bE5B"
             role: User
-
-
