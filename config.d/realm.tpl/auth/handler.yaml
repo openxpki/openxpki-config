@@ -42,6 +42,9 @@ Password Connector:
     source@: connector:auth.connector.localuser
 
 # Accounts for testing, Password for all accounts is "openxpki"
+# the additional keys can hold arbitrary information but those 
+# named here are used to prefill the requestor information in the
+# sample profile items.
 TestAccounts:
     type: Password
     user:
@@ -49,14 +52,40 @@ TestAccounts:
             digest: "{ssha}JQ2BAoHQZQgecmNjGF143k4U2st6bE5B"
             role: CA Operator
         raop:
+            digest: "$1$NgiUHfZ4$G/Zic.SH6cuWaGpqtbVWI1"
+            role: RA Operator
+            name: Operator
+            gname: Odin
+            realname: Odin Operator
+            email: odin@example.com
+        rose:
             digest: "$5$YXQUdF.xJGuTdPjf$peg58UGjJ52a8rCnv13IWyH/y4b0PNdM12i7bzXqbuD"
-            role: RA Operator
-        raop2:
+            role: RA Operator            
+            name: Robinson
+            gname: Rose
+            realname: Rose Robinson
+            email: rose@example.com
+        rob:
             digest: "{ssha}JQ2BAoHQZQgecmNjGF143k4U2st6bE5B"
             role: RA Operator
-        user:
+            name: Roberts
+            gname: Rob
+            realname: Rob Roberts
+            email: rob@example.com
+        alice:
+            digest: "{ssha}JQ2BAoHQZQgecmNjGF143k4U2st6bE5B"
+            role: User            
+            name: Anderson
+            gname: Alice
+            realname: Alice Anderson
+            email: alice@example.com
+        bob:
             digest: "{ssha}JQ2BAoHQZQgecmNjGF143k4U2st6bE5B"
             role: User
-        user2:
-            digest: "{ssha}JQ2BAoHQZQgecmNjGF143k4U2st6bE5B"
-            role: User
+            name: Baker
+            gname: Bob
+            realname: Bob Baker
+            email: bob@example.com
+
+
+

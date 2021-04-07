@@ -297,7 +297,7 @@ state:
         description: I18N_OPENXPKI_UI_WORKFLOW_STATE_CSR_SETUP_REQUEST_TYPE_DESC
         action:
           - upload_pkcs10 > CHECK_FOR_DUPLICATE_KEY ? can_use_client_key
-          - provide_server_key_params > ENTER_SUBJECT ? can_use_server_key
+          - provide_server_key_params global_preset_profile_fields > ENTER_SUBJECT ? can_use_server_key
           - select_profile > SETUP_REQUEST_TYPE
           - global_cancel > CLEANUP_BEFORE_CANCEL
         output:

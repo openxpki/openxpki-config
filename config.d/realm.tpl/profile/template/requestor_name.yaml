@@ -4,3 +4,4 @@ description: I18N_OPENXPKI_UI_PROFILE_REQUESTOR_LASTNAME_DESC
 type: freetext
 width: 40
 placeholder: Doe
+preset: userinfo.name

@@ -5,3 +5,4 @@ type: freetext
 match: \A [A-Za-z0-9\.]+ \z
 width: 20
 placeholder: testuser
+preset: userinfo.username

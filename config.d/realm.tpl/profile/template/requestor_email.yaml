@@ -5,3 +5,4 @@ type: freetext
 width: 40
 match: .+@.+
 placeholder: john.doe@openxpki.org
+preset: userinfo.email

@@ -5,3 +5,4 @@ type: freetext
 match: .+
 width: 40
 placeholder: John Doe
+preset: userinfo.realname
