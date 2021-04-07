@@ -13,8 +13,9 @@ state:
     PUBLISH:
         autorun: 1
         action:
-          - publish_prefix > SUCCESS ? has_prefix
-          - publish_profile > SUCCESS ? !has_prefix
+          - publish_target > SUCCESS ? has_target
+          - publish_prefix > SUCCESS ? has_prefix !has_target
+          - publish_profile > SUCCESS ? !has_prefix !has_target
 
     SUCCESS:
         label: I18N_OPENXPKI_UI_WORKFLOW_STATE_SUCCESS_LABEL
@@ -35,8 +36,20 @@ action:
         input:
           - cert_identifier
           - prefix
+          - target
           - sync
           - publish_key
+
+    publish_target:
+        class: OpenXPKI::Server::Workflow::Activity::Tools::PublishCertificate
+        input:
+          - cert_identifier
+        param:
+            _map_target: $target
+            export_context: 1
+            retry_count: 3
+            retry_interval: +000000000015
+            on_error: queue
 
     publish_prefix:
         class: OpenXPKI::Server::Workflow::Activity::Tools::PublishCertificate
@@ -67,6 +80,11 @@ condition:
         param:
             test: $context->{prefix};
 
+    has_target:
+        class: Workflow::Condition::Evaluate
+        param:
+            test: $context->{target};
+    
     run_sync:
         class: Workflow::Condition::Evaluate
         param:
@@ -75,6 +93,11 @@ condition:
 field:
     sync:
         name: sync
+        type: server
+        required: 0
+
+    target:
+        name: target
         type: server
         required: 0
 
