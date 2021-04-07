@@ -9,8 +9,7 @@ Anonymous:
     label: Anonymous
 
 User NoAuth:
-    type: Command
-    command: /bin/true
+    type: NoAuth
     role: User
 
 User Password:

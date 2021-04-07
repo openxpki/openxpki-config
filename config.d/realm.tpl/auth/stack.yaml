@@ -14,7 +14,7 @@ Operator:
     type: passwd
 
 Testing:
-    label: Use Test Accounts
+    label: Test Accounts
     handler: TestAccounts
     type: passwd
 
