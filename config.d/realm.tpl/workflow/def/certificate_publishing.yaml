@@ -39,6 +39,8 @@ action:
           - target
           - sync
           - publish_key
+        validator:
+          - global_cert_identifier_exists
 
     publish_target:
         class: OpenXPKI::Server::Workflow::Activity::Tools::PublishCertificate
