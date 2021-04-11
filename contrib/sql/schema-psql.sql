@@ -88,7 +88,7 @@ CREATE TABLE certificate (
     hold_instruction_code text,
     revocation_id numeric(49,0),
     req_key numeric(49,0),
-    data text,
+    data text
 );
 
 --
