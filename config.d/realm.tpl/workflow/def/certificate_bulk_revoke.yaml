@@ -189,37 +189,27 @@ field:
         name: cert_identifier_list
         type: uploadarea
         placeholder: I18N_OPENXPKI_UI_WORKFLOW_FIELD_CERTIFICATE_IDENTIFIER_LIST_PLACEHOLDER
-        format: rawlist
-        template: >
+        format: linklist
+        preamble: Subject / Status / Identifier
+        yaml_template: >
           [% USE Certificate %]
-          [% IF value %]
-            Subject / Status / Identifier |
-            [% FOREACH identifier = value %]
-              [% IF Certificate.status(identifier) %]
-                <a target="modal" href="#certificate!detail!identifier![% identifier %]">
-                  [% Certificate.dn(identifier, 'CN') %] / [% Certificate.status(identifier) %] / [% identifier %]</a>|
-              [% ELSE %]
-                Unknown / Unknown / [% identifier %]|
-              [% END %]
-            [% END %]
+          [% FOREACH identifier = value %]
+            - page: certificate!detail!identifier![% identifier %]
+              label: [% IF Certificate.status(identifier) %][% Certificate.dn(identifier, 'CN') %] / [% Certificate.status(identifier) %] / [% identifier %]
+                [% ELSE %]Unknown / Unknown / [% identifier %][% END %]
           [% END %]
 
     cert_identifier_ignored:
         label: I18N_OPENXPKI_UI_WORKFLOW_FIELD_CERTIFICATE_IDENTIFIER_IGNORED_LABEL
         name: cert_identifier_ignored
-        format: rawlist
-        template: >
+        format: linklist
+        preamble: Subject / Status / Identifier
+        yaml_template: >
           [% USE Certificate %]
-          [% IF value %]
-            Subject / Status / Identifier |
-            [% FOREACH identifier = value %]
-              [% IF Certificate.status(identifier) %]
-                <a target="modal" href="#certificate!detail!identifier![% identifier %]">
-                  [% Certificate.dn(identifier, 'CN') %] / [% Certificate.status(identifier) %] / [% identifier %]</a>|
-              [% ELSE %]
-                Unknown / Unknown / [% identifier %]|
-              [% END %]
-            [% END %]
+          [% FOREACH identifier = value %]
+            - page: certificate!detail!identifier![% identifier %]
+              label: [% IF Certificate.status(identifier) %][% Certificate.dn(identifier, 'CN') %] / [% Certificate.status(identifier) %] / [% identifier %]
+                [% ELSE %]Unknown / Unknown / [% identifier %][% END %]
           [% END %]
 
 acl:
