@@ -1,6 +1,7 @@
 Certificate:
     type: ClientX509
-    role: System
+    role: User
+    arg: CN
     trust_anchor:
         realm: democa
 
@@ -42,7 +43,7 @@ Password Connector:
     source@: connector:auth.connector.localuser
 
 # Accounts for testing, Password for all accounts is "openxpki"
-# the additional keys can hold arbitrary information but those 
+# the additional keys can hold arbitrary information but those
 # named here are used to prefill the requestor information in the
 # sample profile items.
 TestAccounts:
@@ -60,7 +61,7 @@ TestAccounts:
             email: odin@example.com
         rose:
             digest: "$5$YXQUdF.xJGuTdPjf$peg58UGjJ52a8rCnv13IWyH/y4b0PNdM12i7bzXqbuD"
-            role: RA Operator            
+            role: RA Operator
             name: Robinson
             gname: Rose
             realname: Rose Robinson
@@ -74,7 +75,7 @@ TestAccounts:
             email: rob@example.com
         alice:
             digest: "{ssha}JQ2BAoHQZQgecmNjGF143k4U2st6bE5B"
-            role: User            
+            role: User
             name: Anderson
             gname: Alice
             realname: Alice Anderson

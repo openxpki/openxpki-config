@@ -35,6 +35,10 @@ Certificate:
     label: Client certificate
     handler: Certificate
     type: x509
+    sign:
+        # This is the public key matching the private one given in webui/default.conf
+        # Use "openssl pkey -pubout" to create the required string from the private key
+        # key: MFkwEwYHK.......pK7qV/FmDw==
 
 _System:
     handler: System
