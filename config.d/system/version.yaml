@@ -5,3 +5,8 @@
 config: 3.6
 api: 3.6
 commit: ~
+
+# this was introduced with v3.12 and will prevent the system to start
+# if the used application version is older
+depend:
+  core: 3.12
