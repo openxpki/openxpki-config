@@ -34,14 +34,18 @@ main:
     entries:
       - key:   workflow!index!wf_type!change_metadata
         label: I18N_OPENXPKI_UI_MENU_CHANGE_METADATA
+      - spacer: default
       - key:   workflow!index!wf_type!crl_issuance
         label: I18N_OPENXPKI_UI_MENU_CRL_ISSUE
-      - key:   secret!index
-        label: I18N_OPENXPKI_UI_MENU_MANAGE_SECRET
       - key:   workflow!start!wf_type!ca_publish
         label: I18N_OPENXPKI_UI_MENU_PUBLISH_CA_CRL
+      - spacer: default
       - key:   workflow!index!wf_type!set_motd
         label: I18N_OPENXPKI_UI_MENU_SET_MOTD
+      - spacer: default
+      - key:   secret!index
+        label: I18N_OPENXPKI_UI_MENU_MANAGE_SECRET
+
 
 
   - key:   info
@@ -51,10 +55,12 @@ main:
         label: I18N_OPENXPKI_UI_MENU_CA_CERTIFICATES
       - key:   crl!index
         label: I18N_OPENXPKI_UI_MENU_CRL
+      - label: I18N_OPENXPKI_UI_MENU_HEAD_SYSTEM_STATUS
       - key:   workflow!start!wf_type!status_process
         label: I18N_OPENXPKI_UI_MENU_PROCESS_INFORMATION
       - key:   workflow!start!wf_type!status_system
         label: I18N_OPENXPKI_UI_MENU_SYSTEM_STATUS
+      - label: I18N_OPENXPKI_UI_MENU_HEAD_REPORT
       - key:   workflow!index!wf_type!report_summary
         label: I18N_OPENXPKI_UI_MENU_REPORT_SUMMARY
       - key:   workflow!index!wf_type!report_full
