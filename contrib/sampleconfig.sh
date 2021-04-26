@@ -1,5 +1,7 @@
 #!/bin/bash
 
+## DO NOT USE THIS SCRIPT FOR PRODUCTION SYSTEMS
+
 set -e
 
 # Debug='true'
@@ -25,7 +27,17 @@ FQDN=`hostname -f`
 # For automated testing we want to have this set to root
 # unset this to get random passwords (put into the .pass files)
 KEY_PASSWORD="root"
-SSL_REALM="${BASE}/ca/${REALM}"
+
+if [ -z "$1" ]; then
+   TMP_CA_DIR=$(mktemp -d)
+   echo "Fully automated sample setup using tmpdir $TMP_CA_DIR"
+elif [ -d "$1" ]; then
+   TMP_CA_DIR=$1
+   echo "Try to read/build sample hierarchy from $TMP_CA_DIR "
+else
+   echo "Given parameter is not a directory"
+   exit 1;
+fi
 
 make_password() {
 
@@ -44,60 +56,57 @@ make_password() {
 #
 # CA and certificate settings
 #
-REQUEST_SUFFIX='csr'
-KEY_SUFFIX='key'
-CERTIFICATE_SUFFIX='crt'
-REVOCATION_SUFFIX='crl'
-PASS_SUFFIX='pass'
+
 BACKUP_SUFFIX='~'
+GENERATION=$(date +%Y%m%d)
 
 # root CA selfsigned (in production use company's root certificate)
 ROOT_CA='OpenXPKI_Root_CA'
-ROOT_CA_REQUEST="${SSL_REALM}/${ROOT_CA}.${REQUEST_SUFFIX}"
-ROOT_CA_KEY="${SSL_REALM}/${ROOT_CA}.${KEY_SUFFIX}"
-ROOT_CA_KEY_PASSWORD="${SSL_REALM}/${ROOT_CA}.${PASS_SUFFIX}"
-ROOT_CA_CERTIFICATE="${SSL_REALM}/${ROOT_CA}.${CERTIFICATE_SUFFIX}"
-ROOT_CA_SUBJECT='/CN=OpenXPKI Root CA 1'
+ROOT_CA_REQUEST="${TMP_CA_DIR}/${ROOT_CA}.csr"
+ROOT_CA_KEY="${TMP_CA_DIR}/${ROOT_CA}.key"
+ROOT_CA_KEY_PASSWORD="${TMP_CA_DIR}/${ROOT_CA}.pass"
+ROOT_CA_CERTIFICATE="${TMP_CA_DIR}/${ROOT_CA}.crt"
+ROOT_CA_SUBJECT='/CN=OpenXPKI Root CA ${GENERATION}'
 ROOT_CA_SERVER_FQDN='rootca.openxpki.net'
 
 # issuing CA signed by root CA above
 ISSUING_CA='OpenXPKI_Issuing_CA'
-ISSUING_CA_REQUEST="${SSL_REALM}/${ISSUING_CA}.${REQUEST_SUFFIX}"
-ISSUING_CA_KEY="${SSL_REALM}/${ISSUING_CA}.${KEY_SUFFIX}"
-ISSUING_CA_KEY_PASSWORD="${SSL_REALM}/${ISSUING_CA}.${PASS_SUFFIX}"
-ISSUING_CA_CERTIFICATE="${SSL_REALM}/${ISSUING_CA}.${CERTIFICATE_SUFFIX}"
-ISSUING_CA_SUBJECT='/C=DE/O=OpenXPKI/OU=PKI/CN=OpenXPKI Demo Issuing CA 1'
+ISSUING_CA_REQUEST="${TMP_CA_DIR}/${ISSUING_CA}.csr"
+ISSUING_CA_KEY="${TMP_CA_DIR}/${ISSUING_CA}.key"
+ISSUING_CA_KEY_PASSWORD="${TMP_CA_DIR}/${ISSUING_CA}.pass"
+ISSUING_CA_CERTIFICATE="${TMP_CA_DIR}/${ISSUING_CA}.crt"
+ISSUING_CA_SUBJECT='/C=DE/O=OpenXPKI/OU=PKI/CN=OpenXPKI Demo Issuing CA ${GENERATION}'
 
 # SCEP registration authority certificate signed by root CA above
 SCEP='OpenXPKI_SCEP_RA'
-SCEP_REQUEST="${SSL_REALM}/${SCEP}.${REQUEST_SUFFIX}"
-SCEP_KEY="${SSL_REALM}/${SCEP}.${KEY_SUFFIX}"
-SCEP_KEY_PASSWORD="${SSL_REALM}/${SCEP}.${PASS_SUFFIX}"
-SCEP_CERTIFICATE="${SSL_REALM}/${SCEP}.${CERTIFICATE_SUFFIX}"
+SCEP_REQUEST="${TMP_CA_DIR}/${SCEP}.csr"
+SCEP_KEY="${TMP_CA_DIR}/${SCEP}.key"
+SCEP_KEY_PASSWORD="${TMP_CA_DIR}/${SCEP}.pass"
+SCEP_CERTIFICATE="${TMP_CA_DIR}/${SCEP}.crt"
 SCEP_SUBJECT="/CN=${FQDN}:scep-ra"
 
 # Apache WEB certificate signed by root CA above
 WEB='OpenXPKI_WebUI'
-WEB_REQUEST="${SSL_REALM}/${WEB}.${REQUEST_SUFFIX}"
-WEB_KEY="${SSL_REALM}/${WEB}.${KEY_SUFFIX}"
-WEB_KEY_PASSWORD="${SSL_REALM}/${WEB}.${PASS_SUFFIX}"
-WEB_CERTIFICATE="${SSL_REALM}/${WEB}.${CERTIFICATE_SUFFIX}"
+WEB_REQUEST="${TMP_CA_DIR}/${WEB}.csr"
+WEB_KEY="${TMP_CA_DIR}/${WEB}.key"
+WEB_KEY_PASSWORD="${TMP_CA_DIR}/${WEB}.pass"
+WEB_CERTIFICATE="${TMP_CA_DIR}/${WEB}.crt"
 WEB_SUBJECT="/CN=${FQDN}"
 WEB_SERVER_FQDN="${FQDN}"
 
 # data vault certificate selfsigned
 DATAVAULT='OpenXPKI_DataVault'
-DATAVAULT_REQUEST="${SSL_REALM}/${DATAVAULT}.${REQUEST_SUFFIX}"
-DATAVAULT_KEY="${SSL_REALM}/${DATAVAULT}.${KEY_SUFFIX}"
-DATAVAULT_KEY_PASSWORD="${SSL_REALM}/${DATAVAULT}.${PASS_SUFFIX}"
-DATAVAULT_CERTIFICATE="${SSL_REALM}/${DATAVAULT}.${CERTIFICATE_SUFFIX}"
-DATAVAULT_SUBJECT='/CN=Internal DataVault'
+DATAVAULT_REQUEST="${TMP_CA_DIR}/${DATAVAULT}.csr"
+DATAVAULT_KEY="${TMP_CA_DIR}/${DATAVAULT}.key"
+DATAVAULT_KEY_PASSWORD="${TMP_CA_DIR}/${DATAVAULT}.pass"
+DATAVAULT_CERTIFICATE="${TMP_CA_DIR}/${DATAVAULT}.crt"
+DATAVAULT_SUBJECT='/CN=DataVault'
 
 #
 # openssl.conf
 #
-BITS=4096
-DAYS=371 # 2 years (default value not used for further enhancements)
+BITS=3072
+DAYS=730 # 2 years (default value not used for further enhancements)
 RDAYS="3655" # 10 years for root
 IDAYS="1828" # 5 years for issuing
 SDAYS="365" # 1 years for scep
@@ -106,8 +115,8 @@ DDAYS="$RDAYS" # 10 years datavault (same a root)
 
 # creation neccessary directories and files
 echo -n "creating configuration for openssl ($OPENSSL_CONF) .. "
-test -d "${SSL_REALM}" || mkdir -m 755 -p "${SSL_REALM}" && chown ${user}:root "${SSL_REALM}"
-OPENSSL_DIR="${SSL_REALM}/.openssl"
+test -d "${TMP_CA_DIR}" || mkdir -m 755 -p "${TMP_CA_DIR}" && chown ${user}:root "${TMP_CA_DIR}"
+OPENSSL_DIR="${TMP_CA_DIR}/.openssl"
 test -d "${OPENSSL_DIR}" || mkdir -m 700 "${OPENSSL_DIR}" && chown root:root "${OPENSSL_DIR}"
 cd "${OPENSSL_DIR}";
 
@@ -333,11 +342,11 @@ cd $OLDPWD;
 # rmdir $TMP;
 
 # chown/chmod
-chmod 400 ${SSL_REALM}/*.${PASS_SUFFIX}
-chmod 440 ${SSL_REALM}/*.${KEY_SUFFIX}
-chmod 444 ${SSL_REALM}/*.${CERTIFICATE_SUFFIX}
-chown root:root ${SSL_REALM}/*.${REQUEST_SUFFIX} ${SSL_REALM}/*.${KEY_SUFFIX} ${SSL_REALM}/*.${PASS_SUFFIX}
-chown root:${group} ${SSL_REALM}/*.${CERTIFICATE_SUFFIX} ${SSL_REALM}/*.${KEY_SUFFIX}
+chmod 400 ${TMP_CA_DIR}/*.pass
+chmod 440 ${TMP_CA_DIR}/*.key
+chmod 444 ${TMP_CA_DIR}/*.crt
+chown root:root ${TMP_CA_DIR}/*.csr ${TMP_CA_DIR}/*.key ${TMP_CA_DIR}/*.pass
+chown root:${group} ${TMP_CA_DIR}/*.crt ${TMP_CA_DIR}/*.key
 
 echo -n "Starting server before running import ... "
 openxpkictl start
