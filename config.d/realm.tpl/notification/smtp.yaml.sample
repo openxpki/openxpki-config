@@ -53,7 +53,7 @@ message:
             template: csr_created_raop  # Suffix .txt is always added!
             to: reg-office@mycompany.local
             cc: ''
-            reply: "[% IF data; IF data.notify_cc; data.notify_cc; ELSE data.notify_to; END; END; %]"
+            reply: "[% IF data; IF data.notify_cc; data.notify_cc; ELSE; data.notify_to; END; END; %]"
             subject: CSR for [% cert_subject %]
 
     csr_rejected:
