@@ -1,3 +1,15 @@
+# Those stacks are usually required so you should not remove them
+Anonymous:
+    type: Anonymous
+    label: Anonymous
+
+System:
+    type: Anonymous
+    role: System
+
+# Using the default config this allows a user login with ANY certificate
+# issued by the democa which has the client auth keyUsage bit set
+# the commonName is used as username!
 Certificate:
     type: ClientX509
     role: User
@@ -5,42 +17,10 @@ Certificate:
     trust_anchor:
         realm: democa
 
-Anonymous:
-    type: Anonymous
-    label: Anonymous
-
-User NoAuth:
-    type: NoAuth
-    role: User
-
-User Password:
+# Read the userdata from a YAML file defined in auth/connector.yaml
+LocalPassword:
     type: Password
     user@: connector:auth.connector.userdb
-
-Operator Password:
-    type: Password
-    # The passwords can be generated with "openxpkiadm hashpwd"
-    # or with "openssl passwd -5"
-    # The password below is "openxpki" for all three users
-    role: RA Operator
-    user:
-        raop: "{ssha}JQ2BAoHQZQgecmNjGF143k4U2st6bE5B"
-        raop2: "{ssha}JQ2BAoHQZQgecmNjGF143k4U2st6bE5B"
-
-System:
-    type: Anonymous
-    role: System
-
-OneTimePassword:
-  type: OneTimePassword
-  salt: openxpki
-  role: User
-
-# Sample using a Password "bind" connector
-Password Connector:
-    type: Connector
-    role: User
-    source@: connector:auth.connector.localuser
 
 # Accounts for testing, Password for all accounts is "openxpki"
 # the additional keys can hold arbitrary information but those

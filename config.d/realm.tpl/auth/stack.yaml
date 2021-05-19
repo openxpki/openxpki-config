@@ -1,36 +1,28 @@
+# Please remove the Testing entry for all non-demo usages!
+# Please also review and adjust handler.yaml as there are
+# HARDCODED PASSWORDS for testing and other wildcard which are not
+# suitable for production use!
+
+# Allows Anonymous Login (also from the WebUI!)
 Anonymous:
     label: Anonymous
     handler: Anonymous
     type: anon
 
-User:
+# Regular login for users via an external password database defined
+# in handler.yaml as "LocalPassword"
+LocalPassword:
     label: User Login
-    handler: User NoAuth
+    handler: LocalPassword
     type: passwd
 
-Operator:
-    label: Operator Login
-    handler: Operator Password
-    type: passwd
-
+# Test Accounts with hardcoded passwords and userinfo in handler.yaml
 Testing:
     label: Test Accounts
     handler: TestAccounts
     type: passwd
 
-OTP:
-    label: OneTimePassword
-    handler: OneTimePassword
-    type: passwd
-    param:
-        label: I18N_OPENXPKI_UI_OTP_LOGIN_LABEL
-        description: I18N_OPENXPKI_UI_OTP_LOGIN_DESC
-        button: I18N_OPENXPKI_UI_OTP_LOGIN_BUTTON
-        field:
-          - name: token
-            label: I18N_OPENXPKI_UI_LOGIN_TOKEN
-            type: password
-
+# Login with a client certificate, needs to be setup on the webserver
 Certificate:
     label: Client certificate
     handler: Certificate
@@ -40,5 +32,6 @@ Certificate:
         # Use "openssl pkey -pubout" to create the required string from the private key
         # key: MFkwEwYHK.......pK7qV/FmDw==
 
+# The default handler for automated interfaces, hidden from the UI
 _System:
     handler: System
