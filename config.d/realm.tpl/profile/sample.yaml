@@ -34,6 +34,12 @@ publish:
 unpublish:
   - ocsp
 
+# the group attribute can be used to filter the list of profiles
+# returned by the get_cert_profiles API call.
+# Groups are not used by the default workflows
+group:
+  - foobar
+
 style:
     00_basic_style:
         label: I18N_OPENXPKI_UI_PROFILE_BASIC_STYLE_LABEL
