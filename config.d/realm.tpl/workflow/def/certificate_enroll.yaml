@@ -30,7 +30,7 @@ state:
     READY_TO_PROCESS:
         autorun: 1
         action:
-          - set_mode_initial > START_INITIAL ? !global_is_signed_request global_is_subject_valid
+          - set_mode_initial set_initial_validity > START_INITIAL ? !global_is_signed_request global_is_subject_valid
           - global_check_authorized_signer > SIGNED_REQUEST ? global_is_signed_request global_is_subject_valid
           - global_set_error_invalid_subject > FAILURE ? !global_is_subject_valid
 
@@ -41,9 +41,9 @@ state:
     SIGNED_REQUEST:
         autorun: 1
         action:
-          - set_mode_initial > START_INITIAL ? is_self_signed
-          - set_mode_onbehalf > START_ONBEHALF ? !signer_key_matches_subject_key !signer_subject_matches_csr_subject
-          - set_mode_renewal > START_RENEWAL ? signer_subject_matches_csr_subject !signer_key_matches_subject_key
+          - set_mode_initial set_initial_validity > START_INITIAL ? !is_renewal_request !is_onbehalf_request
+          - set_mode_onbehalf > START_ONBEHALF ? is_onbehalf_request
+          - set_mode_renewal > START_RENEWAL ? is_renewal_request
 
     # Authorizations for Inital Enrollment
     START_INITIAL:
@@ -491,6 +491,12 @@ action:
           _map_config_path: "[% context.interface %].[% context.server %].profile_map.[% context.url_profile %]"
           target_key: cert_profile
 
+    set_initial_validity:
+        class: OpenXPKI::Server::Workflow::Activity::Tools::Connector::GetValue
+        param:
+          _map_config_path: "[% context.interface %].[% context.server %].initial_validity"
+          target_key: notafter
+
     set_renewal_period:
         class: OpenXPKI::Server::Workflow::Activity::Tools::Connector::GetValue
         param:
@@ -657,11 +663,22 @@ condition:
             # the defined prevents any accidental "autoapprovals" by missing parameters
             test: (defined $context->{p_approval_points} && $context->{approval_points} >= $context->{p_approval_points})
 
-    is_self_signed:
+    # Mode Detection is a bit tricky with special SCEP enrollers
+    # We explicitly define what is a renewal or onbehalf request
+    # you must make sure that it is impossible that both match!
+    # of none matches the workflow starts in initial mode
+    is_renewal_request:
         class: Workflow::Condition::LazyAND
         param:
-            condition2: enroll_signer_subject_matches_csr_subject
-            condition3: enroll_signer_key_matches_subject_key
+            condition1: enroll_signer_subject_matches_csr_subject
+            condition2: "!enroll_signer_key_matches_subject_key"
+
+    is_onbehalf_request:
+        class: Workflow::Condition::LazyAND
+        param:
+            condition1: global_has_authorized_signer_rules
+            condition2: "!enroll_signer_subject_matches_csr_subject"
+            condition3: "!enroll_signer_key_matches_subject_key"
 
     signer_key_matches_subject_key:
         class: Workflow::Condition::Evaluate
@@ -811,6 +828,6 @@ acl:
         fail: 1
         resume: 1
         wakeup: 1
-        
+
     User:
         creator: self

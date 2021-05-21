@@ -5,12 +5,18 @@ label: Enrollment
 # expire within this period of time.
 renewal_period: 000060
 
+# Create certificates for initial requests with a short validity to
+# allow an immediate renewal
+initial_validity: +000030
+
 # If the request was a replacement, optionally revoke the replaced
 # certificate after a grace period
 revoke_on_replace:
     reason_code: keyCompromise
     delay_revocation_time: +000014
 
+# if you remove this section, any non-renewal request will be treated
+# as an initial request, this works around non-standard MDM and devices
 authorized_signer:
     rule1:
         # Full DN
@@ -48,7 +54,7 @@ policy:
     # to exist at the same time, deducted by one if a renewal is seen
     # set to 0 if you dont want to check for duplicates at all
     max_active_certs: 1
- 
+
     # If an initial enrollment is seen
     # all existing certificates with the same subject are revoked
     auto_revoke_existing_certs: 1
