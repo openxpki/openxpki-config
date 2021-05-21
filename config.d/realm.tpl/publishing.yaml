@@ -41,17 +41,17 @@ connectors:
     cdp:
         class: Connector::Builtin::File::Path
         LOCATION: /var/www/download/
-        file: "[% ARGS.0.replace(' ','_') %].crl"
+        file: "[% ARGS.0.replace('[^\\w-]','_') %].crl"
         content: "[% der %]"
 
     cacert-pem:
         class: Connector::Builtin::File::Path
         LOCATION: /var/www/download/
-        file: "[% ARGS.0.replace(' ','_') %].crt"
+        file: "[% ARGS.0.replace('[^\\w-]','_') %].crt"
         content: "[% pem %]"
 
     cacert-der:
         class: Connector::Builtin::File::Path
         LOCATION: /var/www/download/
-        file: "[% ARGS.0.replace(' ','_') %].cer"
+        file: "[% ARGS.0.replace('[^\\w-]','_') %].cer"
         content: "[% der %]"
