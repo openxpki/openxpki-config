@@ -10,7 +10,7 @@ state:
 
     PERSIST:
         autorun: 1
-        action: add_message add_level add_link set_motd > SUCCESS
+        action: set_motd > SUCCESS
 
     SUCCESS:
         label: I18N_OPENXPKI_UI_WORKFLOW_SET_MOTD_SUCCESS_LABEL
@@ -24,9 +24,14 @@ state:
 
 action:
     initialize:
-        class: OpenXPKI::Server::Workflow::Activity::Noop
+        class: OpenXPKI::Server::Workflow::Activity::Tools::SetContextHash
         label: I18N_OPENXPKI_UI_WORKFLOW_ACTION_MOTD_INITIALIZE_LABEL
         description: I18N_OPENXPKI_UI_WORKFLOW_ACTION_MOTD_INITIALIZE_DESCRIPTION
+        param:
+            target_key: motd
+            _map_message: $message
+            _map_level: $level
+            _map_href: $link
         input:
           - message
           - level
@@ -36,27 +41,6 @@ action:
         validator:
          - full_uri
          - is_expiry_date_in_future
-
-    add_message:
-        class:  OpenXPKI::Server::Workflow::Activity::Tools::WFHash
-        param:
-            hash_name: motd
-            hash_key: message
-            _map_hash_value: $message
-
-    add_level:
-        class:  OpenXPKI::Server::Workflow::Activity::Tools::WFHash
-        param:
-            hash_name: motd
-            hash_key: level
-            _map_hash_value: $level
-
-    add_link:
-        class:  OpenXPKI::Server::Workflow::Activity::Tools::WFHash
-        param:
-            hash_name: motd
-            hash_key: href
-            _map_hash_value: $link
 
     set_motd:
         class: OpenXPKI::Server::Workflow::Activity::Tools::Datapool::SetEntry
@@ -68,7 +52,6 @@ action:
             encrypt: 0
             serialize: 1
             _map_expiration_date: $notafter
-
 
 field:
     level:
@@ -117,7 +100,7 @@ validator:
         arg:
          - $link
         param:
-            regex: "\\A http(s)?://[a-zA-Z0-9-\\.]+"
+            regex: href
             error: I18N_OPENXPKI_UI_WORKFLOW_MOTD_VALIDATOR_LINK_FAILED
 
     is_expiry_date_in_future:
