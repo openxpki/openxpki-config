@@ -35,7 +35,7 @@ connectors:
     local:
         class: Connector::Builtin::File::Path
         LOCATION: /tmp/
-        file: "[% ARGS.0 %].crt"
+        file: "[% ARGS.0.replace('[^\\w-]','_') %].crt"
         content: "[% pem %]"
 
     cdp:
