@@ -229,7 +229,7 @@ wfsearch:
           - label: I18N_OPENXPKI_UI_CERTIFICATE_SUBJECT
             template: "[% IF context.cert_subject %][% context.cert_subject %][% ELSIF context.cert_identifier %][% USE Certificate %][% Certificate.body(context.cert_identifier, 'subject') %][% ELSE %]-[% END %]"
           - label: I18N_OPENXPKI_UI_WORKFLOW_CREATOR_LABEL
-            field: attribute.creator
+            field: creator
         preset:
             last_update_after: "-000060"
         attributes:
@@ -350,7 +350,7 @@ wfdetails:
       field: type
 
     - label: I18N_OPENXPKI_UI_WORKFLOW_CREATOR_LABEL
-      field: context.creator
+      field: creator
 
     - label: I18N_OPENXPKI_UI_WORKFLOW_STATE_LABEL
       template: "[% IF state == 'SUCCESS' %]<b>Success</b>[% ELSE %][% state %][% END %]"
