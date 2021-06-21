@@ -3,3 +3,4 @@ param:
     _map_rules: "[% context.interface %].[% context.server %].authorized_signer"
     export_key_identifier: 1
     export_subject: 1
+    _map_allow_external_signer: $p_allow_external_signer
