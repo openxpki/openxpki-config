@@ -40,13 +40,13 @@ state:
 
     APPROVED:
         autorun: 1
-        action: queue_certs_to_revoke > HANDLE_REVOCATION_QUEUE
+        action: global_create_tmp_queue > HANDLE_REVOCATION_QUEUE
 
     HANDLE_REVOCATION_QUEUE:
         autorun: 1
         action:
-         - fetch_cert_from_queue > CHECK_CERT_STATUS ? !is_queue_empty
-         - global_noop > SUCCESS ? is_queue_empty
+         - global_get_next_cert_identifier > CHECK_CERT_STATUS ? !global_is_tmp_queue_empty
+         - global_noop > SUCCESS ? global_is_tmp_queue_empty
 
     CHECK_CERT_STATUS:
         autorun: 1
@@ -124,20 +124,6 @@ action:
             flag_auto_approval : 1
             flag_batch_mode: 1
 
-    fetch_cert_from_queue:
-        class: OpenXPKI::Server::Workflow::Activity::Tools::WFArray
-        param:
-            array_name: tmp_queue
-            context_key: cert_identifier
-            function: shift
-
-    queue_certs_to_revoke:
-        class: OpenXPKI::Server::Workflow::Activity::Tools::WFArray
-        param:
-            array_name: tmp_queue
-            context_key: cert_identifier_list
-            function: pusharray
-
     push_to_failed_queue:
         class: OpenXPKI::Server::Workflow::Activity::Tools::WFArray
         param:
@@ -165,12 +151,6 @@ condition:
         param:
             condition1: global_is_operator
 #           condition2: "!global_is_creator"
-
-    is_queue_empty:
-        class: OpenXPKI::Server::Workflow::Condition::WFArray
-        param:
-          array_name: tmp_queue
-          condition: is_empty
 
     is_certificate_issued:
         class: OpenXPKI::Server::Workflow::Condition::CertificateHasStatus
