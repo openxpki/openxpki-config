@@ -562,12 +562,13 @@ CREATE INDEX crl_realm_index ON crl USING btree (pki_realm);
 CREATE INDEX crl_issuer_update_index ON crl USING btree (issuer_identifier, last_update);
 CREATE INDEX crl_issuer_number_index ON crl USING btree (issuer_identifier, crl_number);
 CREATE INDEX crl_revocation_id ON crl USING btree (max_revocation_id);
- 
+
 CREATE INDEX csr_subject_index ON csr USING btree (subject);
 CREATE INDEX csr_realm_index ON csr USING btree (pki_realm);
 CREATE INDEX csr_realm_profile_index ON csr USING btree (pki_realm, profile);
 
 CREATE INDEX csr_attributes_req_key_index ON csr_attributes USING btree (req_key);
+CREATE INDEX csr_attributes_pki_realm_req_key_index ON csr_attributes USING btree (pki_realm, req_key);
 
 CREATE INDEX datapool_namespace_index ON datapool USING btree (pki_realm, namespace);
 CREATE INDEX datapool_notafter_index ON datapool USING btree (notafter);

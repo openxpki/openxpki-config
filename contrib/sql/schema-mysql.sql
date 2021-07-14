@@ -254,7 +254,8 @@ ALTER TABLE `certificate`
  ADD KEY `issuer_identifier` (`issuer_identifier`),
  ADD KEY `subject` (`subject`(255)),
  ADD KEY `status` (`status`),
- ADD KEY `pki_realm_2` (`pki_realm`,`req_key`),
+ ADD KEY `pki_realm_req_key` (`pki_realm`,`req_key`),
+ ADD KEY `req_key` (`req_key`),
  ADD KEY `notbefore` (`notbefore`),
  ADD KEY `notafter` (`notafter`),
  ADD KEY `revocation_time` (`revocation_time`),
@@ -288,7 +289,8 @@ ALTER TABLE `csr`
 
 ALTER TABLE `csr_attributes`
  ADD PRIMARY KEY (`attribute_key`,`pki_realm`,`req_key`),
- ADD KEY `req_key` (`req_key`);
+ ADD KEY `req_key` (`req_key`),
+ ADD KEY `pki_realm_req_key` (`pki_realm`,`req_key`);
 
 ALTER TABLE `datapool`
  ADD PRIMARY KEY (`pki_realm`,`namespace`,`datapool_key`),
