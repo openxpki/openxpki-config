@@ -1,5 +1,7 @@
 POFILES=$(wildcard contrib/i18n/*/openxpki.po)
 
+-include Makefile.local
+
 .PHONY := i18n
 
 version:
@@ -17,4 +19,4 @@ contrib/i18n/update: $(POFILES)
 $(POFILES):
 	@cp $(subst contrib,../openxpki/core,$@) $@
 
-
+# vim: tabstop=4 noexpandtab
