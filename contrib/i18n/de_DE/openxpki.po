@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: OpenXPKI 3.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-09-08 14:02+0200\n"
-"PO-Revision-Date: 2021-05-19 10:34+0200\n"
+"PO-Revision-Date: 2021-06-22 15:13+0200\n"
 "Last-Translator: OpenXPKI Team <i18n@openxpki.org>\n"
 "Language-Team: OpenXPKI developers list <openxpki-devel@lists.sourceforge."
 "net>\n"
@@ -18,7 +18,7 @@ msgid "I18N_OPENXPKI_UI_ACTION_NOT_FOUND"
 msgstr "Die ausgewählte Aktion ist nicht verfügbar"
 
 msgid "I18N_OPENXPKI_UI_APPLICATION_ERROR"
-msgstr "Unerwartetet Fehler in der Anwendung"
+msgstr "Unerwarteter Fehler in der Anwendung"
 
 msgid "I18N_OPENXPKI_UI_AUTHENTICATION_FAILED"
 msgstr "Autentifizierung fehlgeschlagen"
@@ -366,6 +366,24 @@ msgstr "Challenge Password"
 
 msgid "I18N_OPENXPKI_UI_CSR_KEY_GENERATION_FAILED"
 msgstr "Schlüsselerzeugung fehlgeschlagen"
+
+#, fuzzy
+msgid "I18N_OPENXPKI_UI_CUST_WORKFLOW_FIELD_REVOCATION_REASON_OPTION"
+msgstr "die Sperrung wird nach dem angegebenen Zeitpunkt ausgeführt"
+
+#, fuzzy
+msgid "I18N_OPENXPKI_UI_CUST_WORKFLOW_FIELD_REVOCATION_REASON_OPTION_CERT"
+msgstr ""
+"Eine verzögerte Sperrung erlaubt es ein Zertifikat zu einem Zeitpunkt in der "
+"Zukunft automatisch zu sperren."
+
+#, fuzzy
+msgid "I18N_OPENXPKI_UI_CUST_WORKFLOW_FIELD_REVOCATION_REASON_OPTION_DISCONTINUED"
+msgstr "ohne Angabe / andere Gründe"
+
+#, fuzzy
+msgid "I18N_OPENXPKI_UI_CUST_WORKFLOW_FIELD_REVOCATION_REASON_OPTION_KEY"
+msgstr "die Sperrung wird nach dem angegebenen Zeitpunkt ausgeführt"
 
 msgid "I18N_OPENXPKI_UI_DELAYED_REVOCATION_REQUESTED"
 msgstr "verzögerte Sperrung beantragt"
@@ -1559,6 +1577,9 @@ msgstr "Überprüfung des Eingabeparameters ist fehlgeschlagen"
 msgid "I18N_OPENXPKI_UI_VALIDATOR_REGEX_FQDN_FAILED"
 msgstr "Der übergebene FQDN hat ein ungültiges Format"
 
+msgid "I18N_OPENXPKI_UI_VALIDATOR_REGEX_HREF_FAILED"
+msgstr "Bitte geben Sie eine vollständige URL inkl. http(s):// ein"
+
 msgid "I18N_OPENXPKI_UI_VALIDATOR_VALIDITY_STRING_FAILED"
 msgstr "Das übergebene Datum wurde nicht erkannt"
 
@@ -1962,7 +1983,7 @@ msgstr ""
 "Vergangenheit liegt."
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_ACTION_MOTD_INITIALIZE_LABEL"
-msgstr "Set Information"
+msgstr "Nachrichtendetails angeben"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_ACTION_NICE_CHECK_FOR_REVOCATION_DESC"
 msgstr ""
@@ -2173,8 +2194,17 @@ msgstr "Sie sind nicht berechtigt diesen Workflow zu starten."
 msgid "I18N_OPENXPKI_UI_WORKFLOW_CREATE_UNKNOWN_TYPE"
 msgstr "Der Workflow konnte nicht gestartet werden: Typ unbekannt"
 
+msgid "I18N_OPENXPKI_UI_WORKFLOW_CREATOR_ANONYMOUS"
+msgstr "anonymer Benutzer"
+
 msgid "I18N_OPENXPKI_UI_WORKFLOW_CREATOR_LABEL"
 msgstr "Ersteller"
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_CREATOR_NO_NAMESPACE"
+msgstr "Ersteller ist keiner Domäne zugewiesen"
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_CREATOR_UNABLE_TO_RESOLVE"
+msgstr "Erstellerkennung kann nicht aufgelöst werden"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_ERROR_DELAY_REVOCATION_TIME_NOT_IN_FUTURE"
 msgstr "Der gewünschte Sperrzeitpunkt liegt in der Vergangenheit."
@@ -2753,6 +2783,23 @@ msgstr ""
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_PKCS10_TOOLTIP"
 msgstr "Ihr PKCS#10 Zertifikatsantrag"
 
+msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_PKCS7_DESC"
+msgstr ""
+" Paste your PKCS7 formated request/response directly into the field or use "
+"the upload button to load a file from your local computer"
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_PKCS7_LABEL"
+msgstr "PKCS7 Eingabe"
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_PKCS7_PLACEHOLDER"
+msgstr ""
+"Fügen Sie hier den PEM kodierten PKCS7 Block ein ( -----BEGIN PKCS7-----) "
+"oder verwenden Sie 'Durchsuchen' um eine Datei von ihrem Arbeitsplatzrechner "
+"auszuwählen."
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_PKCS7_TOOLTIP"
+msgstr "Your PKCS7 encoded request/response"
+
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_POLICY_CERTIFICATE_KEY_DUPLICATE"
 msgstr "Policy Verletzung: Zertifikate mit diesem Schlüssel"
 
@@ -2807,6 +2854,9 @@ msgstr "Bitte geben Sie den Sperrgrund an"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_REASON_CODE_TOOLTIP"
 msgstr "Bitte geben Sie den Sperrgrund an"
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_REASON_DESC"
+msgstr "Der Sperrgrund gibt an wieseo dieses Zertikat gesperrt wurde."
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_REJECT_COMMENT_DESC"
 msgstr ""
@@ -2866,6 +2916,21 @@ msgstr "Passwort"
 #, fuzzy
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_RESETPASS_RESET_PASSWORD_PLACEHOLDER"
 msgstr "Bitte wiederholen Sie das Passwort"
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_REVOCATION_TIME_DESC"
+msgstr ""
+"Eine verzögerte Sperrung erlaubt es ein Zertifikat zu einem Zeitpunkt in der "
+"Zukunft automatisch zu sperren."
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_REVOCATION_TIME_LABEL"
+msgstr "Verzögerte Sperrung"
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_REVOCATION_TIME_PLACEHOLDER"
+msgstr ""
+"normalerweise nicht erforderlich, wählen Sie ggf. rechts einen Zeitpunkt"
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_REVOCATION_TIME_TOOLTIP"
+msgstr "Die Sperrung wird nach dem angegebenen Zeitpunkt ausgeführt"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_RUN_IN_BACKGROUND_DESC"
 msgstr ""
@@ -2985,25 +3050,24 @@ msgstr ""
 "'Abbrechen' werden keine Änderungen vorgenommen."
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FORCE_FAILURE_BUTTON"
-msgstr "Abbruch erzwingen"
+msgstr "Verwerfen"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FORCE_FAILURE_DIALOG_CANCEL_BUTTON"
-msgstr "Abbrechen"
+msgstr "Zurückkehren"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FORCE_FAILURE_DIALOG_CONFIRM_BUTTON"
-msgstr "Workflow beenden"
+msgstr "Workflow verwerfen"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FORCE_FAILURE_DIALOG_LABEL"
-msgstr "Workflow beenden"
+msgstr "Workflow verwerfen"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FORCE_FAILURE_DIALOG_TEXT"
 msgstr ""
-"Drücken Sie <i>Workflow beenden</i> um diesen Workflow als fehlgeschlagen zu "
-"markieren. Es werden keine weiteren Aktionen ausgeführt und der Workflow "
-"wird abgeschlossen. <b>Diese Aktion kann nicht rückgängig gemacht werden!</"
-"b> <br><br>Wenn Sie den Workflow weiter bearbeiten möchten, drücken Sie auf "
-"<i>Abbrechen</i> um dieses Fenster zu schliessen ohne den Workflow zu "
-"verändern. "
+"Drücken Sie <i>Workflow verwerfen</i> um diesen Workflow als fehlgeschlagen "
+"zu markieren. Es werden keine weiteren Aktionen ausgeführt und der Workflow "
+"wird sofort beendet. <b>Diese Aktion kann nicht rückgängig gemacht werden!</"
+"b> <br><br>Um den Workflow regulär weiter zu bearbeiten, drücken Sie auf "
+"<i>Zurückkehren</i>."
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FORCE_RESET_BUTTON"
 msgstr "Zurücksetzen"
@@ -3091,8 +3155,13 @@ msgstr "Benutzer"
 msgid "I18N_OPENXPKI_UI_WORKFLOW_ID_LABEL"
 msgstr "Workflow Id"
 
-msgid "I18N_OPENXPKI_UI_WORKFLOW_INFO"
-msgstr "Technische Informationen"
+msgid "I18N_OPENXPKI_UI_WORKFLOW_INFO_ARCHIVED_DESC"
+msgstr ""
+"Dieser Workflow wurde archiviert. Mit 'Workflow öffnen' gelangen Sie zur "
+"Detailanischt des aktuellen Status."
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_INFO_ARCHIVED_LABEL"
+msgstr "Archiviert"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_INFO_EXCEPTION_DESC"
 msgstr ""
@@ -3104,13 +3173,21 @@ msgstr ""
 msgid "I18N_OPENXPKI_UI_WORKFLOW_INFO_EXCEPTION_LABEL"
 msgstr "Unerwarteter Fehler"
 
+msgid "I18N_OPENXPKI_UI_WORKFLOW_INFO_FAILED_DESC"
+msgstr ""
+"Dieser Workflow wurde manuell verworfen. Mit 'Workflow öffnen' gelangen Sie "
+"zur Detailansicht des aktuellen Status."
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_INFO_FAILED_LABEL"
+msgstr "Beendet"
+
 msgid "I18N_OPENXPKI_UI_WORKFLOW_INFO_FINISHED_DESC"
 msgstr ""
 "Dieser Workflow wurde beendet. Mit 'Workflow öffnen' gelangen Sie zur "
 "Detailanischt des aktuellen Status."
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_INFO_FINISHED_LABEL"
-msgstr "Workflow beendet"
+msgstr "Beendet"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_INFO_MANUAL_DESC"
 msgstr ""
@@ -3119,7 +3196,7 @@ msgstr ""
 "den möglichen nächsten Aktionen."
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_INFO_MANUAL_LABEL"
-msgstr "Workflow in Bearbeitung"
+msgstr "In Bearbeitung"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_INFO_PAUSE_DESC"
 msgstr ""
@@ -3129,7 +3206,7 @@ msgstr ""
 "(entsprechende Berechtigung erforderlich)."
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_INFO_PAUSE_LABEL"
-msgstr "Workflow pausiert"
+msgstr "Pausiert"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_INFO_RETRY_EXCEEDED_DESC"
 msgstr ""
@@ -3148,7 +3225,7 @@ msgstr ""
 "öffnen' gelangen Sie zur Detailanischt des aktuellen Status."
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_INFO_RUNNING_LABEL"
-msgstr "Workflow wird ausgeführt"
+msgstr "Wird ausgeführt"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_INVALID_REQUEST_ACTION_WITHOUT_TOKEN"
 msgstr "Ungültige Anforderung - Aktion ohne Token"
@@ -3238,29 +3315,8 @@ msgstr "Pausierte Aktion"
 msgid "I18N_OPENXPKI_UI_WORKFLOW_PAUSE_REASON_LABEL"
 msgstr "Grund"
 
-msgid "I18N_OPENXPKI_UI_WORKFLOW_PROC_STATE"
-msgstr "Zustand"
-
-msgid "I18N_OPENXPKI_UI_WORKFLOW_PROC_STATE_ARCHIVED"
-msgstr "archiviert"
-
-msgid "I18N_OPENXPKI_UI_WORKFLOW_PROC_STATE_EXCEPTION"
-msgstr "exception"
-
-msgid "I18N_OPENXPKI_UI_WORKFLOW_PROC_STATE_FINISHED"
-msgstr "abgeschlossen"
-
 msgid "I18N_OPENXPKI_UI_WORKFLOW_PROC_STATE_LABEL"
 msgstr "Status"
-
-msgid "I18N_OPENXPKI_UI_WORKFLOW_PROC_STATE_MANUAL"
-msgstr "manuell"
-
-msgid "I18N_OPENXPKI_UI_WORKFLOW_PROC_STATE_PAUSE"
-msgstr "pausiert"
-
-msgid "I18N_OPENXPKI_UI_WORKFLOW_PROC_STATE_RETRY_EXCEEDED"
-msgstr "zu viele Fehlversuche"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_PROPERTY_ACCESS_NOT_ALLOWED_FOR_ROLE"
 msgstr ""
@@ -3388,9 +3444,6 @@ msgstr "Nachricht gesetzt"
 msgid "I18N_OPENXPKI_UI_WORKFLOW_START_BUTTON"
 msgstr "Workflow starten"
 
-msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE"
-msgstr "Workflow Status"
-
 #, fuzzy
 msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_ADDUSER_CHOOSE_ACTION_DESC"
 msgstr ""
@@ -3501,6 +3554,11 @@ msgstr "Dieser Workflow ist fehlgeschlagen"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_CRR_FAILURE_LABEL"
 msgstr "FEHLER"
+
+#, fuzzy
+msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_CRR_INITIAL_DESC"
+msgstr ""
+"Dieser Workflow ist fehlgeschlagen und kann nicht erneut gestartet werden."
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_CRR_INITIAL_LABEL"
 msgstr " "
@@ -3710,6 +3768,9 @@ msgstr ""
 msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_EXPORT_PRIVATEKEY_SUCCESS_LABEL"
 msgstr "SUCCESS"
 
+msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_FAILED"
+msgstr "Dieser Workflow ist fehlgeschlagen."
+
 msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_FAILURE_DESC"
 msgstr ""
 "Dieser Workflow ist fehlgeschlagen und kann nicht weiter bearbeitet werden."
@@ -3767,6 +3828,15 @@ msgstr "Die Änderungen wurden gespeichert."
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_METADATA_SUCCESS_LABEL"
 msgstr "Meta-Daten aktualisiert"
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_META_BULK_PENDING_DESC"
+msgstr ""
+"Prüfen Sie die Details ihres Änderungsauftrages. Drücken Sie 'Daten "
+"speichern' um die angezeigten Informationen für alle in der Liste "
+"enthaltenen Zertifikate zu übernehmen."
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_META_BULK_PENDING_LABEL"
+msgstr "Änderungen prüfen"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_PAUSE_DESC"
 msgstr ""
@@ -4018,6 +4088,12 @@ msgstr "Ändern der Meta-Daten eines Zertifikates"
 msgid "I18N_OPENXPKI_UI_WORKFLOW_TYPE_CHANGE_METADATA_LABEL"
 msgstr "Meta-Daten ändern"
 
+msgid "I18N_OPENXPKI_UI_WORKFLOW_TYPE_CRL_IMPORT_DESC"
+msgstr "Importiert Sperrliste von externen CAs"
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_TYPE_CRL_IMPORT_LABEL"
+msgstr "Sperrliste importieren"
+
 msgid "I18N_OPENXPKI_UI_WORKFLOW_TYPE_CRL_ISSUANCE_DESC"
 msgstr "Erlaubt das Ausstellen von Sperrlisten."
 
@@ -4058,6 +4134,12 @@ msgstr "Privaten Schlüssel herunterladen"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_TYPE_LABEL"
 msgstr "Typ"
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_TYPE_META_BULK_DESC"
+msgstr "Massenänderung von Metadaten für eine Liste von Zertifikaten."
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_TYPE_META_BULK_LABEL"
+msgstr "Massenänderung Metadaten"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_TYPE_NOTIFY_EXPIRY_DESC"
 msgstr ""
@@ -4144,6 +4226,10 @@ msgstr "aufwecken"
 
 msgid "I18N_OPENXPKI_UI_YES"
 msgstr "ja"
+
+#, fuzzy
+#~ msgid "I18N_OPENXPKI_UI_CUST"
+#~ msgstr "ja"
 
 #~ msgid "I18N_OPENXPKI_UI_CUST_WORKFLOW_FIELD_CI_STATUS_OK_LABEL"
 #~ msgstr "Ersteller"
@@ -4331,8 +4417,8 @@ msgstr "ja"
 #~ msgid "I18N_OPENXPKI_UI_WORKFLOW_ACTION_SCPU_GENERATE_ACT_CODE"
 #~ msgstr "Generate Code"
 
-#~ msgid "I18N_OPENXPKI_UI_WORKFLOW_ARCHIVE_AFTER_LABEL"
-#~ msgstr "Archivierung"
+#~ msgid "I18N_OPENXPKI_UI_WORKFLOW_ARCHIVE_AT_LABEL"
+#~ msgstr "Archiviere am"
 
 #~ msgid "I18N_OPENXPKI_UI_WORKFLOW_BUTTON_APPROVE"
 #~ msgstr "Antrag genehmigen"
@@ -4404,23 +4490,6 @@ msgstr "ja"
 #~ msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_META_META_ENDPOINT_TOOLTIP"
 #~ msgstr " "
 
-#~ msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_PKCS7_DESC"
-#~ msgstr ""
-#~ " Paste your PKCS7 formated request/response directly into the field or "
-#~ "use the upload button to load a file from your local computer"
-
-#~ msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_PKCS7_LABEL"
-#~ msgstr "PKCS7 Eingabe"
-
-#~ msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_PKCS7_PLACEHOLDER"
-#~ msgstr ""
-#~ "Fügen Sie hier den PEM kodierten PKCS7 Block ein ( -----BEGIN PKCS7-----) "
-#~ "oder verwenden Sie 'Durchsuchen' um eine Datei von ihrem "
-#~ "Arbeitsplatzrechner auszuwählen."
-
-#~ msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_PKCS7_TOOLTIP"
-#~ msgstr "Your PKCS7 encoded request/response"
-
 #~ msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_REPLACE_CERT_IDENTIFIER_DESC"
 #~ msgstr "The certificate to be replaced by this workflow."
 
@@ -4438,8 +4507,32 @@ msgstr "ja"
 #~ msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_SIGNER_SUBJECT_MATCH_LABEL"
 #~ msgstr "Request Subject Matches"
 
-#~ msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_ARCHIVED_DESC"
-#~ msgstr "Dieser Workflow wurde archiviert."
+#~ msgid "I18N_OPENXPKI_UI_WORKFLOW_INFO"
+#~ msgstr "Technische Informationen"
+
+#~ msgid "I18N_OPENXPKI_UI_WORKFLOW_PROC_STATE_ARCHIVED"
+#~ msgstr "archiviert"
+
+#~ msgid "I18N_OPENXPKI_UI_WORKFLOW_PROC_STATE_EXCEPTION"
+#~ msgstr "exception"
+
+#~ msgid "I18N_OPENXPKI_UI_WORKFLOW_PROC_STATE_FAILED"
+#~ msgstr "fehlgeschlagen"
+
+#~ msgid "I18N_OPENXPKI_UI_WORKFLOW_PROC_STATE_FINISHED"
+#~ msgstr "abgeschlossen"
+
+#~ msgid "I18N_OPENXPKI_UI_WORKFLOW_PROC_STATE_MANUAL"
+#~ msgstr "manuell"
+
+#~ msgid "I18N_OPENXPKI_UI_WORKFLOW_PROC_STATE_PAUSE"
+#~ msgstr "pausiert"
+
+#~ msgid "I18N_OPENXPKI_UI_WORKFLOW_PROC_STATE_RETRY_EXCEEDED"
+#~ msgstr "zu viele Fehlversuche"
+
+#~ msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE"
+#~ msgstr "Workflow Status"
 
 #, fuzzy
 #~ msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_CERT_AUTH_INITIAL_DESC"
