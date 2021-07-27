@@ -2,8 +2,8 @@
 # management tools - you can extend the file with your own attributes all
 # values are listed on the system status page and are returned via
 # "openxpkicli version" call
-config: 3.12
-api: 3.12
+config: 3.14
+api: 3.14
 commit: ~
 
 # this was introduced with v3.12 and will prevent the system to start
