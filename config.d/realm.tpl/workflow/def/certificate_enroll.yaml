@@ -83,6 +83,8 @@ state:
           - server
           - interface
           - csr_subject
+          - cert_subject
+          - cert_subject_alt_name
           - comment
           - cert_profile
           - signer_cert_identifier
@@ -168,6 +170,7 @@ state:
           - error_code
           - check_policy_subject_duplicate
           - cert_subject
+          - cert_subject_alt_name
           - server
           - interface
           - comment
@@ -219,6 +222,7 @@ state:
           - server
           - interface
           - cert_subject
+          - cert_subject_alt_name
           - comment
           - cert_profile
           - request_mode
