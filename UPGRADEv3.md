@@ -60,15 +60,31 @@ Legacy parameters used the set_motd action have been removed and need to be upda
 
 
 ## Database
+### Column Changes
 
-### Type Changes
+| Column                        | Change  | DDL                                                                                                   |
+| ----------------------------- | --------| -----------------------------------------------------------------------------------------------------:|
+| application_log.logtimestamp  | altered | `ALTER TABLE application_log MODIFY COLUMN logtimestamp decimal(20,5);`                               |
+| crl.profile                   | added   | `ALTER TABLE crl ADD COLUMN IF NOT EXISTS (`profile` varchar(64) DEFAULT NULL);`                      |
+| datapool.access_key           | added   | `ALTER TABLE datapool ADD COLUMN IF NOT EXISTS (`access_key` VARCHAR(255) NULL DEFAULT NULL);`        |
+| workflow.archive_at           | added   | `ALTER TABLE workflow ADD COLUMN IF NOT EXISTS (`workflow_archive_at` int(10) unsigned DEFAULT NULL);`|
+| crl.max_revocation_id         | added   | `ALTER TABLE crl ADD COLUMN IF NOT EXISTS (`max_revocation_id` INT NULL DEFAULT NULL);`               |
+| certificate.revocation_id     | added   | `ALTER TABLE certificate ADD COLUMN IF NOT EXISTS (`revocation_id` INT NULL DEFAULT NULL);`           |
 
-* logtimestamp in application_log and audittrail should have 5 decimals (DECIMAL 20,5)
+### New Tables
+See [see schema-mariadb.sql](https://github.com/openxpki/openxpki-config/blob/community/contrib/sql/schema-mariadb.sql) for DDLs
+- `backend_session`
+- `frontend_session`
 
-### New Fields (see schemas for details)
+### Driver changes
+Starting with the v3.8 release OpenXPKI comes with a MariaDB driver. This driver uses MariaDB internal sequences instead of emulated sequences based on tables with autoincrement column.
 
-* crl.profile
-* datapool.access_key
-* workflow_archive_at
-* crl.max_revocation_id
-* certificate.revocation_id 
+To switch to MariaDB driver in `system/database.yaml`, these tables need to be migrated to native sequences.
+
+The following shell snippet is an example for generating the necessary DDLs:
+
+```bash
+sudo mysql openxpki -sNe "show tables" |grep "^seq_" |\
+  sudo xargs -n1 -I{} mysql openxpki -sNe \
+  'select concat("DROP TABLE {}; CREATE SEQUENCE {} START WITH ", ifnull(max(seq_number),0)+1, " INCREMENT BY 1 MINVALUE 0 NO MAXVALUE CACHE 1;") from {}'
+```
