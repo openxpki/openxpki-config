@@ -62,14 +62,14 @@ Legacy parameters used the set_motd action have been removed and need to be upda
 ## Database
 ### Column Changes
 
-| Column                        | Change  | DDL                                                                                                   |
-| ----------------------------- | --------| -----------------------------------------------------------------------------------------------------:|
-| application_log.logtimestamp  | altered | `ALTER TABLE application_log MODIFY COLUMN logtimestamp decimal(20,5);`                               |
-| crl.profile                   | added   | `ALTER TABLE crl ADD COLUMN IF NOT EXISTS (`profile` varchar(64) DEFAULT NULL);`                      |
-| datapool.access_key           | added   | `ALTER TABLE datapool ADD COLUMN IF NOT EXISTS (`access_key` VARCHAR(255) NULL DEFAULT NULL);`        |
-| workflow.archive_at           | added   | `ALTER TABLE workflow ADD COLUMN IF NOT EXISTS (`workflow_archive_at` int(10) unsigned DEFAULT NULL);`|
-| crl.max_revocation_id         | added   | `ALTER TABLE crl ADD COLUMN IF NOT EXISTS (`max_revocation_id` INT NULL DEFAULT NULL);`               |
-| certificate.revocation_id     | added   | `ALTER TABLE certificate ADD COLUMN IF NOT EXISTS (`revocation_id` INT NULL DEFAULT NULL);`           |
+| Column                        | Change  | DDL                                                                                                     |
+| ----------------------------- | --------| -------------------------------------------------------------------------------------------------------:|
+| application_log.logtimestamp  | altered | `ALTER TABLE application_log MODIFY COLUMN logtimestamp decimal(20,5);`                                 |
+| crl.profile                   | added   | ``ALTER TABLE crl ADD COLUMN IF NOT EXISTS (`profile` varchar(64) DEFAULT NULL);``                      |
+| datapool.access_key           | added   | ``ALTER TABLE datapool ADD COLUMN IF NOT EXISTS (`access_key` VARCHAR(255) NULL DEFAULT NULL);``        |
+| workflow.archive_at           | added   | ``ALTER TABLE workflow ADD COLUMN IF NOT EXISTS (`workflow_archive_at` int(10) unsigned DEFAULT NULL);``|
+| crl.max_revocation_id         | added   | ``ALTER TABLE crl ADD COLUMN IF NOT EXISTS (`max_revocation_id` INT NULL DEFAULT NULL);``               |
+| certificate.revocation_id     | added   | ``ALTER TABLE certificate ADD COLUMN IF NOT EXISTS (`revocation_id` INT NULL DEFAULT NULL);``           |
 
 ### New Tables
 See [see schema-mariadb.sql](https://github.com/openxpki/openxpki-config/blob/community/contrib/sql/schema-mariadb.sql) for DDLs
