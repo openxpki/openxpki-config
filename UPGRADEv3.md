@@ -72,19 +72,26 @@ Legacy parameters used the set_motd action have been removed and need to be upda
 | certificate.revocation_id     | added   | ``ALTER TABLE certificate ADD COLUMN IF NOT EXISTS (`revocation_id` INT NULL DEFAULT NULL);``           |
 
 ### New Tables
-See [see schema-mariadb.sql](https://github.com/openxpki/openxpki-config/blob/community/contrib/sql/schema-mariadb.sql) for DDLs
 - `backend_session`
 - `frontend_session`
 
+(See [see schema-mariadb.sql](https://github.com/openxpki/openxpki-config/blob/community/contrib/sql/schema-mariadb.sql) for DDLs.)
+
 ### Driver changes
-Starting with the v3.8 release OpenXPKI comes with a MariaDB driver. This driver uses MariaDB internal sequences instead of emulated sequences based on tables with autoincrement column.
+Starting with the v3.8 release OpenXPKI comes with a MariaDB driver. This driver uses MariaDB internal sequences instead of emulated sequences based on tables with an autoincrement column.
 
 To switch to MariaDB driver in `system/database.yaml`, these tables need to be migrated to native sequences.
 
-The following shell snippet is an example for generating the necessary DDLs:
-
+On a standard MariaDB installation using database `openxpki` the following shell snippet should provide the necessary DDLs.
 ```bash
 sudo mysql openxpki -sNe "show tables" |grep "^seq_" |\
   sudo xargs -n1 -I{} mysql openxpki -sNe \
   'select concat("DROP TABLE {}; CREATE SEQUENCE {} START WITH ", ifnull(max(seq_number),0)+1, " INCREMENT BY 1 MINVALUE 0 NO MAXVALUE CACHE 1;") from {}'
+```
+
+_Example_ output:
+```sql
+DROP TABLE seq_application_log; CREATE SEQUENCE seq_application_log START WITH 11269 INCREMENT BY 1 MINVALUE 0 NO MAXVALUE CACHE 1;
+DROP TABLE seq_audittrail; CREATE SEQUENCE seq_audittrail START WITH 821 INCREMENT BY 1 MINVALUE 0 NO MAXVALUE CACHE 1;
+(..)
 ```
