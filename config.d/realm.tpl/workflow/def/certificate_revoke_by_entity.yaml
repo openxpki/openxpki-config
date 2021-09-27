@@ -176,13 +176,13 @@ field:
         label: I18N_OPENXPKI_UI_WORKFLOW_FIELD_CERTIFICATE_IDENTIFIER_LIST_LABEL
         name: cert_identifier_list
         format: rawlist
-        template: >
+        preamble: Subject / Identifier
+        yaml_template: >
           [% USE Certificate %]
           [% IF value %]
-            Subject / Identifier |
             [% FOREACH identifier = value %]
-              <a target="modal" href="#certificate!detail!identifier![% identifier %]">
-                [% Certificate.dn(identifier, 'CN') %] / [% identifier %]</a>|
+              - <a target="modal" href="#certificate!detail!identifier![% identifier %]">
+                [% Certificate.dn(identifier, 'CN') %] / [% identifier %]</a>
             [% END %]
           [% END %]
 

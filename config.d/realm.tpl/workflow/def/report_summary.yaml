@@ -123,10 +123,10 @@ field:
       name: by_profile
       label: I18N_OPENXPKI_UI_WORKFLOW_REPORT_FIELD_PROFILES
       format: rawlist
-      template: >
+      yaml_template: >
           [% USE Profile %]
           [% FOREACH profile = value.keys %]
-          [% Profile.name(profile) %]: [% value.$profile %] |
+            - [% Profile.name(profile) %]: [% value.$profile %]
           [% END %]
 
     chart_overall:

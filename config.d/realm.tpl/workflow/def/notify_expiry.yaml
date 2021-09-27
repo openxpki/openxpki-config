@@ -94,13 +94,13 @@ field:
         label: I18N_OPENXPKI_UI_WORKFLOW_FIELD_CERT_NOTIFIED_LIST_LABEL
         name: cert_notified_list
         format: rawlist
-        template: >
+        preamble: Identifier / Subject
+        yaml_template: >
           [% USE Certificate %]
           [% IF value %]
-            Identifier / Subject |
             [% FOREACH identifier = value %]
-              <a target="modal" href="#certificate!detail!identifier![% identifier %]">
-                [% identifier %] / [% Certificate.body(identifier, 'subject') %]</a>|
+              - <a target="modal" href="#certificate!detail!identifier![% identifier %]">
+                [% identifier %] / [% Certificate.body(identifier, 'subject') %]</a>
             [% END %]
           [% END %]
 
@@ -108,13 +108,13 @@ field:
         label: I18N_OPENXPKI_UI_WORKFLOW_FIELD_CERT_RENEWED_LIST_LABEL
         name: cert_renewed_list
         format: rawlist
-        template: >
+        preamble: Identifier / Subject
+        yaml_template: >
           [% USE Certificate %]
           [% IF value %]
-            Identifier / Subject |
             [% FOREACH identifier = value %]
-              <a target="modal" href="#certificate!detail!identifier![% identifier %]">
-                [% identifier %] / [% Certificate.body(identifier, 'subject') %]</a>|
+              - <a target="modal" href="#certificate!detail!identifier![% identifier %]">
+                [% identifier %] / [% Certificate.body(identifier, 'subject') %]</a>
             [% END %]
           [% END %]
 
