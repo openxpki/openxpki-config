@@ -800,14 +800,15 @@ field:
 
     # output only, filled by check_policy activities
     check_policy_dns:
-        label: Failed Policy Check DNS
+        label: I18N_OPENXPKI_UI_WORKFLOW_FIELD_CHECK_POLICY_DNS_LABEL
         name: check_policy_dns
         format: rawlist
-        template: >
+        preamble: I18N_OPENXPKI_UI_DNS_CHECK_PREAMBLE
+        yaml_template: >
           [% IF value %]
             [% USE CheckDNS %]
             [% FOREACH fqdn = value %]
-              [% CheckDNS.valid(fqdn, '(I18N_OPENXPKI_UI_DNS_CHECK_FAIL)', '(I18N_OPENXPKI_UI_DNS_CHECK_OK)','(I18N_OPENXPKI_UI_DNS_CHECK_TIMEOUT)','(I18N_OPENXPKI_UI_DNS_CHECK_SKIPPED)') %]
+              - [% CheckDNS.valid(fqdn, '(I18N_OPENXPKI_UI_DNS_CHECK_FAIL)', '(I18N_OPENXPKI_UI_DNS_CHECK_OK)','(I18N_OPENXPKI_UI_DNS_CHECK_TIMEOUT)','(I18N_OPENXPKI_UI_DNS_CHECK_SKIPPED)') %]
             [% END %]
           [% END %]
 

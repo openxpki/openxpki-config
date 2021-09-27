@@ -14,6 +14,12 @@ msgstr ""
 "X-Generator: Poedit 2.3\n"
 "X-Poedit-Bookmarks: -1,-1,77,-1,-1,-1,-1,-1,-1,-1\n"
 
+msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_CHECK_POLICY_DNS_LABEL"
+msgstr "Fehlerhafte DNS Prüfungen"
+
+msgid "I18N_OPENXPKI_UI_DNS_CHECK_PREAMBLE"
+msgstr "FQDNs mit Ergebnis der DNS Prüfung"
+
 msgid "I18N_OPENXPKI_UI_ACTION_NOT_FOUND"
 msgstr "Die ausgewählte Aktion ist nicht verfügbar"
 
@@ -1791,6 +1797,12 @@ msgstr ""
 msgid "I18N_OPENXPKI_UI_WORKFLOW_ACTION_CSR_EDIT_SUBJECT_LABEL"
 msgstr "Subject bearbeiten"
 
+msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_USER_AGENT_LABEL"
+msgstr "User-Agent"
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_USER_AGENT_DESC"
+msgstr "Von der Client-Software übermittelter User-Agent"
+
 msgid "I18N_OPENXPKI_UI_WORKFLOW_ACTION_CSR_EDIT_VALIDITY_DESC"
 msgstr ""
 "Um das Zertifikat mit einer abweichenden Gültigkeit auszustellen geben Sie "
@@ -2473,10 +2485,10 @@ msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_CRR_INFO_LABEL"
 msgstr "Zusätzliche Informationen"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_CSR_SUBJECT_DESC"
-msgstr "Subject"
+msgstr "Subject des Antrags"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_CSR_SUBJECT_LABEL"
-msgstr "Subject des Antrags"
+msgstr "Subject (Antrag)"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_CSR_TYPE_DESC"
 msgstr "Typ des CSR (PCKS10, server generated, SPKAC)"
@@ -3188,7 +3200,7 @@ msgstr ""
 "zur Detailansicht des aktuellen Status."
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_INFO_FAILED_LABEL"
-msgstr "Beendet"
+msgstr "Verworfen"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_INFO_FINISHED_DESC"
 msgstr ""
