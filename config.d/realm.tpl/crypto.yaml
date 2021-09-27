@@ -4,6 +4,7 @@
 type:
   certsign: ca-signer
   datasafe: vault
+  cmcra: ratoken
   scep: scep
 
 # The actual token setup, based on current token.xml
@@ -41,6 +42,11 @@ token:
   vault:
     inherit: default
     key: /etc/openxpki/local/keys/[% ALIAS %].pem
+
+  ratoken:
+    inherit: default
+    key_store: DATAPOOL
+    key: "[% ALIAS %]"
 
   scep:
     inherit: default
