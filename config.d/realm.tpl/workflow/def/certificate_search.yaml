@@ -36,9 +36,16 @@ action:
     get_certificate_data:
         class: OpenXPKI::Server::Workflow::Activity::Tools::SetContext
         param:
+            # If you want to see more details in the output place additional exports here
+            # and add the keys in the rpc wrapper configuration output filter
+            # If you want to export the chain, private keys or other container formats,
+            # you must add extra workflow steps to get this information
+            # see the certificate_enroll and certificate_privkey_export for examples
             _map_notbefore: "[% USE Certificate %][% Certificate.notbefore(context.cert_identifier) %]"
             _map_notafter: "[% USE Certificate %][% Certificate.notafter(context.cert_identifier) %]"
             _map_status: "[% USE Certificate %][% Certificate.status(context.cert_identifier) %]"
+            _map_certificate: "[% USE Certificate %][% Certificate.pem(context.cert_identifier) %]"
+
 
 condition:
     has_result:
