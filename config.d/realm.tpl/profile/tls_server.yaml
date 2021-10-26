@@ -76,28 +76,10 @@ extensions:
     key_usage:
         critical: 1
         digital_signature: 1
-        non_repudiation:   0
         key_encipherment:  1
-        data_encipherment: 0
-        key_agreement:     1
-        key_cert_sign:     0
-        crl_sign:          0
-        encipher_only:     0
-        decipher_only:     0
 
     extended_key_usage:
         critical: 0
-        # these are OIDs, some OIDs are known and have names
-        client_auth:      0
         server_auth:      1
-        email_protection: 0
-        code_signing:     0
-        time_stamping:    0
-        ocsp_signing:     0
-        
-# end of extensions
-
-# Define the input fields you used below here
-#template:
 
 
