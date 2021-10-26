@@ -23,7 +23,8 @@ Testing:
     label: Test Accounts
     description: |
         Test accounts - valid user names are <tt>alice</tt>, <tt>bob</tt> (users) and <tt>rose</tt>, <tt>rob</tt> (operators).<br>
-        Password for all accounts is <tt>openxpki</tt> on <b>unmodified config checkouts</b>, package installers set a <b>random value</b> that can be found in the file auth/handler.yaml.
+        Password for all accounts is <tt>openxpki</tt> on <b>unmodified config checkouts</b>,<br>
+        package installers set a <b>random value</b> that can be found in the file auth/handler.yaml.
     handler: TestAccounts
     type: passwd
 
