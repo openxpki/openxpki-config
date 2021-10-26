@@ -30,7 +30,7 @@ main:
     label: I18N_OPENXPKI_UI_MENU_CERTIFICATE_SEARCH
 
   - key:   workflow!index!wf_type!search_scep_workflow
-    label: I18N_OPENXPKI_UI_MENU_SCEP_SEARCH
+    label: I18N_OPENXPKI_UI_MENU_ENROLLMENT_SEARCH
 
   - key:   workflow!index!wf_type!request_checker
     label: I18N_OPENXPKI_UI_MENU_CSR_CHECK

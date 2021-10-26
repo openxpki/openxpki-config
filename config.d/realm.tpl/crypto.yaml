@@ -7,7 +7,7 @@ type:
   cmcra: ratoken
   scep: scep
 
-# The actual token setup, based on current token.xml
+# The actual token setup
 token:
   default:
     backend: OpenXPKI::Crypto::Backend::OpenSSL

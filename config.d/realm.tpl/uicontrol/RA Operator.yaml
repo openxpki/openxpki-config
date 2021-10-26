@@ -34,19 +34,19 @@ main:
     entries:
       - key:   workflow!index!wf_type!change_metadata
         label: I18N_OPENXPKI_UI_MENU_CHANGE_METADATA
-      - spacer: default
+      - label: I18N_OPENXPKI_UI_MENU_HEAD_CA_CRL_OPS
       - key:   workflow!index!wf_type!crl_issuance
         label: I18N_OPENXPKI_UI_MENU_CRL_ISSUE
       - key:   workflow!start!wf_type!ca_publish
         label: I18N_OPENXPKI_UI_MENU_PUBLISH_CA_CRL
-      - spacer: default
+      - label: I18N_OPENXPKI_UI_MENU_HEAD_ENROLLMENT
+      - key:   workflow!index!wf_type!release_transaction_lock
+        label: I18N_OPENXPKI_UI_WORKFLOW_TYPE_RELEASE_LOCK_LABEL
+      - label: I18N_OPENXPKI_UI_MENU_HEAD_MISC
       - key:   workflow!index!wf_type!set_motd
         label: I18N_OPENXPKI_UI_MENU_SET_MOTD
-      - spacer: default
       - key:   secret!index
         label: I18N_OPENXPKI_UI_MENU_MANAGE_SECRET
-
-
 
   - key:   info
     label: I18N_OPENXPKI_UI_MENU_INFORMATION
