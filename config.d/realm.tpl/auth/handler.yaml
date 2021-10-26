@@ -32,6 +32,7 @@ TestAccounts:
         caop:
             digest: "{ssha}JQ2BAoHQZQgecmNjGF143k4U2st6bE5B"
             role: CA Operator
+
         raop:
             digest: "$1$NgiUHfZ4$G/Zic.SH6cuWaGpqtbVWI1"
             role: RA Operator
@@ -39,6 +40,10 @@ TestAccounts:
             gname: Odin
             realname: Odin Operator
             email: odin@example.com
+            tenant:
+             - Alice Group
+             - Bob Group
+
         rose:
             digest: "$5$YXQUdF.xJGuTdPjf$peg58UGjJ52a8rCnv13IWyH/y4b0PNdM12i7bzXqbuD"
             role: RA Operator
@@ -46,6 +51,8 @@ TestAccounts:
             gname: Rose
             realname: Rose Robinson
             email: rose@example.com
+            tenant: Alice Group
+
         rob:
             digest: "{ssha}JQ2BAoHQZQgecmNjGF143k4U2st6bE5B"
             role: RA Operator
@@ -53,6 +60,8 @@ TestAccounts:
             gname: Rob
             realname: Rob Roberts
             email: rob@example.com
+            tenant: Bob Group
+
         alice:
             digest: "{ssha}JQ2BAoHQZQgecmNjGF143k4U2st6bE5B"
             role: User
@@ -60,6 +69,8 @@ TestAccounts:
             gname: Alice
             realname: Alice Anderson
             email: alice@example.com
+            tenant: Alice Group
+
         bob:
             digest: "{ssha}JQ2BAoHQZQgecmNjGF143k4U2st6bE5B"
             role: User
@@ -67,6 +78,5 @@ TestAccounts:
             gname: Bob
             realname: Bob Baker
             email: bob@example.com
-
-
+            tenant: Bob Group
 
