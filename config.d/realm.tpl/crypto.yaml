@@ -47,6 +47,7 @@ token:
     inherit: default
     key_store: DATAPOOL
     key: "[% ALIAS %]"
+    secret: ratoken
 
   scep:
     inherit: default
@@ -62,3 +63,10 @@ secret:
         # the config found in system.crypto. You can create additional secrets
         # by adding similar blocks with another key
         import: 1
+
+    ratoken:
+        label: Secret group for RA Token
+        export: 1
+        method: literal
+        # if you change this, you need to adapt the ratoken_update workflow!
+        value@: credentials.token
