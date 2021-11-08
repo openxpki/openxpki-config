@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: OpenXPKI 3.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-09-08 14:02+0200\n"
-"PO-Revision-Date: 2021-07-27 09:11+0200\n"
+"PO-Revision-Date: 2021-10-20 13:10+0200\n"
 "Last-Translator: OpenXPKI Team <i18n@openxpki.org>\n"
 "Language-Team: OpenXPKI developers list <openxpki-devel@lists.sourceforge."
 "net>\n"
@@ -14,12 +14,6 @@ msgstr ""
 "X-Generator: Poedit 2.3\n"
 "X-Poedit-Bookmarks: -1,-1,77,-1,-1,-1,-1,-1,-1,-1\n"
 
-msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_CHECK_POLICY_DNS_LABEL"
-msgstr "Fehlerhafte DNS Prüfungen"
-
-msgid "I18N_OPENXPKI_UI_DNS_CHECK_PREAMBLE"
-msgstr "FQDNs mit Ergebnis der DNS Prüfung"
-
 msgid "I18N_OPENXPKI_UI_ACTION_NOT_FOUND"
 msgstr "Die ausgewählte Aktion ist nicht verfügbar"
 
@@ -27,7 +21,10 @@ msgid "I18N_OPENXPKI_UI_APPLICATION_ERROR"
 msgstr "Unerwarteter Fehler in der Anwendung"
 
 msgid "I18N_OPENXPKI_UI_AUTHENTICATION_FAILED"
-msgstr "Autentifizierung fehlgeschlagen"
+msgstr "Anmeldung fehlgeschlagen"
+
+msgid "I18N_OPENXPKI_UI_AUTHENTICATION_FAILED_TENANT_REQUIRED"
+msgstr "Anmeldung fehlgeschlagen (Benutzerdaten unvollständig)"
 
 msgid "I18N_OPENXPKI_UI_BACKEND_DID_NOT_REPORT_SUCCESS"
 msgstr "Backend-Worfklow endete nicht erfolgreich"
@@ -271,7 +268,6 @@ msgstr "Zugeordnete Workflows"
 msgid "I18N_OPENXPKI_UI_CERT_RELATED_LABEL"
 msgstr "Relationen"
 
-# Remove?
 msgid "I18N_OPENXPKI_UI_CERT_STATUS"
 msgstr "Status"
 
@@ -399,6 +395,9 @@ msgstr "FEHLER"
 
 msgid "I18N_OPENXPKI_UI_DNS_CHECK_OK"
 msgstr "ok"
+
+msgid "I18N_OPENXPKI_UI_DNS_CHECK_PREAMBLE"
+msgstr "FQDNs mit Ergebnis der DNS Prüfung"
 
 msgid "I18N_OPENXPKI_UI_DNS_CHECK_SKIPPED"
 msgstr "n/a"
@@ -836,7 +835,6 @@ msgstr "Zertifikatssuche"
 msgid "I18N_OPENXPKI_UI_MENU_CHANGE_METADATA"
 msgstr "Meta-Daten ändern"
 
-# Remove?
 msgid "I18N_OPENXPKI_UI_MENU_CRL"
 msgstr "Sperrlisten (CRL)"
 
@@ -846,14 +844,24 @@ msgstr "Sperrliste (CRL) erzeugen"
 msgid "I18N_OPENXPKI_UI_MENU_CSR_CHECK"
 msgstr "Antragsprüfung"
 
+msgid "I18N_OPENXPKI_UI_MENU_ENROLLMENT_SEARCH"
+msgstr "Enrollment-Vorgänge suchen"
+
+msgid "I18N_OPENXPKI_UI_MENU_HEAD_CA_CRL_OPS"
+msgstr "Sperrlisten und CA Zertifikate"
+
+msgid "I18N_OPENXPKI_UI_MENU_HEAD_ENROLLMENT"
+msgstr "Enrollment RA"
+
+msgid "I18N_OPENXPKI_UI_MENU_HEAD_MISC"
+msgstr "Sonstige"
+
 msgid "I18N_OPENXPKI_UI_MENU_HEAD_REPORT"
 msgstr "Auswertungen"
 
-# Remove?
 msgid "I18N_OPENXPKI_UI_MENU_HEAD_SYSTEM_STATUS"
 msgstr "Systemzustand"
 
-# Remove?
 msgid "I18N_OPENXPKI_UI_MENU_HOME"
 msgstr "Start"
 
@@ -866,7 +874,6 @@ msgstr "Schlüssel entsperren"
 msgid "I18N_OPENXPKI_UI_MENU_MY_CERTIFICATE"
 msgstr "Meine Zertifikate"
 
-# Remove?
 msgid "I18N_OPENXPKI_UI_MENU_MY_TASK"
 msgstr "Meine Aufgaben"
 
@@ -900,11 +907,9 @@ msgstr "Zertifikat sperren"
 msgid "I18N_OPENXPKI_UI_MENU_SCEP_SEARCH"
 msgstr "Enrollment-Vorgänge suchen"
 
-# Remove?
 msgid "I18N_OPENXPKI_UI_MENU_SET_MOTD"
 msgstr "Systemnachrichten verwalten"
 
-# Remove?
 msgid "I18N_OPENXPKI_UI_MENU_SYSTEM_STATUS"
 msgstr "System Status"
 
@@ -1051,7 +1056,9 @@ msgid "I18N_OPENXPKI_UI_PROFILE_APPLICATION_NAME"
 msgstr "Anwendungsbezeichner"
 
 msgid "I18N_OPENXPKI_UI_PROFILE_APPLICATION_NAME_DESC"
-msgstr "Bezeichner der Anwendung"
+msgstr ""
+"Name oder Bezeichner der Anwendung. Wird mit einem Doppelpunkt anden "
+"Hostnamen angefügt, drei bis zwölf Zeichen (a-z, 0-9, Binde-/Unterstrich)"
 
 msgid "I18N_OPENXPKI_UI_PROFILE_BASIC_STYLE_DESC"
 msgstr ""
@@ -1105,6 +1112,9 @@ msgstr "Servername"
 
 msgid "I18N_OPENXPKI_UI_PROFILE_HOSTNAME_DESC"
 msgstr "Geben Sie bitte den FQDN (Hostname) des Systems an."
+
+msgid "I18N_OPENXPKI_UI_PROFILE_LOCALITY_DESC"
+msgstr "Ort / Lokalität (L)"
 
 msgid "I18N_OPENXPKI_UI_PROFILE_OCSP_RESPONDER_LABEL"
 msgstr "OCSP Responder"
@@ -1181,8 +1191,14 @@ msgstr "URI"
 msgid "I18N_OPENXPKI_UI_PROFILE_SAN_URI_DESCRIPTION"
 msgstr "URI"
 
+msgid "I18N_OPENXPKI_UI_PROFILE_STATE_DESC"
+msgstr "Region oder Bundesland (ST)"
+
 msgid "I18N_OPENXPKI_UI_PROFILE_TLS_CLIENT_LABEL"
 msgstr "TLS Client"
+
+msgid "I18N_OPENXPKI_UI_PROFILE_TLS_DUAL_LABEL"
+msgstr "TLS Client/Server (Dual Auth)"
 
 msgid "I18N_OPENXPKI_UI_PROFILE_TLS_SERVER_LABEL"
 msgstr "TLS/Web Server"
@@ -1625,10 +1641,6 @@ msgstr "Willkommen zu ihrem OpenXPKI Trustcenter"
 msgid "I18N_OPENXPKI_UI_WF_TYPE_MOTD_LABEL"
 msgstr "Nachricht des Tages"
 
-msgid "I18N_OPENXPKI_UI_WORKFLOW_ACCESS_NOT_ALLOWED_FOR_ROLE"
-msgstr ""
-"Der Zugriff auf diesen Workflow ist für ihre Benutzerrolle nicht gestattet"
-
 msgid "I18N_OPENXPKI_UI_WORKFLOW_ACCESS_NOT_ALLOWED_FOR_USER"
 msgstr "Der Zugriff auf diesen Workflow ist für ihren Benutzer nicht gestattet"
 
@@ -1797,12 +1809,6 @@ msgstr ""
 msgid "I18N_OPENXPKI_UI_WORKFLOW_ACTION_CSR_EDIT_SUBJECT_LABEL"
 msgstr "Subject bearbeiten"
 
-msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_USER_AGENT_LABEL"
-msgstr "User-Agent"
-
-msgid "I18N_OPENXPKI_UI_WORKFLOW_USER_AGENT_DESC"
-msgstr "Von der Client-Software übermittelter User-Agent"
-
 msgid "I18N_OPENXPKI_UI_WORKFLOW_ACTION_CSR_EDIT_VALIDITY_DESC"
 msgstr ""
 "Um das Zertifikat mit einer abweichenden Gültigkeit auszustellen geben Sie "
@@ -1873,6 +1879,12 @@ msgstr "Profil wählen"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_ACTION_CSR_SET_ISSUER_LABEL"
 msgstr "Issuer setzen"
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_ACTION_CSR_SET_VALIDITY_DESC"
+msgstr " "
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_ACTION_CSR_SET_VALIDITY_LABEL"
+msgstr "Zertifikatslaufzeit"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_ACTION_CSR_SUBMIT_DESC"
 msgstr "Antrag absenden"
@@ -2124,6 +2136,9 @@ msgstr "Bitte aktualisieren/komplettieren Sie die nachfolgenden Informationen."
 msgid "I18N_OPENXPKI_UI_WORKFLOW_ACTION_UPDATE_CRR_LABEL"
 msgstr "Antrag aktualisieren"
 
+msgid "I18N_OPENXPKI_UI_WORKFLOW_ARCHIVE_AT_LABEL"
+msgstr "Archiviere am"
+
 msgid "I18N_OPENXPKI_UI_WORKFLOW_ATTRIBUTE_LABEL"
 msgstr "Workflow-Meta-Daten"
 
@@ -2185,6 +2200,9 @@ msgstr "Submit with Policy Exception"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_BUTTON_POLICY_VIOLATION_RECHECK_LABEL"
 msgstr "Policyprüfung wiederholen"
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_BUTTON_SET_VALIDITY_LABEL"
+msgstr "Laufzeit ändern"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_CANCEL_BUTTON"
 msgstr "Antrag abbrechen"
@@ -2442,6 +2460,18 @@ msgstr " "
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_CERT_SUBJECT_TOOLTIP"
 msgstr " "
 
+msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_CERT_VALIDITY_DESC"
+msgstr "Die Laufzeit/Gültigkeitsdauer des Zertifikates"
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_CERT_VALIDITY_LABEL"
+msgstr "Zertifikatslaufzeit"
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_CERT_VALIDITY_OPTION_DEFAULT"
+msgstr "Standard"
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_CERT_VALIDITY_OPTION_SHORT"
+msgstr "verkürzte Laufzeit (45 Tage)"
+
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_CHAIN_DESC"
 msgstr " "
 
@@ -2453,6 +2483,9 @@ msgstr ""
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_CHAIN_TOOLTIP"
 msgstr "Fügen sie die Zertifikatskette als PEM Blöcke oder PKCS7 Container ein"
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_CHECK_POLICY_DNS_LABEL"
+msgstr "Fehlerhafte DNS Prüfungen"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_CLIENT_IP_DESC"
 msgstr "IP-Adresse des Antragsteller."
@@ -3025,6 +3058,9 @@ msgstr "Transaktions-ID dieses Antrages"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_TRANSACTION_ID_LABEL"
 msgstr "Transaktions-ID"
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_USER_AGENT_LABEL"
+msgstr "User-Agent"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_VALID_CHALLENGE_PASSWORD_LABEL"
 msgstr "hat gültiges Passwort"
@@ -3874,6 +3910,15 @@ msgstr ""
 msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_POLICY_VIOLATION_LABEL"
 msgstr "Policyverletzung"
 
+msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_RATOKEN_CERT_EXISTS_DESC"
+msgstr ""
+"Es wurde ein gültiges RA Token gefunden, das noch nicht erneuert werden muss."
+"Wenn Sie fortfahren wird ein neues Zertifikat erstellt, das "
+"bestehendeZertifikat bleibt erhalten und wird <b>NICHT</b> revoziert."
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_RATOKEN_CERT_EXISTS_LABEL"
+msgstr "Gültiges RA Token gefunden"
+
 msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_REJECTED_DESC"
 msgstr "Der Antrag wurde abgelehnt und kann nicht erneut eingereicht werden."
 
@@ -3955,16 +4000,6 @@ msgstr ""
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_RUNNING_LABEL"
 msgstr "Dieser Workflow wird gerade vom Server ausgeführt."
-
-#, fuzzy
-msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_SCEP_TOKEN_CERT_EXISTS_DESC"
-msgstr ""
-"Dieser Workflow wurde erfolgreich abgeschlossen und kann nicht erneut "
-"gestartet werden."
-
-#, fuzzy
-msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_SCEP_TOKEN_CERT_EXISTS_LABEL"
-msgstr "ERFOLGREICH"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_SEARCH_SCEP_NORESULT_DESC"
 msgstr "Für Ihre Suchanfrage wurden keine Ergebnisse gefunden."
@@ -4170,6 +4205,12 @@ msgstr ""
 msgid "I18N_OPENXPKI_UI_WORKFLOW_TYPE_NOTIFY_EXPIRY_LABEL"
 msgstr "Ablaufwarnung"
 
+msgid "I18N_OPENXPKI_UI_WORKFLOW_TYPE_RATOKEN_DESC"
+msgstr "Erstellt ein neues Zertifikat zur Verwendung als RA Token."
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_TYPE_RATOKEN_LABEL"
+msgstr "RA Token aktualisieren"
+
 msgid "I18N_OPENXPKI_UI_WORKFLOW_TYPE_RELEASE_LOCK_DESC"
 msgstr ""
 "Entfernt die Verbindung zwischen einer TransaktionsID und einem (defekten) "
@@ -4221,12 +4262,6 @@ msgstr "Enrollment-Workflow nach 'transaction id' suchen"
 msgid "I18N_OPENXPKI_UI_WORKFLOW_TYPE_SCEP_SEARCH_LABEL"
 msgstr "Enrollment-Workflowsuche"
 
-msgid "I18N_OPENXPKI_UI_WORKFLOW_TYPE_SCEP_TOKEN_DESC"
-msgstr "Erstellt ein neues Zertifikat/Token zur Verwendung als SCEP RA."
-
-msgid "I18N_OPENXPKI_UI_WORKFLOW_TYPE_SCEP_TOKEN_LABEL"
-msgstr "SCEP RA Token erstellen"
-
 msgid "I18N_OPENXPKI_UI_WORKFLOW_TYPE_SHOW_METADATA_DESC"
 msgstr "Zeigt die Meta-Daten eines Zertifikates an."
 
@@ -4241,6 +4276,9 @@ msgstr "Import in Trustgroup"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_UNABLE_TO_LOAD_WORKFLOW_INFORMATION"
 msgstr "Workflowinformationen konnten nicht geladen werden."
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_USER_AGENT_DESC"
+msgstr "Von der Client-Software übermittelter User-Agent"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_WAKEUP_AT_LABEL"
 msgstr "aufwecken"
@@ -4382,6 +4420,13 @@ msgstr "ja"
 #~ msgid "I18N_OPENXPKI_UI_VALIDATOR_KEYLENGTH_KEY_TOO_SHORT"
 #~ msgstr "Der Schlüssel ist zu kurz"
 
+#~ msgid "I18N_OPENXPKI_UI_WORKFLOW_ACCESS_NOT_ALLOWED"
+#~ msgstr "Sie sind nicht berechtigt diesen Workflow zu öffnen."
+
+#~ msgid "I18N_OPENXPKI_UI_WORKFLOW_ACCESS_NOT_ALLOWED_FOR_ROLE"
+#~ msgstr ""
+#~ "Der Zugriff auf diesen Workflow ist für ihre Benutzerrolle nicht gestattet"
+
 #~ msgid "I18N_OPENXPKI_UI_WORKFLOW_ACTION_APPROVE_LABEL"
 #~ msgstr "Freigeben"
 
@@ -4437,9 +4482,6 @@ msgstr "ja"
 
 #~ msgid "I18N_OPENXPKI_UI_WORKFLOW_ACTION_SCPU_GENERATE_ACT_CODE"
 #~ msgstr "Generate Code"
-
-#~ msgid "I18N_OPENXPKI_UI_WORKFLOW_ARCHIVE_AT_LABEL"
-#~ msgstr "Archiviere am"
 
 #~ msgid "I18N_OPENXPKI_UI_WORKFLOW_BUTTON_APPROVE"
 #~ msgstr "Antrag genehmigen"
@@ -4730,6 +4772,9 @@ msgstr "ja"
 #, fuzzy
 #~ msgid "I18N_OPENXPKI_UI_WORKFLOW_TYPE_OPENVPN_EXPORT_LABEL"
 #~ msgstr "Certificate Export"
+
+#~ msgid "I18N_OPENXPKI_UI_WORKFLOW_TYPE_SCEP_TOKEN_LABEL"
+#~ msgstr "SCEP RA Token erstellen"
 
 #, fuzzy
 #~ msgid "I18N_OPENXPKI_UI_WORKFLOW_TYPE_SMARTCARD_FETCH_PUK_DESC"
