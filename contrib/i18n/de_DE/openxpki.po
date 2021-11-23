@@ -23,6 +23,9 @@ msgstr "Unerwarteter Fehler in der Anwendung"
 msgid "I18N_OPENXPKI_UI_AUTHENTICATION_FAILED"
 msgstr "Anmeldung fehlgeschlagen"
 
+msgid "I18N_OPENXPKI_UI_AUTHENTICATION_FAILED_TENANT_INVALID"
+msgstr "Anmeldung fehlgeschlagen (Mandateninformation ungültig)"
+
 msgid "I18N_OPENXPKI_UI_AUTHENTICATION_FAILED_TENANT_REQUIRED"
 msgstr "Anmeldung fehlgeschlagen (Benutzerdaten unvollständig)"
 
@@ -2056,6 +2059,9 @@ msgid "I18N_OPENXPKI_UI_WORKFLOW_ACTION_RELEASE_LOCK_LABEL"
 msgstr "Transaktion entsperren"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_ACTION_REPORT_DETAIL_INITIALIZE_LABEL"
+msgstr "Einstellungen für Report"
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_ACTION_REPORT_SUMMARY_INITIALIZE_LABEL"
 msgstr "Einstellungen für Report"
 
 #, fuzzy
@@ -4472,9 +4478,6 @@ msgstr "ja"
 #, fuzzy
 #~ msgid "I18N_OPENXPKI_UI_WORKFLOW_ACTION_OPENVPN_EXPORT_INITIALIZE_LABEL"
 #~ msgstr "Set Information"
-
-#~ msgid "I18N_OPENXPKI_UI_WORKFLOW_ACTION_REPORT_SUMMARY_INITIALIZE_LABEL"
-#~ msgstr "Einstellungen für Report"
 
 #, fuzzy
 #~ msgid "I18N_OPENXPKI_UI_WORKFLOW_ACTION_SCEPGETCA_INITIALIZE_LABEL"

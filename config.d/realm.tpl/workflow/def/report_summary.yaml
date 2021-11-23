@@ -37,6 +37,7 @@ state:
 action:
     initialize:
         class: OpenXPKI::Server::Workflow::Activity::Reports::Summary
+        label: I18N_OPENXPKI_UI_WORKFLOW_ACTION_REPORT_SUMMARY_INITIALIZE_LABEL
         input:
           - valid_at
           - show_chart
