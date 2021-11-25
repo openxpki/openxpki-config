@@ -2,11 +2,11 @@
 # management tools - you can extend the file with your own attributes all
 # values are listed on the system status page and are returned via
 # "openxpkicli version" call
-config: 3.14
-api: 3.14
+config: 3.17
+api: 3.17
 commit: ~
 
 # this was introduced with v3.12 and will prevent the system to start
 # if the used application version is older
 depend:
-  core: 3.12
+  core: 3.17
