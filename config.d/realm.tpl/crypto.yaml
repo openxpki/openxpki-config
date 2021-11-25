@@ -52,7 +52,6 @@ token:
 
   scep:
     inherit: default
-    backend: OpenXPKI::Crypto::Tool::LibSCEP
     key_store: DATAPOOL
     key: "[% KEY_IDENTIFIER %]"
     secret: ratoken

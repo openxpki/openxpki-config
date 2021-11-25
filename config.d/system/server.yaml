@@ -47,9 +47,6 @@ service:
         # this is still in beta phase, use with caution!
         # max_execution_time: 20
 
-    LibSCEP:
-        enabled: 1
-
 # settings for i18n
 i18n:
     locale_directory: /usr/share/locale
