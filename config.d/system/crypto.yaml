@@ -1,12 +1,3 @@
-# API classs to be used for different types of *realm* tokens
-# Undefined values default to OpenXPKI::Crypto::Backend::API
-tokenapi:
-  certsign:      OpenXPKI::Crypto::Backend::API
-  crlsign:       OpenXPKI::Crypto::Backend::API
-  datasafe:      OpenXPKI::Crypto::Backend::API
-  scep:          OpenXPKI::Crypto::Tool::LibSCEP::API
-
-
 # System wide token (non key based tokens)
 token:
     default:
