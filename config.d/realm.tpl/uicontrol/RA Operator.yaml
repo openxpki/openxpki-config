@@ -234,6 +234,7 @@ wfsearch:
             last_update_after: "-000060"
         attributes:
           - label: I18N_OPENXPKI_UI_SEARCH_CERT_SUBJECT_LABEL
+            description: I18N_OPENXPKI_UI_CERTIFICATE_SUBJECT_HINT
             key: cert_subject
             pattern: '*%s*'
             operator: like
