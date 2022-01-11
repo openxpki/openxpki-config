@@ -55,8 +55,7 @@ style:
                 - hostname
                 - port
             info:
-                - requestor_gname
-                - requestor_name
+                - requestor_realname
                 - requestor_email
                 - comment
 
@@ -86,8 +85,7 @@ style:
                 - san_upn
                 - san_rid
             info:
-                - requestor_gname
-                - requestor_name
+                - requestor_realname
                 - requestor_email
                 - comment
 

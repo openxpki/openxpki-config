@@ -13,8 +13,7 @@ style:
             subject:
                 - hostname
             info:
-                - requestor_gname
-                - requestor_name
+                - requestor_realname
                 - requestor_email
                 - requestor_affiliation
                 - comment
@@ -23,7 +22,7 @@ style:
             dn: CN=[% hostname %]:ocsp,DC=Test Deployment,DC=OpenXPKI,DC=org
 
         metadata:
-            requestor: "[% requestor_gname %] [% requestor_name %]"
+            requestor: "[% requestor_realname %]"
             email: "[% requestor_email %]"
             entity: "[% hostname FILTER lower %]"
 

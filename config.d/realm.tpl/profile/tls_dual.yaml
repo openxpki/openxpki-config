@@ -14,8 +14,7 @@ style:
                 - hostname2
                 - application_name
             info:
-                - requestor_gname
-                - requestor_name
+                - requestor_realname
                 - requestor_email
                 - requestor_affiliation
                 - comment
@@ -28,7 +27,7 @@ style:
                   - "[% FOREACH entry = hostname2 %][% entry.lower %] | [% END %]"
 
         metadata:
-            requestor: "[% requestor_gname %] [% requestor_name %]"
+            requestor: "[% requestor_realname %]"
             email: "[% requestor_email %]"
             entity: "[% hostname FILTER lower %]"
 
