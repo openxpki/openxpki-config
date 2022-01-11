@@ -1,7 +1,7 @@
 id: email
 label: I18N_OPENXPKI_UI_PROFILE_EMAILADDRESS
 description: I18N_OPENXPKI_UI_PROFILE_EMAILADDRESS_DESC
-type: freetext
+type: text
 preset: "[% emailAddress.0 || SAN_EMAIL.0 || userinfo.email %]"
 match: .+@.+
 width: 30

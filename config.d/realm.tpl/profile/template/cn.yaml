@@ -2,6 +2,6 @@ id: CN
 label: CN
 description: I18N_OPENXPKI_UI_PROFILE_CN_DESC
 preset: CN
-type: freetext
+type: text
 width: 60
 placeholder: node1.openxpki.org

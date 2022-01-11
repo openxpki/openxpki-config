@@ -5,7 +5,7 @@ label: O
 # Help/Description on the field
 description: I18N_OPENXPKI_UI_PROFILE_O_DESC
 # HTML type to use
-type: freetext
+type: text
 # Regex to test the input against
 match: \A [A-Za-z\d\-\.]+ \z
 # A regexp how to get the data back from the subject

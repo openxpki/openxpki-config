@@ -2,7 +2,7 @@ id: C
 label: C
 description: I18N_OPENXPKI_UI_PROFILE_C_DESC
 preset: C
-type: freetext
+type: text
 width: 2
-min: 0
+required: 0
 placeholder: DE
