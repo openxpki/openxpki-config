@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: OpenXPKI 3.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-09-08 14:02+0200\n"
-"PO-Revision-Date: 2021-10-20 13:10+0200\n"
+"PO-Revision-Date: 2021-12-09 12:30+0100\n"
 "Last-Translator: OpenXPKI Team <i18n@openxpki.org>\n"
 "Language-Team: OpenXPKI developers list <openxpki-devel@lists.sourceforge."
 "net>\n"
@@ -182,11 +182,25 @@ msgstr "Result of your search query"
 msgid "I18N_OPENXPKI_UI_CERTIFICATE_SEARCH_RESULT_TITLE"
 msgstr "Certificate Search Result"
 
+msgid "I18N_OPENXPKI_UI_CERTIFICATE_SEARCH_SAN_PLACEHOLDER"
+msgstr "exact search for SAN items, type can be given with TYPE:VALUE"
+
+msgid "I18N_OPENXPKI_UI_CERTIFICATE_SEARCH_SERIAL_PLACEHOLDER"
+msgstr ""
+"serial in decimal or hexadecimal notation, spaces and colons are ignored"
+
 msgid "I18N_OPENXPKI_UI_CERTIFICATE_SEARCH_SIMILAR_SAN"
 msgstr "Search for certificates with this SAN"
 
 msgid "I18N_OPENXPKI_UI_CERTIFICATE_SEARCH_SIMILAR_SUBJECT"
 msgstr "Search for certificates with this subject"
+
+msgid "I18N_OPENXPKI_UI_CERTIFICATE_SEARCH_SUBJECT_PLACEHOLDER"
+msgstr ""
+"executes a substring match on the full certificate DN, wildcards can be used."
+
+msgid "I18N_OPENXPKI_UI_CERTIFICATE_SEARCH_VALIDITY_PLACEHOLDER"
+msgstr "select criteria and timestamp"
 
 msgid "I18N_OPENXPKI_UI_CERTIFICATE_SERIAL"
 msgstr "Certificate Serial"
@@ -1139,25 +1153,31 @@ msgid "I18N_OPENXPKI_UI_PROFILE_REQUESTOR_AFFILIATION"
 msgstr "Affiliation"
 
 msgid "I18N_OPENXPKI_UI_PROFILE_REQUESTOR_AFFILIATION_DESC"
-msgstr "Requestor affiliation"
+msgstr "Requester affiliation"
 
 msgid "I18N_OPENXPKI_UI_PROFILE_REQUESTOR_EMAIL"
 msgstr "Email address"
 
 msgid "I18N_OPENXPKI_UI_PROFILE_REQUESTOR_EMAIL_DESC"
-msgstr "Requestor email"
+msgstr "Requester email"
 
 msgid "I18N_OPENXPKI_UI_PROFILE_REQUESTOR_FIRSTNAME"
 msgstr "Firstname"
 
 msgid "I18N_OPENXPKI_UI_PROFILE_REQUESTOR_FIRSTNAME_DESC"
-msgstr "Requestor first name"
+msgstr "Requester first name"
 
 msgid "I18N_OPENXPKI_UI_PROFILE_REQUESTOR_LASTNAME"
 msgstr "Lastname"
 
 msgid "I18N_OPENXPKI_UI_PROFILE_REQUESTOR_LASTNAME_DESC"
-msgstr "Requestor last name"
+msgstr "Requester last name"
+
+msgid "I18N_OPENXPKI_UI_PROFILE_REQUESTOR_REALNAME"
+msgstr "Requester Name"
+
+msgid "I18N_OPENXPKI_UI_PROFILE_REQUESTOR_REALNAME_DESC"
+msgstr "The full name of the requester"
 
 msgid "I18N_OPENXPKI_UI_PROFILE_SAN_DNS"
 msgstr "DNS"
@@ -1284,6 +1304,9 @@ msgstr "Export Result"
 msgid "I18N_OPENXPKI_UI_SEARCH_HAS_NO_MATCHES"
 msgstr "Your query did not return any matches!"
 
+msgid "I18N_OPENXPKI_UI_SEARCH_METADATA_PLACEHOLDER"
+msgstr "search filters depend on attribute, see below"
+
 msgid "I18N_OPENXPKI_UI_SEARCH_NEW_SEARCH"
 msgstr "New Search"
 
@@ -1299,13 +1322,13 @@ msgstr ""
 "allowed."
 
 msgid "I18N_OPENXPKI_UI_SEARCH_REQUESTOR_EMAIL_LABEL"
-msgstr "Requestor Email"
+msgstr "Requester Email"
 
 msgid "I18N_OPENXPKI_UI_SEARCH_REQUESTOR_NAME_HINT"
-msgstr "Filter on the name of the requestor. Query is used as substring."
+msgstr "Filter on the name of the requester. Query is used as substring."
 
 msgid "I18N_OPENXPKI_UI_SEARCH_REQUESTOR_NAME_LABEL"
-msgstr "Requestor"
+msgstr "Requester"
 
 msgid "I18N_OPENXPKI_UI_SEARCH_RESULT_EXPIRED_OR_EMPTY"
 msgstr "Search result expired or empty!"
@@ -2264,7 +2287,7 @@ msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_CERT_INFO_DESC"
 msgstr "Information about the Request."
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_CERT_INFO_LABEL"
-msgstr "Requestor Information"
+msgstr "Requester Information"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_CERT_INFO_PLACEHOLDER"
 msgstr " "
@@ -2588,10 +2611,10 @@ msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_META_REQUESTOR_DESC"
 msgstr " "
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_META_REQUESTOR_LABEL"
-msgstr "Requestor/Owner"
+msgstr "Requester/Owner"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_META_REQUESTOR_PLACEHOLDER"
-msgstr "Name of the Requestor/Owner"
+msgstr "Name of the Requester/Owner"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_META_REQUESTOR_TOOLTIP"
 msgstr " "
@@ -2878,7 +2901,7 @@ msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_SIGNER_CERT_IDENTIFIER_LABEL"
 msgstr "Signer Certificate"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_SIGNER_CERT_LABEL"
-msgstr "Requestor/Signer"
+msgstr "Requester/Signer"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_SIGNER_CHAIN_DESC"
 msgstr " "
@@ -2890,7 +2913,7 @@ msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_SIGNER_DN_DESC"
 msgstr " "
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_SIGNER_DN_LABEL"
-msgstr "Requestor/Signer"
+msgstr "Requester/Signer"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_SIGNER_REVOKED_LABEL"
 msgstr "Signer is Revoked"
@@ -3155,6 +3178,11 @@ msgstr "last update after"
 msgid "I18N_OPENXPKI_UI_WORKFLOW_LAST_UPDATE_BEFORE_LABEL"
 msgstr "last update before"
 
+msgid "I18N_OPENXPKI_UI_WORKFLOW_LAST_UPDATE_HINT"
+msgstr ""
+"Find only workflows that have been update last after/before the given "
+"timestamp."
+
 msgid "I18N_OPENXPKI_UI_WORKFLOW_LAST_UPDATE_LABEL"
 msgstr "Last Update"
 
@@ -3172,6 +3200,9 @@ msgstr "Priority"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_LOG_TIMESTAMP_LABEL"
 msgstr "Timestamp"
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_METADATA_LABEL"
+msgstr "Metadata"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_MOTD_FIELD_LEVEL_DESCRIPTION"
 msgstr ""
@@ -3221,6 +3252,9 @@ msgstr "Paused action"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_PAUSE_REASON_LABEL"
 msgstr "Pause Reason"
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_PROC_STATE_HINT"
+msgstr "The internal processing state of the workflow."
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_PROC_STATE_LABEL"
 msgstr "Run State"
@@ -3293,14 +3327,31 @@ msgstr "Requested action not available - opening current state"
 msgid "I18N_OPENXPKI_UI_WORKFLOW_RESET_BUTTON"
 msgstr "Go Back"
 
+msgid "I18N_OPENXPKI_UI_WORKFLOW_SEARCH_CREATOR_HINT"
+msgstr ""
+"Show only workflows owned by the given creator, exact match, including the "
+"namespace prefix, if set. Can contain '*' and '?' wildcard."
+
 msgid "I18N_OPENXPKI_UI_WORKFLOW_SEARCH_CREATOR_LABEL"
 msgstr "Creator"
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_SEARCH_CREATOR_PLACEHOLDER"
+msgstr "exact match for creator, including namespace prefix, wildcards allowed"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_SEARCH_DESC"
 msgstr "Search for workflows using the filters below."
 
+msgid "I18N_OPENXPKI_UI_WORKFLOW_SEARCH_FIELD_HINT_LIST"
+msgstr "Explanation on the search filters:"
+
 msgid "I18N_OPENXPKI_UI_WORKFLOW_SEARCH_LABEL"
 msgstr "Search for Workflows"
+
+#, fuzzy
+msgid "I18N_OPENXPKI_UI_WORKFLOW_SEARCH_META_CERT_SUBJECT_HINT"
+msgstr ""
+"Find only workflows that are in the given state, exact match only, no "
+"wildcards are allowed but multiple states can be given separated by space."
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_SEARCH_RESULTS_DESCRIPTION"
 msgstr "Results of your search:"
@@ -3320,11 +3371,22 @@ msgstr "Search the database"
 msgid "I18N_OPENXPKI_UI_WORKFLOW_SEARCH_SERIAL_LABEL"
 msgstr "Workflow Id"
 
+msgid "I18N_OPENXPKI_UI_WORKFLOW_SEARCH_STATE_HINT"
+msgstr ""
+"Find only workflows that are in the given state, exact match only, no "
+"wildcards are allowed but multiple states can be given separated by space."
+
 msgid "I18N_OPENXPKI_UI_WORKFLOW_SEARCH_STATE_LABEL"
 msgstr "State"
 
+msgid "I18N_OPENXPKI_UI_WORKFLOW_SEARCH_STATE_PLACEHOLDER"
+msgstr "exact match of an internal state name, e.g. SUCCESS or PENDING"
+
 msgid "I18N_OPENXPKI_UI_WORKFLOW_SEARCH_SUBMIT_LABEL"
 msgstr "Search now"
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_SEARCH_TYPE_HINT"
+msgstr "Filter on the selected workflow type."
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_SEARCH_TYPE_LABEL"
 msgstr "Type"
@@ -4054,6 +4116,11 @@ msgstr "Wake Up"
 msgid "I18N_OPENXPKI_UI_YES"
 msgstr "Yes"
 
+#~ msgid "I18N_OPENXPKI_UI_CERTIFICATE_SERIAL_HINT"
+#~ msgstr ""
+#~ "Find a certificate by its serial number. In hexadecimal notation, spaces "
+#~ "and colons will be ignored."
+
 # Remove?
 #, fuzzy
 #~ msgid "I18N_OPENXPKI_UI_CUST"
@@ -4290,11 +4357,11 @@ msgstr "Yes"
 
 #, fuzzy
 #~ msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_META_ARS_GROUP_LABEL"
-#~ msgstr "Requestor/Owner"
+#~ msgstr "Requester/Owner"
 
 #, fuzzy
 #~ msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_META_ARS_GROUP_PLACEHOLDER"
-#~ msgstr "Name of the Requestor/Owner"
+#~ msgstr "Name of the Requester/Owner"
 
 #~ msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_META_ENDPOINT_DESC"
 #~ msgstr " The server endpoint used for the request."
@@ -4334,9 +4401,6 @@ msgstr "Yes"
 
 #~ msgid "I18N_OPENXPKI_UI_WORKFLOW_INFO"
 #~ msgstr "Technical Log"
-
-#~ msgid "I18N_OPENXPKI_UI_WORKFLOW_PROC_STATE_ARCHIVED"
-#~ msgstr "archived"
 
 #~ msgid "I18N_OPENXPKI_UI_WORKFLOW_PROC_STATE_EXCEPTION"
 #~ msgstr "exception"
