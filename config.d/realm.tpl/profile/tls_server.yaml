@@ -12,7 +12,7 @@ style:
             subject:
                 - hostname
                 - hostname2
-                - port
+                - application_name
             info:
                 - requestor_realname
                 - requestor_email
@@ -20,7 +20,7 @@ style:
                 - comment
 
         subject:
-            dn: CN=[% hostname.lower %][% IF port AND port != 443 %]:[% port %][% END %],DC=Test Deployment,DC=OpenXPKI,DC=org
+            dn: CN=[% hostname.lower %][% IF application_name %]:[% application_name %][% END %],DC=Test Deployment,DC=OpenXPKI,DC=org
             san:
               DNS:
                   - "[% hostname.lower %]"
