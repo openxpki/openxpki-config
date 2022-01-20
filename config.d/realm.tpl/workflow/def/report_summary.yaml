@@ -127,7 +127,7 @@ field:
       yaml_template: >
           [% USE Profile %]
           [% FOREACH profile = value.keys %]
-            - [% Profile.name(profile) %]: [% value.$profile %]
+            - [% Profile.name(profile) %] [% value.$profile %]
           [% END %]
 
     chart_overall:
