@@ -7,12 +7,11 @@ description: I18N_OPENXPKI_UI_WORKFLOW_FIELD_CERT_SAN_DESC
 type: cert_subject_alt_name
 format: rawlist
 preamble: I18N_OPENXPKI_UI_DNS_CHECK_PREAMBLE
-yaml_template: >
-  [% FOREACH san = value %][% san.0 %]:
+yaml_template: > 
+  [% FOREACH san = value %]
     [% IF san.0 == 'DNS' %]
       - [% USE CheckDNS %][% CheckDNS.valid(san.1, '(I18N_OPENXPKI_UI_DNS_CHECK_FAIL)', '(I18N_OPENXPKI_UI_DNS_CHECK_OK)','(I18N_OPENXPKI_UI_DNS_CHECK_TIMEOUT)','(I18N_OPENXPKI_UI_DNS_CHECK_SKIPPED)') %]
     [% ELSE %]
-     - [% san.1 %]
+      - [% san.1 %] ([% san.0 %])
     [% END %]
   [% END %]
-
