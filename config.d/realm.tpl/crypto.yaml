@@ -69,5 +69,4 @@ secret:
         label: Secret group for RA Token
         export: 1
         method: literal
-        # if you change this, you need to adapt the ratoken_update workflow!
-        value@: credentials.token
+        value: root
