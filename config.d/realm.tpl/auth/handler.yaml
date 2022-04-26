@@ -37,8 +37,8 @@ TestAccounts:
             digest: "$1$NgiUHfZ4$G/Zic.SH6cuWaGpqtbVWI1"
             role: RA Operator
             name: Operator
-            gname: Odin
-            realname: Odin Operator
+            gname: Óðinn
+            realname: Óðinn Operator
             email: odin@example.com
             tenant:
              - Alice Group
