@@ -173,14 +173,14 @@ bulk:
          action: csr_approve_csr
          format: expected
          # this is the string used as key - serial is the default
-         select: serial         
+         select: serial
       -  label: I18N_OPENXPKI_UI_BULK_REJECT_CSR_LABEL
-         format: failure         
+         format: failure
          action: reject_request
          # those parameters are added to the execute action call
          param:
              reject_comment: Rejected by bulk operation
-         
+
   - label: I18N_OPENXPKI_UI_BULK_PENDING_REVOCATION_LABEL
     description: I18N_OPENXPKI_UI_BULK_PENDING_REVOCATION_DESCRIPTION
     attributes:
@@ -210,13 +210,13 @@ bulk:
     buttons:
       -  label:  I18N_OPENXPKI_UI_BULK_APPROVE_CRR_LABEL
          action: crr_approve_crr
-         format: expected         
+         format: expected
       -  label:  I18N_OPENXPKI_UI_BULK_REJECT_CRR_LABEL
          format: failure
          action: crr_reject_crr
 
 wfsearch:
-    default:        
+    default:
         cols:
           - label: I18N_OPENXPKI_UI_WORKFLOW_SEARCH_SERIAL_LABEL
             field: WORKFLOW_SERIAL
@@ -310,12 +310,15 @@ certaction:
 
    - label: I18N_OPENXPKI_UI_CERT_ACTION_PUBLISH
      workflow: certificate_publishing
+     autorun: 1
 
    - label: I18N_OPENXPKI_UI_CERT_ACTION_SHOW_METADATA
      workflow: show_metadata
+     autorun: 1
 
    - label: I18N_OPENXPKI_UI_CERT_ACTION_UPDATE_METADATA
      workflow: change_metadata
+     autorun: 1
 
 certdetails:
     metadata:
@@ -324,10 +327,11 @@ certdetails:
       - label: I18N_OPENXPKI_UI_WORKFLOW_FIELD_META_REQUESTOR_LABEL
         field: meta_requestor
       - template: >
+          [%I IF meta_email %]
           I18N_OPENXPKI_UI_WORKFLOW_FIELD_META_EMAIL_LABEL:
           [% FOREACH mail = meta_email %]
               <a href="mailto:[% mail %]">[% mail %]</a>,
-          [% END %]
+          [% END %][% END %]
 
 #
 # Workflow search - detail block

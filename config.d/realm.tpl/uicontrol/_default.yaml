@@ -63,10 +63,11 @@ certdetails:
       - label: I18N_OPENXPKI_UI_WORKFLOW_FIELD_META_REQUESTOR_LABEL
         field: meta_requestor
       - template: >
+          [% IF meta_email %]
           I18N_OPENXPKI_UI_WORKFLOW_FIELD_META_EMAIL_LABEL:
           [% FOREACH mail = meta_email %]
               <a href="mailto:[% mail %]">[% mail %]</a>,
-          [% END %]
+          [% END %][% END %]
 
 
 # Workflow search - detail block

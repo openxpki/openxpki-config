@@ -6,71 +6,26 @@ head:
 
 state:
     INITIAL:
-        label: I18N_OPENXPKI_UI_WORKFLOW_STATE_METADATA_INITIAL_LABEL
-        description: I18N_OPENXPKI_UI_WORKFLOW_STATE_METADATA_INITIAL_DESC
         action:
-          - load_data > SUCCESS
+          - load_data > NOSTATUS
 
-    SUCCESS:
-        label: I18N_OPENXPKI_UI_WORKFLOW_STATE_METADATA_SUCCESS_LABEL
-        description: I18N_OPENXPKI_UI_WORKFLOW_STATE_METADATA_SUCCESS_DESC
+    NOSTATUS:
+        label: I18N_OPENXPKI_UI_WORKFLOW_STATE_SHOWMETA_RESULT_LABEL
+        description: I18N_OPENXPKI_UI_WORKFLOW_STATE_SHOWMETA_RESULT_DESC
         output:
-          - meta_email
-          - meta_requestor
           - meta_entity
-          - meta_add_me
-          - meta_add_me_multi
-
+          - meta_email
+          - meta_system_id
 
 action:
     load_data:
         class: OpenXPKI::Server::Workflow::Activity::Tools::LoadCertificateMetadata
-        label: I18N_OPENXPKI_UI_WORKFLOW_ACTION_CHANGEMETA_LOAD_DATA_LABEL
-        description: I18N_OPENXPKI_UI_WORKFLOW_ACTION_CHANGEMETA_LOAD_DATA_DESC
+        label: I18N_OPENXPKI_UI_WORKFLOW_ACTION_SHOWMETA_LOAD_DATA_LABEL
+        description: I18N_OPENXPKI_UI_WORKFLOW_ACTION_SHOWMETA_LOAD_DATA_DESC
         input:
           - cert_identifier
         validator:
           - global_cert_identifier_exists
-
-field:
-    meta_email:
-        label: I18N_OPENXPKI_UI_WORKFLOW_FIELD_META_EMAIL_LABEL
-        name: meta_email
-        description: I18N_OPENXPKI_UI_WORKFLOW_FIELD_META_EMAIL_DESC
-        placeholder: I18N_OPENXPKI_UI_WORKFLOW_FIELD_META_EMAIL_PLACEHOLDER
-        tooltip: I18N_OPENXPKI_UI_WORKFLOW_FIELD_META_EMAIL_TOOLTIP
-        type: text
-        required: 0
-        max: 10
-
-    meta_requestor:
-        label: I18N_OPENXPKI_UI_WORKFLOW_FIELD_META_REQUESTOR_LABEL
-        name: meta_requestor
-        description: I18N_OPENXPKI_UI_WORKFLOW_FIELD_META_REQUESTOR_DESC
-        placeholder: I18N_OPENXPKI_UI_WORKFLOW_FIELD_META_REQUESTOR_PLACEHOLDER
-        tooltip: I18N_OPENXPKI_UI_WORKFLOW_FIELD_META_REQUESTOR_TOOLTIP
-        type: text
-        required: 0
-
-    meta_system_id:
-        label: I18N_OPENXPKI_UI_WORKFLOW_FIELD_META_SYSTEM_ID_LABEL
-        name: meta_system_id
-        description: I18N_OPENXPKI_UI_WORKFLOW_FIELD_META_SYSTEM_ID_DESC
-        placeholder: I18N_OPENXPKI_UI_WORKFLOW_FIELD_META_SYSTEM_ID_PLACEHOLDER
-        tooltip: I18N_OPENXPKI_UI_WORKFLOW_FIELD_META_SYSTEM_ID_TOOLTIP
-        type: text
-        required: 0
-
-    meta_entity:
-        name: meta_entity
-
-    meta_add_me:
-        name: meta_add_me
-
-    meta_add_me_multi:
-        label: Multi
-        name: meta_add_me[]
-
 
 acl:
     CA Operator:
