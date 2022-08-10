@@ -130,16 +130,16 @@ state:
           global_cancel:
             format: failure
 
-    NICE_CERTIFICATE_ISSUED:
+    PICKUP_CERTIFICATE:
+        autorun: 1
+        action:
+          - global_noop > ISSUED ? global_has_cert_identifier
+          - global_nice_fetch_certificate > ISSUED ? !global_has_cert_identifier
+
+    ISSUED:
         autorun: 1
         action:
           - persist_metadata notify_issued publish_certificate > SUCCESS
-
-    NICE_PICKUP_CERTIFICATE:
-        autorun: 1
-        action:
-          - global_noop > NICE_CERTIFICATE_ISSUED ? is_certificate_issued
-          - global_nice_fetch_certificate > NICE_CERTIFICATE_ISSUED ? !is_certificate_issued
 
     NOTIFY_CSR_PENDING:
         autorun: 1
@@ -290,7 +290,7 @@ state:
     APPROVED:
         autorun: 1
         action:
-          - global_persist_csr global_nice_issue_certificate > NICE_PICKUP_CERTIFICATE
+          - global_persist_csr global_nice_issue_certificate > PICKUP_CERTIFICATE
 
     SETUP_REQUEST_TYPE:
         label: I18N_OPENXPKI_UI_WORKFLOW_STATE_CSR_SETUP_REQUEST_TYPE_LABEL
@@ -663,9 +663,6 @@ action:
             target_key: check_policy_key_duplicate_workflow
 
 condition:
-    is_certificate_issued:
-        class: OpenXPKI::Server::Workflow::Condition::NICE::IsCertificateIssued
-
     # If you want operators to approve their own certs
     # just remove the second contions line
     acl_can_approve:

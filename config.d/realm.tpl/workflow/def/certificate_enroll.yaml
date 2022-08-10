@@ -259,8 +259,19 @@ state:
     PREPARED:
         autorun: 1
         action:
-          - global_nice_issue_certificate persist_cert_metadata notify_cert_issued > REVOKE_CERTS ? !is_renewal_mode
-          - global_nice_renew_certificate persist_cert_metadata notify_cert_issued > REVOKE_CERTS ? is_renewal_mode
+          - global_nice_issue_certificate > PICKUP_CERTIFICATE ? !global_has_renewal_cert_identifier
+          - global_nice_renew_certificate > PICKUP_CERTIFICATE ? global_has_renewal_cert_identifier
+
+    PICKUP_CERTIFICATE:
+        autorun: 1
+        action:
+          - global_noop > ISSUED ? global_has_cert_identifier
+          - global_nice_fetch_certificate > ISSUED ? !global_has_cert_identifier
+
+    ISSUED:
+        autorun: 1
+        action:
+         - persist_cert_metadata notify_cert_issued > REVOKE_CERTS
 
     REVOKE_CERTS:
         autorun: 1
