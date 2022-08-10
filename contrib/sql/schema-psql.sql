@@ -36,9 +36,9 @@ CREATE TABLE aliases (
     pki_realm text NOT NULL,
     alias text NOT NULL,
     group_id text,
-    generation numeric(49,0),
-    notafter numeric(49,0),
-    notbefore numeric(49,0)
+    generation integer,
+    notafter bigint,
+    notbefore bigint
 );
 
 --
@@ -46,11 +46,11 @@ CREATE TABLE aliases (
 --
 
 CREATE TABLE application_log (
-    application_log_id numeric(49,0) NOT NULL,
+    application_log_id bigint NOT NULL,
     logtimestamp numeric(20,5),
-    workflow_id numeric(49,0),
+    workflow_id bigint,
     category text,
-    priority numeric(49,0),
+    priority integer,
     message text
 );
 
@@ -59,7 +59,7 @@ CREATE TABLE application_log (
 --
 
 CREATE TABLE audittrail (
-    audittrail_key integer NOT NULL,
+    audittrail_key bigint NOT NULL,
     logtimestamp numeric(49,0),
     category text,
     loglevel text,
@@ -80,14 +80,14 @@ CREATE TABLE certificate (
     status text,
     subject_key_identifier text,
     authority_key_identifier text,
-    notbefore numeric(49,0),
-    notafter numeric(49,0),
-    revocation_time numeric(49,0),
-    invalidity_time numeric(49,0),
+    notbefore bigint,
+    notafter bigint,
+    revocation_time bigint,
+    invalidity_time bigint,
     reason_code text,
     hold_instruction_code text,
-    revocation_id numeric(49,0),
-    req_key numeric(49,0),
+    revocation_id bigint,
+    req_key bigint,
     data text
 );
 
@@ -96,7 +96,7 @@ CREATE TABLE certificate (
 --
 
 CREATE TABLE certificate_attributes (
-    attribute_key numeric(49,0) NOT NULL,
+    attribute_key bigint NOT NULL,
     identifier text NOT NULL,
     attribute_contentkey text,
     attribute_value text
@@ -110,14 +110,14 @@ CREATE TABLE crl (
     pki_realm text NOT NULL,
     issuer_identifier text NOT NULL,
     profile text,
-    crl_key numeric(49,0) NOT NULL,
-    crl_number numeric(49,0),
+    crl_key bigint NOT NULL,
+    crl_number bigint,
     items integer,
-    max_revocation_id numeric(49,0),
+    max_revocation_id bigint,
     data text,
-    last_update numeric(49,0),
-    next_update numeric(49,0),
-    publication_date numeric(49,0)
+    last_update bigint,
+    next_update bigint,
+    publication_date bigint
 );
 
 
@@ -127,7 +127,7 @@ CREATE TABLE crl (
 
 CREATE TABLE csr (
     pki_realm text NOT NULL,
-    req_key numeric(49,0) NOT NULL,
+    req_key bigint NOT NULL,
     format text,
     data text,
     profile text,
@@ -139,9 +139,9 @@ CREATE TABLE csr (
 --
 
 CREATE TABLE csr_attributes (
-    attribute_key numeric(49,0) NOT NULL,
+    attribute_key bigint NOT NULL,
     pki_realm text NOT NULL,
-    req_key numeric(49,0) NOT NULL,
+    req_key bigint NOT NULL,
     attribute_contentkey text,
     attribute_value text,
     attribute_source text
@@ -158,8 +158,8 @@ CREATE TABLE datapool (
     datapool_value text,
     encryption_key text,
     access_key text,
-    notafter numeric(49,0),
-    last_update numeric(49,0)
+    notafter bigint,
+    last_update bigint
 );
 
 --
@@ -169,7 +169,7 @@ CREATE TABLE datapool (
 CREATE TABLE report (
     report_name text NOT NULL,
     pki_realm text NOT NULL,
-    created numeric(49,0),
+    created bigint,
     mime_type text NOT NULL,
     description text NOT NULL,
     report_value bytea NOT NULL
@@ -192,8 +192,8 @@ CREATE TABLE secret (
 CREATE TABLE backend_session (
     session_id text NOT NULL,
     data text,
-    created numeric(49,0) NOT NULL,
-    modified numeric(49,0) NOT NULL,
+    created bigint NOT NULL,
+    modified bigint NOT NULL,
     ip_address text
 );
 
@@ -204,8 +204,8 @@ CREATE TABLE backend_session (
 CREATE TABLE frontend_session (
     session_id text NOT NULL,
     data text,
-    created numeric(49,0) NOT NULL,
-    modified numeric(49,0) NOT NULL,
+    created bigint NOT NULL,
+    modified bigint NOT NULL,
     ip_address text
 );
 
@@ -330,16 +330,16 @@ CREATE SEQUENCE seq_workflow_history
 --
 
 CREATE TABLE workflow (
-    workflow_id numeric(49,0) NOT NULL,
+    workflow_id bigint NOT NULL,
     pki_realm text,
     workflow_type text,
     workflow_state text,
     workflow_last_update timestamp without time zone,
     workflow_proc_state text,
-    workflow_wakeup_at numeric(49,0),
-    workflow_count_try numeric(49,0),
-    workflow_reap_at numeric(49,0),
-    workflow_archive_at numeric(49,0),
+    workflow_wakeup_at bigint,
+    workflow_count_try integer,
+    workflow_reap_at bigint,
+    workflow_archive_at bigint,
     workflow_session text,
     watchdog_key text
 );
@@ -349,7 +349,7 @@ CREATE TABLE workflow (
 --
 
 CREATE TABLE workflow_attributes (
-    workflow_id numeric(49,0) NOT NULL,
+    workflow_id bigint NOT NULL,
     attribute_contentkey text NOT NULL,
     attribute_value text
 );
@@ -359,7 +359,7 @@ CREATE TABLE workflow_attributes (
 --
 
 CREATE TABLE workflow_context (
-    workflow_id numeric(49,0) NOT NULL,
+    workflow_id bigint NOT NULL,
     workflow_context_key text NOT NULL,
     workflow_context_value text
 );
@@ -369,8 +369,8 @@ CREATE TABLE workflow_context (
 --
 
 CREATE TABLE workflow_history (
-    workflow_hist_id numeric(49,0) NOT NULL,
-    workflow_id numeric(49,0),
+    workflow_hist_id bigint NOT NULL,
+    workflow_id bigint,
     workflow_action text,
     workflow_description text,
     workflow_state text,
