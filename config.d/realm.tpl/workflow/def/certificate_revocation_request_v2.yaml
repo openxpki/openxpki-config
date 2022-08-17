@@ -4,12 +4,10 @@ head:
     description: I18N_OPENXPKI_UI_WORKFLOW_TYPE_CERTIFICATE_REVOCATION_REQUEST_DESC
 
 state:
-    CHECK_APPROVALS:
-        autorun: 1
+    INITIAL:
+        label: I18N_OPENXPKI_UI_WORKFLOW_STATE_CRR_INITIAL_LABEL
         action:
-          - cleanup > CHECK_FOR_REVOCATION ? !is_not_yet_revoked_or_pending
-          - global_noop > CHECK_FOR_DELAYED_REVOKE ? is_approved is_not_yet_revoked_or_pending
-          - global_noop2 > NOTIFY_CRR_PENDING ? !is_approved is_not_yet_revoked_or_pending
+          - initialize set_workflow_attributes > CHECK_BATCHMODE
 
     CHECK_BATCHMODE:
         autorun: 1
@@ -18,24 +16,18 @@ state:
           - global_noop2 > CHECK_APPROVALS ? global_is_automated_request !global_is_signed_request
           - check_authorized_signer > CHECK_APPROVALS ? global_is_automated_request global_is_signed_request
 
-    CHECK_FOR_REVOCATION:
+    CHECK_APPROVALS:
         autorun: 1
         action:
-          - global_noop > SUCCESS
-          # if you want the workflow to wait until the CRL was published
-          # - global_check_for_revocation > SUCCESS
-        output:
-          - cert_identifier
-          - reason_code
-          - invalidity_time
-          - delay_revocation_time
-          - comment
+          - cleanup > SUCCESS ? !is_not_revoked_or_pending
+          - global_noop > CHECK_FOR_DELAYED_REVOKE ? is_approved is_not_revoked_or_pending
+          - search_active_revocation_workflow > NOTIFY_CRR_PENDING ? !is_approved is_not_revoked_or_pending
 
     CHECK_FOR_DELAYED_REVOKE:
         autorun: 1
         action:
-          - delay_revocation > CRR_PERSIST ? is_delayed_revocation
-          - global_noop > CRR_PERSIST ? !is_delayed_revocation
+          - delay_revocation > DISPATCH_REVOKE ? is_delayed_revocation
+          - global_noop > DISPATCH_REVOKE ? !is_delayed_revocation
         output:
           - cert_identifier
           - reason_code
@@ -43,61 +35,17 @@ state:
           - delay_revocation_time
           - comment
 
-
-    CRR_PERSIST:
+    DISPATCH_REVOKE:
         autorun: 1
         action:
-          - persist_crr > NICE_DISPATCH_REVOKE ? is_not_yet_revoked_or_pending
-          - global_noop > CHECK_FOR_REVOCATION ? !is_not_yet_revoked_or_pending
-
-    FAILURE:
-        label: I18N_OPENXPKI_UI_WORKFLOW_STATE_CRR_FAILURE_LABEL
-        description: I18N_OPENXPKI_UI_WORKFLOW_STATE_CRR_FAILURE_DESC
-
-    INITIAL:
-        label: I18N_OPENXPKI_UI_WORKFLOW_STATE_CRR_INITIAL_LABEL
-        action:
-          - initialize set_workflow_attributes > CHECK_BATCHMODE
-
-    NICE_DISPATCH_REVOKE:
-        autorun: 1
-        action:
-          - global_nice_revoke_certificate > CHECK_FOR_REVOCATION
+          - global_nice_revoke_certificate > SUCCESS ? is_not_revoked_or_pending
+          - global_noop > SUCCESS ? !is_not_revoked_or_pending
 
     NOTIFY_CRR_PENDING:
         autorun: 1
         action:
           - global_noop > PENDING ? pending_notification_send
           - send_pending_notification flag_pending_notification_send > PENDING ? !pending_notification_send
-
-    PENDING:
-        label: I18N_OPENXPKI_UI_WORKFLOW_STATE_CRR_PENDING_LABEL
-        description: I18N_OPENXPKI_UI_WORKFLOW_STATE_CRR_PENDING_DESC
-        action:
-          - approve_crr > CHECK_APPROVALS ? acl_can_approve is_not_yet_revoked_or_pending
-          - update_crr > PENDING ? acl_can_approve is_not_yet_revoked_or_pending
-          - reject_crr > REJECTED ? acl_can_reject is_not_yet_revoked_or_pending
-          - cleanup > SUCCESS ? !is_not_yet_revoked_or_pending
-        output:
-          - cert_identifier
-          - creator
-          - notbefore
-          - invalidity_time
-          - delay_revocation_time
-          - reason_code
-          - comment
-          - signer_revoked
-          - signer_trusted
-          - signer_authorized
-        button:
-          update_crr:
-            format: optional
-          approve_crr:
-            format: expected
-          reject_crr:
-            format: failure
-          cleanup:
-            format: expected
 
     PENDING_USER:
         label: I18N_OPENXPKI_UI_WORKFLOW_STATE_CRR_REQUEST_COMPLETE_LABEL
@@ -120,16 +68,46 @@ state:
           cancel:
             format: failure
 
-
-    REJECTED:
-        label: I18N_OPENXPKI_UI_WORKFLOW_STATE_CRR_REJECTED_LABEL
-        description: I18N_OPENXPKI_UI_WORKFLOW_STATE_CRR_REJECTED_DESC
+    PENDING:
+        label: I18N_OPENXPKI_UI_WORKFLOW_STATE_CRR_PENDING_LABEL
+        description: I18N_OPENXPKI_UI_WORKFLOW_STATE_CRR_PENDING_DESC
+        action:
+          - approve_crr > CHECK_APPROVALS ? acl_can_approve is_not_revoked_or_pending global_is_tmp_queue_empty
+          - global_noop approve_crr > CHECK_APPROVALS ? acl_can_approve is_not_revoked_or_pending !global_is_tmp_queue_empty
+          - search_active_revocation_workflow > PENDING ? acl_can_approve is_not_revoked_or_pending
+          - update_crr > PENDING ? acl_can_approve is_not_revoked_or_pending
+          - reject_crr > REJECTED ? acl_can_reject is_not_revoked_or_pending
+          - cleanup > SUCCESS ? !is_not_revoked_or_pending
         output:
           - cert_identifier
-          - reason_code
+          - related_workflow_list
+          - creator
+          - notbefore
           - invalidity_time
           - delay_revocation_time
+          - reason_code
           - comment
+          - signer_revoked
+          - signer_trusted
+          - signer_authorized
+        button:
+          update_crr:
+            format: optional
+          approve_crr:
+            format: expected
+          global_noop:
+            label: I18N_OPENXPKI_UI_WORKFLOW_ACTION_APPROVE_CRR_LABEL
+            format: alternative
+            confirm:
+                label: I18N_OPENXPKI_UI_WORKFLOW_REVOCATION_WORKFLOW_EXISTS_WARNING_CONFIRM_LABEL
+                description: I18N_OPENXPKI_UI_WORKFLOW_REVOCATION_WORKFLOW_EXISTS_WARNING_CONFIRM_DESC
+          search_active_revocation_workflow:
+            format: expected
+            label: I18N_OPENXPKI_UI_WORKFLOW_RELOAD_RELATED_LIST
+          reject_crr:
+            format: failure
+          cleanup:
+            format: expected
 
     SUCCESS:
         label: I18N_OPENXPKI_UI_WORKFLOW_STATE_CRR_SUCCESS_LABEL
@@ -144,7 +122,31 @@ state:
     CANCELED:
         label: I18N_OPENXPKI_UI_WORKFLOW_STATE_CRR_CANCELED_LABEL
         description: I18N_OPENXPKI_UI_WORKFLOW_STATE_CRR_CANCELED_DESC
+        output:
+          - cert_identifier
+          - reason_code
+          - invalidity_time
+          - comment
 
+    REJECTED:
+        label: I18N_OPENXPKI_UI_WORKFLOW_STATE_CRR_REJECTED_LABEL
+        description: I18N_OPENXPKI_UI_WORKFLOW_STATE_CRR_REJECTED_DESC
+        output:
+          - cert_identifier
+          - reason_code
+          - invalidity_time
+          - delay_revocation_time
+          - comment
+
+    FAILURE:
+        label: I18N_OPENXPKI_UI_WORKFLOW_STATE_CRR_FAILURE_LABEL
+        description: I18N_OPENXPKI_UI_WORKFLOW_STATE_CRR_FAILURE_DESC
+        output:
+          - error_code
+          - cert_identifier
+          - reason_code
+          - invalidity_time
+          - comment
 
 action:
     approve_crr:
@@ -216,6 +218,18 @@ action:
         class: OpenXPKI::Server::Workflow::Activity::Tools::SetAttribute
         param:
            _map_cert_subject: "[% USE Certificate %][% Certificate.body(context.cert_identifier, 'subject') %]"
+           _map_cert_identifier: $cert_identifier
+
+    search_active_revocation_workflow:
+        class: OpenXPKI::Server::Workflow::Activity::Tools::SearchWorkflow
+        param:
+            mode: list
+            _map_attr_cert_identifier: $cert_identifier
+            wf_type: certificate_revocation_request_v2
+            wf_proc_state:
+              - manual
+              - pause
+            target_key: tmp_queue
 
     submit:
         class: OpenXPKI::Server::Workflow::Activity::Noop
@@ -238,7 +252,6 @@ action:
 
 
 condition:
-
     acl_can_approve:
         class: Workflow::Condition::LazyAND
         param:
@@ -251,7 +264,7 @@ condition:
             condition1: global_is_operator
 #           condition2: "!global_is_creator"
 
-    is_not_yet_revoked_or_pending:
+    is_not_revoked_or_pending:
         class: OpenXPKI::Server::Workflow::Condition::CertificateNotYetRevoked
 
     is_delayed_revocation:
@@ -275,7 +288,6 @@ condition:
         class: Workflow::Condition::Evaluate
         param:
             test: $context->{flag_auto_approval}
-
 
     pending_notification_send:
         class: Workflow::Condition::Evaluate
