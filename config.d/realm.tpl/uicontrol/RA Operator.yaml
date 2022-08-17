@@ -151,7 +151,6 @@ bulk:
       type:
         - certificate_signing_request_v2
       state:
-        - ONHOLD
         - PENDING
         - PENDING_POLICY_VIOLATION
 
@@ -176,7 +175,7 @@ bulk:
          select: serial
       -  label: I18N_OPENXPKI_UI_BULK_REJECT_CSR_LABEL
          format: failure
-         action: reject_request
+         action: csr_reject_request
          # those parameters are added to the execute action call
          param:
              reject_comment: Rejected by bulk operation
