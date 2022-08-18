@@ -12,6 +12,9 @@ pid_file:     /var/run/openxpkid.pid
 stderr:       /var/log/openxpki/stderr.log
 tmpdir:       /var/tmp
 
+# we need to give write permission to the socket for the webserver
+socket_owner: www-data
+
 # This is experimental!
 #type: PreFork
 prefork:
