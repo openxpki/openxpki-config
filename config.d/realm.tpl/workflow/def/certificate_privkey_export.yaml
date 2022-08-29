@@ -147,7 +147,7 @@ condition:
     is_pkcs12:
         class: Workflow::Condition::Evaluate
         param:
-            test: $context->{key_format} eq 'PKCS12'
+            test: $context->{key_format} =~ m{\APKCS12}
 
     is_pkcs8_pem:
         class: Workflow::Condition::Evaluate
