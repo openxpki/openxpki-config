@@ -96,6 +96,16 @@ action:
           - global_system_id
 
 condition:
+    is_notify_pending:
+        class: Workflow::Condition::Evaluate
+        param:
+            test: ($context->{meta_expiry_notification} eq 'pending')
+
+    is_notify_disabled:
+        class: Workflow::Condition::Evaluate
+        param:
+            test: (!$context->{meta_expiry_notification} || $context->{meta_expiry_notification} =~ m{(disabled|suppress)})
+
     has_updates:
         class: Workflow::Condition::Evaluate
         param:
