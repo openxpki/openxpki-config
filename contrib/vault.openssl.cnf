@@ -1,6 +1,6 @@
 # Use this file to genereate the self-signed DataVault certificate
 # Note that the key will be unencrypted!
-# openssl req -new -keyout vault.key -out vault.crt -days 1100 \
+# openssl req -new -x509 -keyout vault.key -out vault.crt -days 1100 \
 #    -config vault.openssl.cnf
 
 [ req ]
