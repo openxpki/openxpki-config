@@ -2,9 +2,6 @@
 
 label: I18N_OPENXPKI_UI_PROFILE_TLS_CLIENT_LABEL
 
-validity:
-    notafter: +01
-
 style:
     00_basic_style:
         label: I18N_OPENXPKI_UI_PROFILE_BASIC_STYLE_LABEL
@@ -17,6 +14,7 @@ style:
                 - requestor_realname
                 - requestor_email
                 - requestor_affiliation
+                - owner_contact
                 - comment
 
         subject:
@@ -25,12 +23,16 @@ style:
         metadata:
             requestor: "[% requestor_realname %]"
             email: "[% requestor_email %]"
+            owner_contact: "[% owner_contact || requestor_email %]"
             entity: "[% hostname FILTER lower %]"
 
     enroll:
         subject:
             dn: CN=[% CN.0 %],DC=Test Deployment,DC=OpenXPKI,DC=org
 
+        metadata:
+            server_id: "[% data.server_id %]"
+            entity: "[% CN.0.replace(':.*','') FILTER lower %]"
 
 # Profile extensions - set 0/1 as needed
 extensions:

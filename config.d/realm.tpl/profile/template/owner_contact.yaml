@@ -1,0 +1,5 @@
+id: owner_contact
+label: I18N_OPENXPKI_UI_PROFILE_OWNER_CONTACT
+description: I18N_OPENXPKI_UI_PROFILE_OWNER_CONTACT_DESC
+match: \A \S+\@([\w-]+\.)+(\w+) \z
+preset: userinfo.email

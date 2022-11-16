@@ -57,6 +57,7 @@ style:
             info:
                 - requestor_realname
                 - requestor_email
+                - owner_contact
                 - comment
 
         # Subject is evaluated by template toolkit with the input data from the ui.subject fields
@@ -65,6 +66,13 @@ style:
             dn: CN=[% hostname %][% IF port AND port != 443 %]:[% port %][% END %],DC=Test Deployment,DC=OpenXPKI,DC=org
         # You can use the fields from ui.subject here
             san: dns=[% hostname %]
+
+        # this is attached to the certificate, all fields from ui can be used
+        metadata:
+            requestor: "[% requestor_realname %]"
+            email: "[% requestor_email %]"
+            owner_contact: "[% owner_contact || requestor_email %]"
+            entity: "[% hostname FILTER lower %]"
 
     05_advanced_style:
         label: I18N_OPENXPKI_UI_PROFILE_ADVANCED_STYLE_LABEL
@@ -87,6 +95,7 @@ style:
             info:
                 - requestor_realname
                 - requestor_email
+                - owner_contact
                 - comment
 
         # Subject is evaluated by template toolkit with the input data from the ui.subject fields
@@ -102,6 +111,12 @@ style:
         # no san definitions are required here as items from ui.san are directly written to the SAN
         # if you add a SAN section here, those are merged with the "direct" sans
 
+        # metadata is the same as above
+        metadata:
+            requestor: "[% requestor_realname %]"
+            email: "[% requestor_email %]"
+            owner_contact: "[% owner_contact || requestor_email %]"
+            entity: "[% CN FILTER lower %]"
 
 # Profile extensions - set 0/1 as needed
 extensions:

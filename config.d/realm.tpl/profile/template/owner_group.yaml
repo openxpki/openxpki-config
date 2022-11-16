@@ -1,0 +1,4 @@
+id: owner_group
+label: I18N_OPENXPKI_UI_PROFILE_OWNER_GROUP
+description: I18N_OPENXPKI_UI_PROFILE_OWNER_GROUP_DESC
+match: \A[A-Z][A-Z0-9_]*[A-Z0-9]\z
