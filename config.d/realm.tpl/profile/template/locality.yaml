@@ -1,0 +1,8 @@
+id: L
+label: L
+description: I18N_OPENXPKI_UI_PROFILE_LOCALITY_DESC
+preset: L
+type: text
+width: 2
+required: 0
+placeholder: Munich

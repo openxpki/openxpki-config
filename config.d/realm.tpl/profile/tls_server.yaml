@@ -41,6 +41,8 @@ style:
                 - o
                 - ou
                 - dc
+                - locality
+                - state
                 - c
             san:
                 - san_ipv4
@@ -52,7 +54,13 @@ style:
                 - comment
 
         subject:
-            dn: CN=[% CN %][% IF OU %][% FOREACH entry = OU %],OU=[% entry %][% END %][% END %][% IF O %],O=[% O %][% END %][% FOREACH entry = DC %],DC=[% entry %][% END %][% IF C %],C=[% C %][% END %]
+            dn: CN=[% CN %]
+                    [% IF OU %][% FOREACH entry = OU %],OU=[% entry %][% END %][% END %]
+                    [% IF O %],O=[% O %][% END %]
+                    [% FOREACH entry = DC %],DC=[% entry %][% END %]
+                    [% IF L %],L=[% L %][% END %]
+                    [% IF ST %],ST=[% ST %][% END %]
+                    [% IF C %],C=[% C %][% END %]
             # no san definitions here as items from ui.san are directly written to the SAN
 
     enroll:
