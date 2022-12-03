@@ -8,7 +8,7 @@ log4perl: /etc/openxpki/log.conf
 user:         openxpki
 group:        openxpki
 socket_file:  /var/openxpki/openxpki.socket
-pid_file:     /var/run/openxpkid.pid
+pid_file:     /run/openxpkid.pid
 stderr:       /var/log/openxpki/stderr.log
 tmpdir:       /var/tmp
 
