@@ -101,13 +101,14 @@ style:
         # Subject is evaluated by template toolkit with the input data from the ui.subject fields
         # Note: Fields which have max > 1 are always passed as array
         subject:
-            dn: CN=[% CN %]
-                    [% IF OU %][% FOREACH entry = OU %],OU=[% entry %][% END %][% END %]
-                    [% IF O %],O=[% O %][% END %]
-                    [% FOREACH entry = DC %],DC=[% entry %][% END %]
-                    [% IF L %],L=[% L %][% END %]
-                    [% IF ST %],ST=[% ST %][% END %]
-                    [% IF C %],C=[% C %][% END %]
+            dn: >
+                CN=[% CN %]
+                [% IF OU %][% FOREACH entry = OU %],OU=[% entry %][% END %][% END %]
+                [% IF O %],O=[% O %][% END %]
+                [% FOREACH entry = DC %],DC=[% entry %][% END %]
+                [% IF L %],L=[% L %][% END %]
+                [% IF ST %],ST=[% ST %][% END %]
+                [% IF C %],C=[% C %][% END %]
         # no san definitions are required here as items from ui.san are directly written to the SAN
         # if you add a SAN section here, those are merged with the "direct" sans
 
