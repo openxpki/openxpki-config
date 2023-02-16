@@ -10,9 +10,11 @@ state:
 
     PERSIST:
         autorun: 1
-        action: set_motd > SUCCESS
+        action:
+          - set_motd > NOSTATUS ? has_message
+          - delete_motd > NOSTATUS ? !has_message
 
-    SUCCESS:
+    NOSTATUS:
         label: I18N_OPENXPKI_UI_WORKFLOW_SET_MOTD_SUCCESS_LABEL
         description: I18N_OPENXPKI_UI_WORKFLOW_SET_MOTD_SUCCESS_DESCRIPTION
         output:
@@ -53,6 +55,12 @@ action:
             serialize: 1
             _map_expiration_date: $notafter
 
+    delete_motd:
+        class: OpenXPKI::Server::Workflow::Activity::Tools::Datapool::DeleteEntry
+        param:
+            namespace: webui.motd
+            _map_key: $role
+
 field:
     level:
         name: level
@@ -71,8 +79,8 @@ field:
         name: message
         label: I18N_OPENXPKI_UI_WORKFLOW_MOTD_FIELD_MESSAGE_LABEL
         description: I18N_OPENXPKI_UI_WORKFLOW_MOTD_FIELD_MESSAGE_DESCRIPTION
-        required: 1
         type: text
+        template: "[% IF value; value; ELSE; 'I18N_OPENXPKI_UI_WORKFLOW_MOTD_MESSAGE_REMOVED_LABEL'; END; %]"
 
     link:
         name: link
@@ -93,6 +101,12 @@ field:
               - _any
               - User
               - RA Operator
+
+condition:
+    has_message:
+        class: Workflow::Condition::Evaluate
+        param:
+            test: $context->{message}
 
 validator:
     full_uri:
