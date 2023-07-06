@@ -3,6 +3,7 @@ label: I18N_OPENXPKI_UI_PROFILE_REQUESTOR_EMAIL
 description: I18N_OPENXPKI_UI_PROFILE_REQUESTOR_EMAIL_DESC
 type: text
 width: 40
-match: .+@.+
+# This is NOT RFC compliant but should catch 99% of what you get in the wild
+match: \A [\w\+\.\-"'=\ ]+ \@ ([\w-]+\.)+(\w+)+ \z
 placeholder: john.doe@openxpki.org
 preset: userinfo.email

@@ -1,5 +1,6 @@
 id: owner_contact
 label: I18N_OPENXPKI_UI_PROFILE_OWNER_CONTACT
 description: I18N_OPENXPKI_UI_PROFILE_OWNER_CONTACT_DESC
-match: \A \S+\@([\w-]+\.)+(\w+) \z
+# This is NOT RFC compliant but should catch 99% of what you get in the wild
+match: \A [\w\+\.\-"'=\ ]+ \@ ([\w-]+\.)+(\w+)+ \z
 preset: userinfo.email

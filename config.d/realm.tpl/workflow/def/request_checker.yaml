@@ -44,7 +44,7 @@ field:
     common_name:
         label: I18N_OPENXPKI_UI_CERTIFICATE_COMMON_NAME
         name: cert_subject_parts
-        format: raw
+        format: text
         template: >
           [% FOREACH p IN value %]
             [% IF p.key == 'CN' %]
@@ -63,26 +63,26 @@ field:
           [% IF san.0 == 'DNS' %]
            - [% USE CheckDNS %][% CheckDNS.valid(san.1, '(I18N_OPENXPKI_UI_DNS_CHECK_FAIL)', '(I18N_OPENXPKI_UI_DNS_CHECK_OK)','(I18N_OPENXPKI_UI_DNS_CHECK_TIMEOUT)','(I18N_OPENXPKI_UI_DNS_CHECK_SKIPPED)') %]
           [% ELSE %]
-           - [% san.1 %] ([% san.0 %])
+           - '[% san.1 FILTER html %] ([% san.0 %])'
           [% END %]
         [% END %]
 
     key_alg:
         label: I18N_OPENXPKI_UI_KEY_KEY_ALG
         name:  csr_key_alg
-        format: raw
+        format: text
         template: "[% value FILTER upper %]"
 
     key_length:
         label:  I18N_OPENXPKI_UI_KEY_KEY_LENGTH
         name:   csr_key_params
-        format: raw
+        format: text
         template: "[% value.key_length %]"
 
     curve_name:
         label:  I18N_OPENXPKI_UI_KEY_CURVE_NAME
         name:   csr_key_params
-        format: raw
+        format: text
         template: "[% value.curve_name %]"
 
     csr_subject_key_identifier:
@@ -92,20 +92,20 @@ field:
     certificate_template:
         label:  I18N_OPENXPKI_UI_CSR_EXT_CERTIFICATE_TEMPLATE
         name:   req_extensions
-        format: raw
+        format: text
         template: >
           [% IF value.certificateTemplate %][% value.certificateTemplate.templateID %] (v[% value.certificateTemplate.templateMajorVersion %].[% value.certificateTemplate.templateMinorVersion %]) [% END %]
 
     certificate_template_name:
         label:  I18N_OPENXPKI_UI_CSR_EXT_CERTIFICATE_TEMPLATE
         name:   req_extensions
-        format: raw
+        format: text
         template: "[% value.certificateTemplateName %]"
 
     challenge_password:
         label:  I18N_OPENXPKI_UI_CSR_EXT_CHALLENGE_PASSWORD
         name:   req_attributes
-        format: raw
+        format: text
         template: "[% value.challenge_password %]"
 
     key_duplicate:

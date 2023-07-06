@@ -12,5 +12,3 @@ template: >
   [% ELSE %]
     [% FILTER html %][% value %][% END %]
   [% END %]
-
-

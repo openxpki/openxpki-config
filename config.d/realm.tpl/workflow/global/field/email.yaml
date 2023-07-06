@@ -3,7 +3,8 @@ name: email
 description: I18N_OPENXPKI_UI_WORKFLOW_FIELD_EMAIL_DESC
 placeholder: I18N_OPENXPKI_UI_WORKFLOW_FIELD_EMAIL_PLACEHOLDER
 tooltip: I18N_OPENXPKI_UI_WORKFLOW_FIELD_EMAIL_TOOLTIP
-match: \A \S+\@([\w-]+\.)+(\w+) \z
+match: \A [\w\+\.\-"'=\ ]+ \@ ([\w-]+\.)+(\w+)+ \z
 type: text
+format: email
 required: 0
 api_type: Str

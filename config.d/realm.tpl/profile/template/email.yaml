@@ -3,6 +3,7 @@ label: I18N_OPENXPKI_UI_PROFILE_EMAILADDRESS
 description: I18N_OPENXPKI_UI_PROFILE_EMAILADDRESS_DESC
 type: text
 preset: "[% emailAddress.0 || SAN_EMAIL.0 || userinfo.email %]"
-match: .+@.+
+# This is NOT RFC compliant but should catch 99% of what you get in the wild
+match: \A [\w\+\.\-"'=\ ]+ \@ ([\w-]+\.)+(\w+)+ \z
 width: 30
 placeholder: john.doe@openxpki.org
