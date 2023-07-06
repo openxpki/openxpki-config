@@ -348,7 +348,7 @@ wfdetails:
       field: id
       link:
           page: "workflow!load!wf_id![% id %]"
-          target: _blank
+          target: top
 
     - label: I18N_OPENXPKI_UI_WORKFLOW_TYPE_LABEL
       field: type
