@@ -75,12 +75,13 @@ action:
           - cert_identifier_hidden
           - key_format
           - _password
-          - export_password
+          - _export_password
           - unencrypted
           - alias
         validator:
           - global_cert_identifier_exists
           - keystore_alias
+          - password_quality
 
     generate:
         class: OpenXPKI::Server::Workflow::Activity::Tools::CertificateExport
@@ -90,7 +91,7 @@ action:
           _map_cert_identifier: $cert_identifier
           _map_key_password: $_password
           _map_alias: $alias
-          _map_export_password: '[% IF context.unencrypted; ""; ELSE; context.export_password; END %]'
+          _map_export_password: '[% IF context.unencrypted; ""; ELSE; context._export_password; END %]'
           _map_unencrypted: $unencrypted
 
     setfile_pkcs12:
@@ -201,8 +202,8 @@ field:
         label: I18N_OPENXPKI_UI_EXPORT_PRIVATEKEY_PASSWORD_LABEL
         description: I18N_OPENXPKI_UI_EXPORT_PRIVATEKEY_PASSWORD_DESC
 
-    export_password:
-        name: export_password
+    _export_password:
+        name: _export_password
         type: passwordverify
         required: 0
         label: I18N_OPENXPKI_UI_EXPORT_PRIVATEKEY_EXPORT_PASSWORD_LABEL
@@ -223,6 +224,15 @@ validator:
         param:
             regex: "\\A [a-zA-Z0-9-_\\.]+ \\z"
             error: I18N_OPENXPKI_UI_KEYSTORE_ALIAS_CONTAINS_INVALID_CHARACTERS
+
+    password_quality:
+        class: OpenXPKI::Server::Workflow::Validator::PasswordQuality
+        arg:
+         - $_export_password
+        param:
+            minlen: 10
+            maxlen: 128
+            groups: 3
 
 
 acl:
