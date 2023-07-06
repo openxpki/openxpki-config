@@ -6,5 +6,5 @@ yaml_template: >
   [% USE Certificate %]
   [% FOREACH identifier = value %]
     - page: certificate!detail!identifier![% identifier %]
-      label: "[% Certificate.dn(identifier,'CN') %] / [% identifier %] / [% Certificate.realm(identifier) %]</a>"
+      label: "[% Certificate.dn(identifier,'CN') %] / [% identifier %] / [% Certificate.realm(identifier) %]"
   [% END %]
