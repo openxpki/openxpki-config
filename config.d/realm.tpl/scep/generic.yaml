@@ -1,7 +1,5 @@
-# By default, all scep endpoints wll use the default token defined
-# by the scep token group, if you pass a name here, it is considered
-# a group name from the alias table
-#token: scep-altra
+# Used in some dropdowns on the UI as name for this endpoint
+label: Generic SCEP
 
 # A renewal request is only accpeted if the used certificate will
 # expire within this period of time.
@@ -16,18 +14,6 @@ renewal_period: 000060
 revoke_on_replace:
     reason_code: keyCompromise
     delay_revocation_time: +000014
-
-workflow:
-    type: certificate_enroll
-    param:
-        # key: name in workflow context, value: parameter from scep wrapper
-        # server and interface are always set, the mapping below is
-        # the default set that is used when no map is given
-        transaction_id: transaction_id
-        signer_cert: signer_cert
-        pkcs10: pkcs10
-        _url_params: url_params
-        #_pkcs7: pkcs7
 
 # if you remove this section, any non-renewal request will be treated
 # as an initial request, this works around non-standard MDM and devices
@@ -60,20 +46,29 @@ policy:
     # show a button to run a recheck (Workflow goes to PENDING)
     allow_eligibility_recheck: 0
 
-    # Approval points requirede (eligibity and operator count as one point each)
-    # if you set this to "0", all authenticated requests are auto-approved!
+    # Approval points are used to set a threshold for the system to grant
+    # approval, and they help measure a request to see whether the
+    # requirement is fulfilled. If you set this to "0", no points are
+    # required and all authenticated requests are auto-approved.
+    # If the eligibilty check returned success and no approval rules are
+    # defined, you get one point for the passed check. If approval rules
+    # are given, the eligibility check is a prereq for their evaluation
+    # and there is NO point for the eligibility check itself!
+    # If you dont reach the required number of points after this step and
+    # allow_man_approv is set you can fill up the missing points by a
+    # manual operator approval (one point per operator)
     approval_points: 1
 
     # The number of active certs with the same subject that are allowed
-    # to exist at the same time, deducted by one if a renewal is seen
+    # to exist at the same time. The predecessor is NOT included in this
+    # count so a renewal inside the expected interval is always allowed!
     # set to 0 if you dont want to check for duplicates at all
     max_active_certs: 1
 
-    # option will be removed
-    # allow_expired_signer: 0
-
-    # If an initial enrollment is seen
-    # all existing certificates with the same subject are revoked
+    # If the number of certificates found exceed max_active_certs and this
+    # flag is set, ALL duplicates (except the predecessor) will be revoked
+    # after the new certificate was issued
+    # This flag is ineffective on self-signed renewals!
     auto_revoke_existing_certs: 1
 
     # allows a "renewal" outside the renewal window, the notafter date
@@ -81,26 +76,6 @@ policy:
     # to revoke the replaced certificate.
     # This substitutes the "replace_window" from the OpenXPKI v1 config
     allow_replace: 1
-
-response:
-    # The scep standard is a bit unclear if the root should be in the chain
-    # or not. We consider it a security risk (trust should be always set
-    # by hand) but as most clients seem to expect it, we include the root
-    # by default.
-    # The getca response contains the certificate of the SCEP server itself
-    # and of the current active issuer (which can but need not to be the same!)
-    # You can define weather to have only the certificate itself (endentity),
-    # the chain without the root (chain)  or the chain including the root
-    # (fullchain).
-    # Note: The response is cached internally in the datapool so changes
-    # will not show up immediately - to list the cached items use
-    # openxpkicli list_data_pool_entries  --arg namespace=scep.cache.getca
-    # You can delete by setting the empty string as value with
-    # set_data_pool_entry (value="" force=1)
-    getca:
-        ra:     fullchain
-        issuer: fullchain
-
 
 profile:
   cert_profile: tls_server
@@ -110,6 +85,8 @@ profile:
 # Microsoft Certificate Template Name Ext. (1.3.6.1.4.1.311.20.2)
 profile_map:
     pc-client: tls_client
+    tls-server: tls_server
+    tls-client: tls_client
 
 # HMAC based authentication
 hmac: verysecret
