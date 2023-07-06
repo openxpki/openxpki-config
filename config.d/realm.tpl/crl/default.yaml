@@ -52,3 +52,15 @@ extensions:
         # an empty extension, which is problematic with both RSA SecurId
         # tokens and Cisco devices!
         copy: 0
+
+# From v3.26 onwards, the default is to comply to RFC5280 and only include
+# unexpired certificates on the CRL. As there are good reasons to keep
+# them you can control this behaviour with the new parameter keep_expired
+# To get the old behaviour, set "keep_expired: _any" which will keep all
+# revoked certificates on the CRL, to get a more fine grained control you
+# can also pass a individual reason codes to keep (sep by space), e.g.
+# keep_expired: keyCompromise
+# or
+# keep_expired:
+#  - keyCompromise
+#  - affiliationChanged
