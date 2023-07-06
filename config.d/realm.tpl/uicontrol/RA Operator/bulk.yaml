@@ -1,0 +1,81 @@
+- label: I18N_OPENXPKI_UI_BULK_PENDING_REQUEST_LABEL
+  description: I18N_OPENXPKI_UI_BULK_PENDING_REQUEST_DESCRIPTION
+  attributes:
+   - label: I18N_OPENXPKI_UI_SEARCH_CERT_SUBJECT_LABEL
+     key: cert_subject
+     pattern: '*%s*'
+     operator: like
+
+   - label: I18N_OPENXPKI_UI_SEARCH_REQUESTOR_NAME_LABEL
+     key: requestor
+
+   - label: I18N_OPENXPKI_UI_SEARCH_TRANSACTION_ID_LABEL
+     key: transaction_id
+
+  query:
+    type:
+      - certificate_signing_request_v2
+    state:
+      - PENDING
+      - PENDING_POLICY_VIOLATION
+
+  cols:
+    - label: I18N_OPENXPKI_UI_WORKFLOW_SEARCH_SERIAL_LABEL
+      field: WORKFLOW_SERIAL
+    - label: I18N_OPENXPKI_UI_WORKFLOW_SEARCH_UPDATED_LABEL
+      field: WORKFLOW_LAST_UPDATE
+    - label: I18N_OPENXPKI_UI_WORKFLOW_STATE_LABEL
+      field: WORKFLOW_STATE
+    - label: I18N_OPENXPKI_UI_CERTIFICATE_SUBJECT
+      field: context.cert_subject
+    - label: I18N_OPENXPKI_UI_WORKFLOW_CREATOR_LABEL
+      template: "[% context.creator %] / [% context.cert_info.requestor_email %]"
+
+  buttons:
+    -  label: I18N_OPENXPKI_UI_BULK_APPROVE_CSR_LABEL
+       # this is the action to execute
+       action: csr_approve_csr
+       format: expected
+       # this is the string used as key - serial is the default
+       select: serial
+    -  label: I18N_OPENXPKI_UI_BULK_REJECT_CSR_LABEL
+       format: failure
+       action: csr_reject_request
+       # those parameters are added to the execute action call
+       param:
+           reject_comment: Rejected by bulk operation
+
+- label: I18N_OPENXPKI_UI_BULK_PENDING_REVOCATION_LABEL
+  description: I18N_OPENXPKI_UI_BULK_PENDING_REVOCATION_DESCRIPTION
+  attributes:
+   - label: I18N_OPENXPKI_UI_SEARCH_CERT_SUBJECT_LABEL
+     key: cert_subject
+     pattern: '*%s*'
+     operator: like
+
+  query:
+    type:
+      - certificate_revocation_request_v2
+    state:
+      - PENDING
+
+  cols:
+    - label: I18N_OPENXPKI_UI_WORKFLOW_SEARCH_SERIAL_LABEL
+      field: WORKFLOW_SERIAL
+    - label: I18N_OPENXPKI_UI_WORKFLOW_SEARCH_UPDATED_LABEL
+      field: WORKFLOW_LAST_UPDATE
+    - label: I18N_OPENXPKI_UI_WORKFLOW_STATE_LABEL
+      field: WORKFLOW_STATE
+    - label: I18N_OPENXPKI_UI_CERTIFICATE_SUBJECT
+      template: "[% USE Certificate %][% Certificate.dn(context.cert_identifier,'CN') %]"
+    - label: I18N_OPENXPKI_UI_WORKFLOW_CREATOR_LABEL
+      field: context.creator
+
+  buttons:
+    -  label:  I18N_OPENXPKI_UI_BULK_APPROVE_CRR_LABEL
+       action: crr_approve_crr
+       format: expected
+    -  label:  I18N_OPENXPKI_UI_BULK_REJECT_CRR_LABEL
+       format: failure
+       action: crr_reject_crr
+

@@ -1,0 +1,32 @@
+#
+# Workflow search - detail block
+#
+# Possible fields:
+#   type, id, state, label, description, last_update, proc_state, count_try, wake_up_at, reap_at,
+#   context.*
+#   attribute.*
+#
+# To load the default configuration do not set the node
+# To hide the block set to undef wfdetails: ~
+#
+- label: I18N_OPENXPKI_UI_WORKFLOW_ID_LABEL
+  field: id
+  link:
+      page: "workflow!load!wf_id![% id %]"
+      target: _blank
+
+- label: I18N_OPENXPKI_UI_WORKFLOW_TYPE_LABEL
+  field: type
+
+- label: I18N_OPENXPKI_UI_WORKFLOW_CREATOR_LABEL
+  field: creator
+
+- label: I18N_OPENXPKI_UI_WORKFLOW_STATE_LABEL
+  template: "[% IF state == 'SUCCESS' %]<b>Success</b>[% ELSE %][% state %][% END %]"
+  format: raw
+
+- label: I18N_OPENXPKI_UI_WORKFLOW_HISTORY_ACTION_LABEL
+  field: context.wf_current_action
+
+- label: I18N_OPENXPKI_UI_WORKFLOW_PROC_STATE_LABEL
+  field: proc_state

@@ -1,0 +1,6 @@
+#
+# Workflow search - detail block
+#
+# For a configuration example see "RA Operator.yaml".
+# Here we just load the default configuration:
+wfdetails: null

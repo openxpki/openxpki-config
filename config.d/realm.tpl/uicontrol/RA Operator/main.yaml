@@ -1,0 +1,69 @@
+- key: home
+  label: I18N_OPENXPKI_UI_MENU_HOME
+  entries:
+    - key:    workflow!task
+      label:  I18N_OPENXPKI_UI_MENU_MY_TASK
+    - key:    workflow!mine
+      label:  I18N_OPENXPKI_UI_MENU_MY_WORKFLOW
+    - key:    certificate!mine
+      label:  I18N_OPENXPKI_UI_MENU_MY_CERTIFICATE
+
+- key: request
+  label: I18N_OPENXPKI_UI_MENU_REQUEST
+  entries:
+    - key:   workflow!index!wf_type!certificate_signing_request_v2
+      label: I18N_OPENXPKI_UI_MENU_REQUEST_CERTIFICATE
+    - key:   workflow!index!wf_type!certificate_revocation_request_v2
+      label: I18N_OPENXPKI_UI_MENU_REVOKE_CERTIFICATE
+    - key:   workflow!index!wf_type!certificate_bulk_revoke
+      label: I18N_OPENXPKI_UI_MENU_BULK_REVOKE_CERTIFICATE
+    - key:   workflow!index!wf_type!request_checker
+      label: I18N_OPENXPKI_UI_MENU_CSR_CHECK
+
+
+- key:   pkiadm
+  label: I18N_OPENXPKI_UI_MENU_PKI_OPERATION
+  entries:
+    - key:   workflow!index!wf_type!change_metadata
+      label: I18N_OPENXPKI_UI_MENU_CHANGE_METADATA
+    - label: I18N_OPENXPKI_UI_MENU_HEAD_CA_CRL_OPS
+    - key:   workflow!index!wf_type!crl_issuance
+      label: I18N_OPENXPKI_UI_MENU_CRL_ISSUE
+    - key:   workflow!start!wf_type!ca_publish
+      label: I18N_OPENXPKI_UI_MENU_PUBLISH_CA_CRL
+    - label: I18N_OPENXPKI_UI_MENU_HEAD_ENROLLMENT
+    - key:   workflow!index!wf_type!release_transaction_lock
+      label: I18N_OPENXPKI_UI_WORKFLOW_TYPE_RELEASE_LOCK_LABEL
+    - label: I18N_OPENXPKI_UI_MENU_HEAD_MISC
+    - key:   workflow!index!wf_type!set_motd
+      label: I18N_OPENXPKI_UI_MENU_SET_MOTD
+    - key:   secret!index
+      label: I18N_OPENXPKI_UI_MENU_MANAGE_SECRET
+
+- key:   info
+  label: I18N_OPENXPKI_UI_MENU_INFORMATION
+  entries:
+    - key:   information!issuer
+      label: I18N_OPENXPKI_UI_MENU_CA_CERTIFICATES
+    - key:   crl!index
+      label: I18N_OPENXPKI_UI_MENU_CRL
+    - label: I18N_OPENXPKI_UI_MENU_HEAD_SYSTEM_STATUS
+    - key:   workflow!start!wf_type!status_process
+      label: I18N_OPENXPKI_UI_MENU_PROCESS_INFORMATION
+    - key:   workflow!start!wf_type!status_system
+      label: I18N_OPENXPKI_UI_MENU_SYSTEM_STATUS
+    - label: I18N_OPENXPKI_UI_MENU_HEAD_REPORT
+    - key:   workflow!index!wf_type!report_summary
+      label: I18N_OPENXPKI_UI_MENU_REPORT_SUMMARY
+    - key:   workflow!index!wf_type!report_full
+      label: I18N_OPENXPKI_UI_MENU_REPORT_FULL
+
+
+- key:   certificate!search
+  label: I18N_OPENXPKI_UI_MENU_CERTIFICATE_SEARCH
+
+- key:   workflow!search
+  label: I18N_OPENXPKI_UI_MENU_WORKFLOW_SEARCH
+
+- key:   bulk
+  label: I18N_OPENXPKI_UI_MENU_BULK

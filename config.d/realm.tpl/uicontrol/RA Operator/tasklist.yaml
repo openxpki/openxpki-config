@@ -1,0 +1,53 @@
+- label: I18N_OPENXPKI_UI_TASKLIST_PENDING_REQUEST_LABEL
+  description: I18N_OPENXPKI_UI_TASKLIST_PENDING_REQUEST_DESCRIPTION
+  query:
+    type:
+      - certificate_signing_request_v2
+    state:
+      - ONHOLD
+      - PENDING
+      - PENDING_POLICY_VIOLATION
+  cols:
+    - label: I18N_OPENXPKI_UI_WORKFLOW_SEARCH_SERIAL_LABEL
+      field: WORKFLOW_SERIAL
+    - label: I18N_OPENXPKI_UI_WORKFLOW_SEARCH_UPDATED_LABEL
+      field: WORKFLOW_LAST_UPDATE
+    - label: I18N_OPENXPKI_UI_WORKFLOW_STATE_LABEL
+      field: WORKFLOW_STATE
+    - label: I18N_OPENXPKI_UI_CERTIFICATE_SUBJECT
+      field: context.cert_subject
+    - label: I18N_OPENXPKI_UI_WORKFLOW_CREATOR_LABEL
+      template: "[% context.creator %] / [% context.cert_info.requestor_email %]"
+
+- label: I18N_OPENXPKI_UI_TASKLIST_PENDING_ENROLLMENT_LABEL
+  description: I18N_OPENXPKI_UI_TASKLIST_PENDING_ENROLLMENT_DESCRIPTION
+  ifempty: hide
+  query:
+    type:
+      - certificate_enroll
+    state:
+      - PENDING
+      - PENDING_POLICY_VIOLATION
+      - MANUAL_AUTHORIZATION
+  cols:
+    - label: I18N_OPENXPKI_UI_WORKFLOW_SEARCH_SERIAL_LABEL
+      field: WORKFLOW_SERIAL
+    - label: I18N_OPENXPKI_UI_WORKFLOW_SEARCH_UPDATED_LABEL
+      field: WORKFLOW_LAST_UPDATE
+    - label: I18N_OPENXPKI_UI_WORKFLOW_STATE_LABEL
+      field: WORKFLOW_STATE
+    - label: I18N_OPENXPKI_UI_CERTIFICATE_SUBJECT
+      field: context.cert_subject
+    - label: I18N_OPENXPKI_UI_WORKFLOW_FIELD_TRANSACTION_ID_LABEL
+      field: attribute.transaction_id
+
+- label: I18N_OPENXPKI_UI_TASKLIST_PENDING_REVOCATION_LABEL
+  description: I18N_OPENXPKI_UI_TASKLIST_PENDING_REVOCATION_DESCRIPTION
+  ifempty: hide
+  query:
+    type:
+      - certificate_revocation_request_v2
+    state:
+      - PENDING
+
+
