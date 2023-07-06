@@ -25,6 +25,14 @@ validity:
     lastcrl: 20500101
 
 digest: sha256
+
+# uncomment this to use pss padding, saltlen and mgf1_digest default
+# to 32 and sha256 and can be omitted
+#padding:
+#    mode: pss
+#    saltlen: 32
+#    mgf1_digest: sha256
+
 extensions:
     authority_info_access:
         critical: 0

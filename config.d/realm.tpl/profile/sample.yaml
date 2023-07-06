@@ -12,6 +12,15 @@ validity:
 
 # digest to use
 digest: sha256
+
+# uncomment this to use pss padding, saltlen and mgf1_digest default
+# to 32 and sha256 and can be omitted
+#padding:
+#    mode: pss
+#    saltlen: 32
+#    mgf1_digest: sha256
+
+
 # weather the serials must increase and how many bits of the serial are
 # made from a random source
 increasing_serials: 1
@@ -119,6 +128,35 @@ style:
             owner_contact: "[% owner_contact || requestor_email %]"
             entity: "[% CN FILTER lower %]"
 
+    # A standard template used from the automated enrollment workflows
+    enroll:
+        subject:
+            # All RDNs from the PKCS10 containers DN are avaiable here
+            # Items from the SAN section are also available here
+            # Note that all items are always arrays, for the SAN the pipe is
+            # used as separator character to split individual items later
+            dn: CN=[% CN.0 %],DC=Test Deployment,DC=OpenXPKI,DC=org
+            san:
+                dns: "[% FOREACH entry = SAN_DNS %][% entry.lower %] | [% END %]"
+                ip : "[% FOREACH entry = SAN_IP %][% entry %] | [% END %]"
+
+        # metadata source items added via the "params" section of the
+        # PersistMetadata action in the workflow are available in data
+        # DN/SAN parts are available as defined above
+        metadata:
+            system_id: "[% data.cust_id %]"
+            server_id: "[% data.server_id %]"
+            entity: "[% CN.0.replace(':.*','') FILTER lower %]"
+
+        # Consumed by RenderExtensions to add extra extensions
+        extension:
+            securityIdentifier: '[% ext.sid %]'
+            certificateTemplateName: '[% ext.template_name %]'
+            certificateTemplate:
+              - '[% ext.template.oid %]'
+              - '[% ext.template.major %]'
+              - '[% ext.template.minor %]'
+
 # Profile extensions - set 0/1 as needed
 extensions:
     # Enable this to copy extensions from the CSR to the Certificate
@@ -184,7 +222,7 @@ extensions:
     authority_info_access:
         critical: 0
         # ca_issuers and ocsp can be scalar or list
-        ca_issuers: http://localhost/cacert.crt
+        ca_issuers: http://localhost/cacert.cer
         ocsp: http://ocsp.openxpki.org/
 
     policy_identifier:
