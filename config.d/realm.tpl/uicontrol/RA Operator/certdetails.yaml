@@ -7,6 +7,5 @@ metadata:
       [%I IF meta_email %]
       I18N_OPENXPKI_UI_WORKFLOW_FIELD_META_EMAIL_LABEL:
       [% FOREACH mail = meta_email %]
-          <a href="mailto:[% mail %]">[% mail %]</a>,
+          <a href="mailto:[% mail FILTER html %]">[% mail FILTER html %]</a>,
       [% END %][% END %]
-
