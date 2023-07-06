@@ -7,7 +7,7 @@
 Dear [% IF data.requestor %][% data.requestor %][% ELSE %]certificate owner[% END %],</p>
 
 <p>
-our certificate for <b>[% Certificate.body( cert_identifier, 'subject') %]</b> expires
+your certificate for <b>[% Certificate.body( cert_identifier, 'subject') %]</b> expires
 at <b>[% Certificate.notafter( cert_identifier, 'printable') %]</b>!
 </p>
 
