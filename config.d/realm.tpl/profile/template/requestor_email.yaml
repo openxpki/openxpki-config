@@ -7,3 +7,4 @@ width: 40
 match: \A [\w\+\.\-"'=\ ]+ \@ ([\w-]+\.)+(\w+)+ \z
 placeholder: john.doe@openxpki.org
 preset: userinfo.email
+format: email

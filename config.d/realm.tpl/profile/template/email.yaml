@@ -7,3 +7,4 @@ preset: "[% emailAddress.0 || SAN_EMAIL.0 || userinfo.email %]"
 match: \A [\w\+\.\-"'=\ ]+ \@ ([\w-]+\.)+(\w+)+ \z
 width: 30
 placeholder: john.doe@openxpki.org
+format: email
