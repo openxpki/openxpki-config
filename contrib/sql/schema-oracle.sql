@@ -1,10 +1,4 @@
---
--- Created by SQL::Translator::Producer::Oracle
--- Created on Thu Nov  3 23:31:57 2016
---
---
--- Table: aliases
---;
+-- Schema version v3 - 2023-07-19
 
 DROP TABLE aliases CASCADE CONSTRAINTS;
 
@@ -333,5 +327,76 @@ DROP SEQUENCE seq_workflow;
 CREATE SEQUENCE seq_workflow START WITH 0 INCREMENT BY 1 MINVALUE 0;
 DROP SEQUENCE seq_workflow_history;
 CREATE SEQUENCE seq_workflow_history START WITH 0 INCREMENT BY 1 MINVALUE 0;
+
+
+
+CREATE INDEX aliases_realm_group ON aliases (pki_realm, group_id);
+
+CREATE INDEX application_log_id ON application_log (workflow_id);
+CREATE INDEX application_log_filter ON application_log (workflow_id,category,priority);
+
+CREATE INDEX cert_csr_serial_index ON certificate (req_key);
+CREATE UNIQUE INDEX cert_identifier_index ON certificate (identifier);
+CREATE INDEX cert_issuer_identifier_index ON certificate (issuer_identifier);
+CREATE INDEX cert_realm_req_index ON certificate (pki_realm, req_key);
+CREATE INDEX cert_realm_index ON certificate (pki_realm);
+CREATE INDEX cert_status_index ON certificate (status);
+CREATE INDEX cert_subject_index ON certificate (subject);
+CREATE INDEX cert_notbefore_index ON certificate (notbefore);
+CREATE INDEX cert_notafter_index ON certificate (notafter);
+CREATE INDEX cert_revocation_time_index ON certificate (revocation_time);
+CREATE INDEX cert_invalidity_time_index ON certificate (invalidity_time);
+CREATE INDEX cert_reason_code_index ON certificate (reason_code);
+CREATE INDEX cert_hold_index ON certificate (hold_instruction_code);
+CREATE UNIQUE INDEX cert_revocation_id ON certificate (revocation_id);
+
+CREATE INDEX cert_attributes_key_index ON certificate_attributes (attribute_contentkey);
+CREATE INDEX cert_attributes_value_index ON certificate_attributes (attribute_value);
+CREATE INDEX cert_attributes_identifier_index ON certificate_attributes (identifier);
+CREATE INDEX cert_attributes_keyid_index ON certificate_attributes (identifier,attribute_contentkey);
+CREATE INDEX cert_attributes_keyvalue_index ON certificate_attributes (attribute_contentkey,attribute_value);
+
+
+CREATE INDEX crl_issuer_index ON crl (issuer_identifier);
+CREATE INDEX crl_profile ON crl (profile);
+CREATE INDEX crl_realm_index ON crl (pki_realm);
+CREATE INDEX crl_issuer_update_index ON crl (issuer_identifier, last_update);
+CREATE INDEX crl_issuer_number_index ON crl (issuer_identifier, crl_number);
+CREATE INDEX crl_revocation_id ON crl (max_revocation_id);
+
+CREATE INDEX csr_subject_index ON csr (subject);
+CREATE INDEX csr_realm_index ON csr (pki_realm);
+CREATE INDEX csr_realm_profile_index ON csr (pki_realm, profile);
+
+CREATE INDEX csr_attributes_req_key_index ON csr_attributes (req_key);
+CREATE INDEX csr_attributes_pki_realm_req_key_index ON csr_attributes (pki_realm, req_key);
+
+CREATE INDEX datapool_namespace_index ON datapool (pki_realm, namespace);
+CREATE INDEX datapool_notafter_index ON datapool (notafter);
+
+CREATE INDEX backend_session_modified_index ON backend_session (modified);
+
+CREATE INDEX frontend_session_modified_index ON frontend_session (modified);
+
+CREATE INDEX workflow_pki_realm_index ON workflow (pki_realm);
+CREATE INDEX workflow_realm_type_index ON workflow (pki_realm, workflow_type);
+CREATE INDEX workflow_state_index ON workflow (pki_realm, workflow_state);
+CREATE INDEX workflow_proc_state_index ON workflow (pki_realm, workflow_proc_state);
+CREATE INDEX workflow_wakeup_index ON workflow (workflow_proc_state, watchdog_key, workflow_wakeup_at);
+CREATE INDEX workflow_reapat_index ON workflow (workflow_proc_state, watchdog_key, workflow_reap_at);
+CREATE INDEX workflow_archive_index ON workflow (workflow_proc_state, watchdog_key, workflow_archive_at);
+
+CREATE INDEX wfl_attributes_id_index ON workflow_attributes (workflow_id);
+CREATE INDEX wfl_attributes_key_index ON workflow_attributes (attribute_contentkey);
+CREATE INDEX wfl_attributes_value_index ON workflow_attributes (attribute_value);
+CREATE INDEX wfl_attributes_keyvalue_index ON workflow_attributes (attribute_contentkey,attribute_value);
+
+CREATE INDEX wf_hist_wfserial_index ON workflow_history (workflow_id);
+
+CREATE INDEX ocsp_responses_index ON ocsp_responses (identifier);
+
+
+INSERT INTO datapool (`pki_realm`,`namespace`,`datapool_key`,`datapool_value`)
+VALUES ('','config','dbschema','3');
 
 QUIT;

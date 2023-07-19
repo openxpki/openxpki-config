@@ -1,3 +1,5 @@
+-- Schema version v3 - 2023-07-19
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -395,3 +397,6 @@ ALTER TABLE `seq_workflow`
 MODIFY `seq_number` bigint(20) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `seq_workflow_history`
 MODIFY `seq_number` bigint(20) NOT NULL AUTO_INCREMENT;
+
+INSERT INTO datapool (`pki_realm`,`namespace`,`datapool_key`,`datapool_value`)
+VALUES ('','config','dbschema','3');

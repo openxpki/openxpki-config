@@ -1,3 +1,5 @@
+-- Schema version v3 - 2023-07-19
+
 --
 -- PostgreSQL database dump
 --
@@ -593,6 +595,9 @@ CREATE INDEX wfl_attributes_keyvalue_index ON workflow_attributes USING btree (a
 CREATE INDEX wf_hist_wfserial_index ON workflow_history USING btree (workflow_id);
 
 CREATE INDEX ocsp_responses_index ON ocsp_responses USING btree (identifier);
+
+INSERT INTO datapool (`pki_realm`,`namespace`,`datapool_key`,`datapool_value`)
+VALUES ('','config','dbschema','3');
 
 --
 -- PostgreSQL database dump complete

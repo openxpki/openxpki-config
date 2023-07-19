@@ -1,3 +1,5 @@
+-- Schema version v3 - 2023-07-19
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -299,3 +301,6 @@ ALTER TABLE `workflow_history`
 ALTER TABLE `ocsp_responses`
  ADD PRIMARY KEY (`serial_number`,`authority_key_identifier`),
  ADD KEY `identifier` (`identifier`);
+
+INSERT INTO datapool (`pki_realm`,`namespace`,`datapool_key`,`datapool_value`)
+VALUES ('','config','dbschema','3');

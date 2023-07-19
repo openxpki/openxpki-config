@@ -1,6 +1,4 @@
---
--- Created by SQL::Translator::Producer::SQLite
--- Created on Wed Nov  9 02:25:41 2016
+-- Schema version v3 - 2023-07-19
 --
 
 BEGIN TRANSACTION;
@@ -361,5 +359,8 @@ CREATE TABLE ocsp_responses (
   expiry                   timestamp,
   PRIMARY KEY(serial_number, authority_key_identifier)
 );
+
+INSERT INTO datapool (`pki_realm`,`namespace`,`datapool_key`,`datapool_value`)
+VALUES ('','config','dbschema','3');
 
 COMMIT;
