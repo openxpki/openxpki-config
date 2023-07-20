@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS `aliases` (
   `generation` smallint(6) DEFAULT NULL,
   `notafter` int(10) unsigned DEFAULT NULL,
   `notbefore` int(10) unsigned DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `application_log` (
   `application_log_id` bigint(20) unsigned NOT NULL,
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `application_log` (
   `priority` int(11) DEFAULT '0',
   `category` varchar(255) NOT NULL,
   `message` longtext
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `audittrail` (
   `audittrail_key` bigint(20) unsigned NOT NULL,
@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `audittrail` (
   `category` varchar(255) DEFAULT NULL,
   `loglevel` varchar(255) DEFAULT NULL,
   `message` text
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `certificate` (
   `pki_realm` varchar(255) DEFAULT NULL,
@@ -46,17 +46,17 @@ CREATE TABLE IF NOT EXISTS `certificate` (
   `invalidity_time` int(10) unsigned DEFAULT NULL,
   `reason_code` varchar(50) DEFAULT NULL,
   `hold_instruction_code` varchar(50) DEFAULT NULL,
-  `revocation_id` INT NULL DEFAULT NULL, 
+  `revocation_id` INT NULL DEFAULT NULL,
   `req_key` bigint(20) unsigned DEFAULT NULL,
   `data` longtext
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `certificate_attributes` (
   `identifier` varchar(64) NOT NULL,
   `attribute_key` bigint(20) unsigned NOT NULL,
   `attribute_contentkey` varchar(255) DEFAULT NULL,
   `attribute_value` varchar(4000) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `crl` (
   `pki_realm` varchar(255) NOT NULL,
@@ -65,12 +65,12 @@ CREATE TABLE IF NOT EXISTS `crl` (
   `crl_key` decimal(49,0) NOT NULL,
   `crl_number` decimal(49,0) DEFAULT NULL,
   `items` int(10) DEFAULT 0,
-  `max_revocation_id` INT NULL DEFAULT NULL,   
+  `max_revocation_id` INT NULL DEFAULT NULL,
   `data` longtext,
   `last_update` int(10) unsigned DEFAULT NULL,
   `next_update` int(10) unsigned DEFAULT NULL,
   `publication_date` int(10) unsigned DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `csr` (
   `req_key` bigint(20) unsigned NOT NULL,
@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `csr` (
   `profile` varchar(255) DEFAULT NULL,
   `subject` varchar(1000) DEFAULT NULL,
   `data` longtext
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `csr_attributes` (
   `attribute_key` bigint(20) unsigned NOT NULL,
@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS `csr_attributes` (
   `attribute_contentkey` varchar(255) DEFAULT NULL,
   `attribute_value` longtext,
   `attribute_source` text
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `datapool` (
   `pki_realm` varchar(255) NOT NULL,
@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS `datapool` (
   `access_key` VARCHAR(255) NULL DEFAULT NULL,
   `notafter` int(10) unsigned DEFAULT NULL,
   `last_update` int(10) unsigned DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `report` (
   `report_name` varchar(63) NOT NULL,
@@ -108,13 +108,13 @@ CREATE TABLE IF NOT EXISTS `report` (
   `mime_type` varchar(63) NOT NULL,
   `description` varchar(255) NOT NULL,
   `report_value` longblob NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `secret` (
   `pki_realm` varchar(255) NOT NULL,
   `group_id` varchar(255) NOT NULL,
   `data` longtext
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `backend_session` (
   `session_id` varchar(255) NOT NULL,
@@ -122,7 +122,7 @@ CREATE TABLE IF NOT EXISTS `backend_session` (
   `created` int(10) unsigned NOT NULL,
   `modified` int(10) unsigned NOT NULL,
   `ip_address` varchar(45) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `frontend_session` (
   `session_id` varchar(255) NOT NULL,
@@ -130,57 +130,57 @@ CREATE TABLE IF NOT EXISTS `frontend_session` (
   `created` int(10) unsigned NOT NULL,
   `modified` int(10) unsigned NOT NULL,
   `ip_address` varchar(45) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `seq_application_log` (
   `seq_number` bigint(20) unsigned NOT NULL,
   `dummy` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `seq_audittrail` (
   `seq_number` bigint(20) NOT NULL,
   `dummy` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `seq_certificate` (
   `seq_number` bigint(20) NOT NULL,
   `dummy` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `seq_certificate_attributes` (
   `seq_number` bigint(20) NOT NULL,
   `dummy` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `seq_crl` (
   `seq_number` bigint(20) NOT NULL,
   `dummy` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `seq_csr` (
   `seq_number` bigint(20) NOT NULL,
   `dummy` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `seq_csr_attributes` (
   `seq_number` bigint(20) NOT NULL,
   `dummy` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `seq_secret` (
   `seq_number` bigint(20) NOT NULL,
   `dummy` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `seq_workflow` (
   `seq_number` bigint(20) NOT NULL,
   `dummy` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `seq_workflow_history` (
   `seq_number` bigint(20) NOT NULL,
   `dummy` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `workflow` (
   `workflow_id` bigint(20) unsigned NOT NULL,
@@ -195,19 +195,19 @@ CREATE TABLE IF NOT EXISTS `workflow` (
   `workflow_archive_at` int(10) unsigned DEFAULT NULL,
   `workflow_session` longtext,
   `watchdog_key` varchar(64) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `workflow_attributes` (
   `workflow_id` bigint(20) unsigned NOT NULL,
   `attribute_contentkey` varchar(255) NOT NULL,
   `attribute_value` varchar(4000) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `workflow_context` (
   `workflow_id` bigint(20) unsigned NOT NULL,
   `workflow_context_key` varchar(255) NOT NULL,
   `workflow_context_value` longtext
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `workflow_history` (
   `workflow_hist_id` bigint(20) unsigned NOT NULL,
@@ -218,7 +218,7 @@ CREATE TABLE IF NOT EXISTS `workflow_history` (
   `workflow_user` varchar(255) DEFAULT NULL,
   `workflow_node` varchar(64) DEFAULT NULL,
   `workflow_history_date` timestamp NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `ocsp_responses` (
   `identifier` varchar(64),
@@ -226,7 +226,7 @@ CREATE TABLE IF NOT EXISTS `ocsp_responses` (
   `authority_key_identifier` varbinary(128) NOT NULL,
   `body` varbinary(4096) NOT NULL,
   `expiry` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `users` (
   `username` varchar(255) NOT NULL,
@@ -235,7 +235,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `mail` varchar(255) NOT NULL,
   `realname` varchar(255) DEFAULT NULL,
   `role` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;
 
 ALTER TABLE `aliases`
  ADD PRIMARY KEY (`pki_realm`,`alias`),

@@ -1,6 +1,6 @@
 main:
     debug: 0
-    type: MariaDB
+    type: MariaDB2
     name: openxpki
     host: localhost
     port: 3306
