@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: OpenXPKI 3.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-09-08 14:02+0200\n"
-"PO-Revision-Date: 2023-06-27 13:39+0200\n"
+"PO-Revision-Date: 2023-07-19 17:58+0200\n"
 "Last-Translator: OpenXPKI Team <i18n@openxpki.org>\n"
 "Language-Team: OpenXPKI developers list <openxpki-devel@lists.sourceforge."
 "net>\n"
@@ -322,6 +322,9 @@ msgstr ""
 "Result set is larger than the export limit, some result items are not "
 "included in this list!"
 
+msgid "I18N_OPENXPKI_UI_CERT_ISSUER_UNKNOWN"
+msgstr "Certificate issuer is unknown"
+
 msgid "I18N_OPENXPKI_UI_CERT_RELATED_HINT"
 msgstr "Show related workflows"
 
@@ -452,6 +455,64 @@ msgstr "unspecified / other reason"
 #, fuzzy
 msgid "I18N_OPENXPKI_UI_CUST_WORKFLOW_FIELD_REVOCATION_REASON_OPTION_KEY"
 msgstr "This is just a prefix"
+
+msgid "I18N_OPENXPKI_UI_DATAPOOL_ENCRYPTED"
+msgstr "Format"
+
+msgid "I18N_OPENXPKI_UI_DATAPOOL_ENCRYPTED_NO"
+msgstr "plain"
+
+msgid "I18N_OPENXPKI_UI_DATAPOOL_ENCRYPTED_YES"
+msgstr "encrypted"
+
+msgid "I18N_OPENXPKI_UI_DATAPOOL_EXPIRATION_DATE"
+msgstr "Expiration"
+
+msgid "I18N_OPENXPKI_UI_DATAPOOL_EXPIRES_AFTER"
+msgstr "Expires after"
+
+msgid "I18N_OPENXPKI_UI_DATAPOOL_EXPIRES_BEFORE"
+msgstr "Expires before"
+
+msgid "I18N_OPENXPKI_UI_DATAPOOL_KEY"
+msgstr "Entry"
+
+msgid "I18N_OPENXPKI_UI_DATAPOOL_MTIME"
+msgstr "Modification"
+
+msgid "I18N_OPENXPKI_UI_DATAPOOL_MTIME_AFTER"
+msgstr "Modified after"
+
+msgid "I18N_OPENXPKI_UI_DATAPOOL_MTIME_BEFORE"
+msgstr "Modified before"
+
+msgid "I18N_OPENXPKI_UI_DATAPOOL_NAMESPACE"
+msgstr "Namespace"
+
+msgid "I18N_OPENXPKI_UI_DATAPOOL_SEARCH_DESC"
+msgstr ""
+"Select namespace and, if necessary, search pattern for editing datapool "
+"entries."
+
+msgid "I18N_OPENXPKI_UI_DATAPOOL_SEARCH_KEY_PLACEHOLDER"
+msgstr "Search pattern for entry name, wildcards are allowed"
+
+msgid "I18N_OPENXPKI_UI_DATAPOOL_SEARCH_NAMESPACE_PLACEHOLDER"
+msgstr "Please choose namespace"
+
+msgid "I18N_OPENXPKI_UI_DATAPOOL_SEARCH_RESULT_DESC"
+msgstr ""
+"Datapool entries matching your search criteria. Please click on a line to "
+"edit."
+
+msgid "I18N_OPENXPKI_UI_DATAPOOL_SEARCH_RESULT_LABEL"
+msgstr "Result of the datapool search"
+
+msgid "I18N_OPENXPKI_UI_DATAPOOL_SEARCH_RESULT_TITLE"
+msgstr "Search result"
+
+msgid "I18N_OPENXPKI_UI_DATAPOOL_VALUE"
+msgstr "Value"
 
 msgid "I18N_OPENXPKI_UI_DELAYED_REVOCATION_REQUESTED"
 msgstr "Delayed revocation requested."
@@ -967,6 +1028,9 @@ msgstr "Issue a Certificate Revocation List (CRL)"
 msgid "I18N_OPENXPKI_UI_MENU_CSR_CHECK"
 msgstr "Request Checker"
 
+msgid "I18N_OPENXPKI_UI_MENU_DATAPOOL"
+msgstr "Datapool"
+
 msgid "I18N_OPENXPKI_UI_MENU_ENROLLMENT_SEARCH"
 msgstr "Enrollment Workflow Search"
 
@@ -1044,9 +1108,6 @@ msgstr "Set Message of the Day"
 
 msgid "I18N_OPENXPKI_UI_MENU_SYSTEM_STATUS"
 msgstr "System Status"
-
-msgid "I18N_OPENXPKI_UI_MENU_USERS"
-msgstr "Manage Users"
 
 msgid "I18N_OPENXPKI_UI_MENU_WORKFLOW_SEARCH"
 msgstr "Workflow Search"
@@ -1278,6 +1339,9 @@ msgstr "Hostname"
 
 msgid "I18N_OPENXPKI_UI_PROFILE_HOSTNAME_DESC"
 msgstr "Enter the fully qualified hostname (domain name) of your system."
+
+msgid "I18N_OPENXPKI_UI_PROFILE_IMPORTED_LABEL"
+msgstr "Imported Certificate"
 
 msgid "I18N_OPENXPKI_UI_PROFILE_LOCALITY_DESC"
 msgstr "Locality (L)"
@@ -2197,6 +2261,15 @@ msgstr "Upload externally generated CRL into this realm."
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_ACTION_IMPORTCRL_UPLOAD_LABEL"
 msgstr "Upload CRL"
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_ACTION_INIT_CERTIFICATE_UPLOAD_DESC"
+msgstr ""
+"Please put the PEM encoded certificate into the box below. Please note that "
+"you can only upload certificates where the issuer certificate is already "
+"known by the PKI."
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_ACTION_INIT_CERTIFICATE_UPLOAD_LABEL"
+msgstr "Certificate Upload"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_ACTION_INIT_ISSUE_CRL_DESC"
 msgstr ""
@@ -4313,6 +4386,12 @@ msgstr "Certificate Signing Request (CSR)"
 msgid "I18N_OPENXPKI_UI_WORKFLOW_TYPE_CERTIFICATE_SIGNING_REQUEST_LABEL"
 msgstr "Certificate Signing Request (CSR)"
 
+msgid "I18N_OPENXPKI_UI_WORKFLOW_TYPE_CERTIFICATE_UPLOAD_DESC"
+msgstr "Allows the upload of an externally managed certificate."
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_TYPE_CERTIFICATE_UPLOAD_LABEL"
+msgstr "Certificate Upload"
+
 msgid "I18N_OPENXPKI_UI_WORKFLOW_TYPE_CERT_ENROLL_DESC"
 msgstr ""
 "Certificate Enrollment workflow used for certificate enrollment via "
@@ -4513,6 +4592,15 @@ msgstr "Yes"
 #, fuzzy
 #~ msgid "I18N_OPENXPKI_UI_CUST"
 #~ msgstr "Yes"
+
+#~ msgid "I18N_OPENXPKI_UI_DATAPOOL_DELETE_ENTRY"
+#~ msgstr "Delete"
+
+#~ msgid "I18N_OPENXPKI_UI_DATAPOOL_MODIFY_ENTRY"
+#~ msgstr "Modify"
+
+#~ msgid "I18N_OPENXPKI_UI_MENU_USERS"
+#~ msgstr "Manage Users"
 
 #, fuzzy
 #~ msgid "I18N_OPENXPKI_UI_WORKFLOW_TYPE_CERT_PREREG_REPORT_DESC"
