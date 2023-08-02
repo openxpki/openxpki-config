@@ -389,8 +389,8 @@ state:
     ENTER_KEY_PASSWORD:
         label: I18N_OPENXPKI_UI_WORKFLOW_STATE_CSR_ENTER_KEY_PASSWORD_LABEL
         action:
-          - retype_server_password > HAS_KEY_PASSWORD ? key_password_server
-          - ask_client_password > HAS_KEY_PASSWORD ? !key_password_server
+          - retype_server_password > HAS_KEY_PASSWORD ? !key_password_user
+          - ask_client_password > HAS_KEY_PASSWORD ? key_password_user
           - global_cancel > CLEANUP_BEFORE_CANCEL
 
     HAS_KEY_PASSWORD:
@@ -566,7 +566,9 @@ action:
           - key_alg
           - enc_alg
           - key_gen_params
-          - password_type
+          # by default the server generates a password for you
+          # this field provides a drop down to chose a user provided password
+          # - password_type
         param:
             source: USER
         validator:
@@ -732,10 +734,10 @@ condition:
         param:
             test: defined $context->{key_gen_params}
 
-    key_password_server:
+    key_password_user:
         class: Workflow::Condition::Evaluate
         param:
-            test: $context->{password_type} eq 'server'
+            test: $context->{password_type} eq 'client'
 
     profile_has_san_section:
         class: OpenXPKI::Server::Workflow::Condition::Connector::Exists
@@ -861,7 +863,6 @@ field:
         type: text
         required: 0
 
-
     password_type:
         label: I18N_OPENXPKI_UI_WORKFLOW_FIELD_PASSWORD_TYPE_LABEL
         name: password_type
@@ -871,12 +872,12 @@ field:
         type: select
         required: 1
         option:
-            item:
-              - server
-              - client
-            label: I18N_OPENXPKI_UI_KEY_ENC_PASSWORD
-# For i18n parser I18N_OPENXPKI_UI_KEY_ENC_PASSWORD_SERVER I18N_OPENXPKI_UI_KEY_ENC_PASSWORD_CLIENT
-
+          mode: keyvalue
+          item:
+           - value: 'server'
+             label: I18N_OPENXPKI_UI_KEY_ENC_PASSWORD_SERVER
+           - value: 'client'
+             label: I18N_OPENXPKI_UI_KEY_ENC_PASSWORD_CLIENT
 
     policy_comment:
         label: I18N_OPENXPKI_UI_WORKFLOW_FIELD_POLICY_COMMENT_LABEL
