@@ -596,7 +596,7 @@ CREATE INDEX wf_hist_wfserial_index ON workflow_history USING btree (workflow_id
 
 CREATE INDEX ocsp_responses_index ON ocsp_responses USING btree (identifier);
 
-INSERT INTO datapool (`pki_realm`,`namespace`,`datapool_key`,`datapool_value`)
+INSERT INTO datapool (pki_realm, namespace, datapool_key, datapool_value)
 VALUES ('','config','dbschema','3');
 
 --
