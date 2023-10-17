@@ -38,3 +38,9 @@ secret:
         #method: plain
         #cache: daemon
         #kcv: $argon2id$v=19$m=32768,t=3,p=1$R1VmZC9sQVJTdE05WDRReDBIMTlDUT09$KXsh6Ow1A9mIZtyAP2TXbA
+
+    ratoken:
+        label: Secret group for RA Token
+        export: 1
+        method: literal
+        value: secret

@@ -5,7 +5,7 @@ type:
   certsign: ca-signer
   datasafe: vault
   cmcra: ratoken
-  scep: scep
+  scep: ratoken
 
 # The actual token setup
 token:
@@ -35,6 +35,7 @@ token:
     # Default value for import, recorded in database, can be overriden
     secret: default
 
+  # use ALIAS as key as it makes debug and management easier
   ca-signer:
     inherit: default
     key_store: DATAPOOL
@@ -44,13 +45,8 @@ token:
     inherit: default
     key: /etc/openxpki/local/keys/[% ALIAS %].pem
 
+  # use KEY_IDENTIFIER as we might use the same key for multiple token
   ratoken:
-    inherit: default
-    key_store: DATAPOOL
-    key: "[% KEY_IDENTIFIER %]"
-    secret: ratoken
-
-  scep:
     inherit: default
     key_store: DATAPOOL
     key: "[% KEY_IDENTIFIER %]"
@@ -66,7 +62,5 @@ secret:
         import: 1
 
     ratoken:
-        label: Secret group for RA Token
+        import: 1
         export: 1
-        method: literal
-        value: root

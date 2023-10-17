@@ -93,7 +93,7 @@ profile_map:
     pc-client: tls_client
     tls-server: tls_server
     tls-client: tls_client
-    renewal-test: renewal_test
+    tls-dual: tls_dual
 
 # HMAC based authentication
 hmac: verysecret
