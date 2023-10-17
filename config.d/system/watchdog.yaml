@@ -12,6 +12,9 @@ interval_sleep_overload: 15
 
 interval_session_purge: 300
 
+# purge expired CRLs once a day
+interval_crl_purge: 86400
+
 # You should not change this unless you know what you are doing
 max_instance_count: 1
 disabled: 0
