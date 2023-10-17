@@ -1,85 +1,60 @@
 -- Schema version v3 - 2023-07-19
 
-DROP TABLE aliases CASCADE CONSTRAINTS;
-
 CREATE TABLE aliases (
   identifier varchar2(64),
   pki_realm varchar2(255) NOT NULL,
   alias varchar2(255) NOT NULL,
   group_id varchar2(255),
-  generation number,
-  notafter number,
-  notbefore number,
+  generation number(3),
+  notafter number(11),
+  notbefore number(11),
   PRIMARY KEY (pki_realm, alias)
 );
 
---
--- Table: application_log
---;
-
-DROP TABLE application_log CASCADE CONSTRAINTS;
-
 CREATE TABLE application_log (
   application_log_id number NOT NULL,
-  logtimestamp number,
+  logtimestamp number(20,5),
   workflow_id number(38,0) NOT NULL,
-  priority number DEFAULT '0',
+  priority number(5) DEFAULT '0',
   category varchar2(255) NOT NULL,
   message clob,
   PRIMARY KEY (application_log_id)
 );
 
---
--- Table: audittrail
---;
-
-DROP TABLE audittrail CASCADE CONSTRAINTS;
-
-DROP SEQUENCE sq_audittrail_audittrail_key;
-
-CREATE SEQUENCE sq_audittrail_audittrail_key;
-
 CREATE TABLE audittrail (
   audittrail_key number NOT NULL,
-  logtimestamp number,
+  logtimestamp number(20,5),
   category varchar2(255),
   loglevel varchar2(255),
   message clob,
   PRIMARY KEY (audittrail_key)
 );
 
---
--- Table: certificate
---;
-
-DROP TABLE certificate CASCADE CONSTRAINTS;
-
+-- RFC5280 requires CAs to support serial numbers up to 20 bytes which
+-- are 49 digits whilst number can handle a maximum of 38 digits.
+-- A character type is slower and does not sort properly but is required
+-- to stay compliant with the RFC.
 CREATE TABLE certificate (
   pki_realm varchar2(255),
   issuer_dn varchar2(1000),
-  cert_key number(38,0) NOT NULL,
+  cert_key varchar2(49) NOT NULL,
   issuer_identifier varchar2(64) NOT NULL,
   identifier varchar2(64),
   subject varchar2(1000),
-  status varchar2(255),
+  status varchar2(20),
   subject_key_identifier varchar2(255),
   authority_key_identifier varchar2(255),
-  notbefore number,
-  notafter number,
-  revocation_time number,
-  invalidity_time number,
-  reason_code varchar2(64),
+  notbefore number(11),
+  notafter number(11),
+  revocation_time number(11),
+  invalidity_time number(11),
+  reason_code varchar2(20),
   hold_instruction_code varchar2(64),
+  revocation_id number,
   req_key number,
   data clob,
   PRIMARY KEY (issuer_identifier, cert_key)
 );
-
---
--- Table: certificate_attributes
---;
-
-DROP TABLE certificate_attributes CASCADE CONSTRAINTS;
 
 CREATE TABLE certificate_attributes (
   identifier varchar2(64) NOT NULL,
@@ -89,31 +64,20 @@ CREATE TABLE certificate_attributes (
   PRIMARY KEY (attribute_key, identifier)
 );
 
---
--- Table: crl
---;
-
-DROP TABLE crl CASCADE CONSTRAINTS;
-
 CREATE TABLE crl (
   pki_realm varchar2(255) NOT NULL,
   issuer_identifier varchar2(64) NOT NULL,
   profile varchar2(64),
-  crl_key number(38,0) NOT NULL,
-  crl_number number(38,0),
+  crl_key number NOT NULL,
+  crl_number number,
   items number,
+  max_revocation_id number,
   data clob,
-  last_update number,
-  next_update number,
-  publication_date number,
+  last_update number(11),
+  next_update number(11),
+  publication_date number(11),
   PRIMARY KEY (issuer_identifier, crl_key)
 );
-
---
--- Table: csr
---;
-
-DROP TABLE csr CASCADE CONSTRAINTS;
 
 CREATE TABLE csr (
   req_key number NOT NULL,
@@ -125,27 +89,15 @@ CREATE TABLE csr (
   PRIMARY KEY (pki_realm, req_key)
 );
 
---
--- Table: csr_attributes
---;
-
-DROP TABLE csr_attributes CASCADE CONSTRAINTS;
-
 CREATE TABLE csr_attributes (
   attribute_key number NOT NULL,
   pki_realm varchar2(255) NOT NULL,
-  req_key number(38,0) NOT NULL,
+  req_key number NOT NULL,
   attribute_contentkey varchar2(255),
   attribute_value clob,
   attribute_source clob,
   PRIMARY KEY (attribute_key, pki_realm, req_key)
 );
-
---
--- Table: datapool
---;
-
-DROP TABLE datapool CASCADE CONSTRAINTS;
 
 CREATE TABLE datapool (
   pki_realm varchar2(255) NOT NULL,
@@ -154,32 +106,20 @@ CREATE TABLE datapool (
   datapool_value clob,
   encryption_key varchar2(255),
   access_key varchar2(255),
-  notafter number,
-  last_update number,
+  notafter number(11),
+  last_update number(11),
   PRIMARY KEY (pki_realm, namespace, datapool_key)
 );
-
---
--- Table: report
---;
-
-DROP TABLE report CASCADE CONSTRAINTS;
 
 create table report (
   report_name varchar2(63),
   pki_realm varchar2(255),
-  created number(38), -- unix timestamp
+  created number(11), -- unix timestamp
   mime_type varchar2(63), -- advisory, e.g. text/csv, text/plain, application/pdf, ...
   description varchar2(255),
   report_value clob,
   primary key (report_name, pki_realm)
 );
-
---
--- Table: secret
---;
-
-DROP TABLE secret CASCADE CONSTRAINTS;
 
 CREATE TABLE secret (
   pki_realm varchar2(255) NOT NULL,
@@ -188,62 +128,39 @@ CREATE TABLE secret (
   PRIMARY KEY (pki_realm, group_id)
 );
 
---
--- Table: backend_session
---;
-
-DROP TABLE backend_session CASCADE CONSTRAINTS;
-
 CREATE TABLE backend_session (
   session_id varchar2(255) NOT NULL,
   data clob,
-  created number NOT NULL,
-  modified number NOT NULL,
+  created number(11) NOT NULL,
+  modified number(11) NOT NULL,
   ip_address varchar2(45),
   PRIMARY KEY (session_id)
 );
-
---
--- Table: frontend_session
---;
-
-DROP TABLE frontend_session CASCADE CONSTRAINTS;
 
 CREATE TABLE frontend_session (
   session_id varchar2(255) NOT NULL,
   data clob,
-  created number NOT NULL,
-  modified number NOT NULL,
+  created number(11) NOT NULL,
+  modified number(11) NOT NULL,
   ip_address varchar2(45),
   PRIMARY KEY (session_id)
 );
-
---
--- Table: workflow
---;
-
-DROP TABLE workflow CASCADE CONSTRAINTS;
 
 CREATE TABLE workflow (
   workflow_id number NOT NULL,
   pki_realm varchar2(255),
   workflow_type varchar2(255),
   workflow_state varchar2(255),
-  workflow_last_update varchar2(20) NOT NULL,
-  workflow_proc_state varchar2(32),
-  workflow_wakeup_at number,
-  workflow_count_try number,
-  workflow_archive_at number,
+  workflow_last_update date,
+  workflow_proc_state varchar2(20) DEFAULT 'init',
+  workflow_wakeup_at number(11),
+  workflow_count_try number(11),
+  workflow_reap_at number(11),
+  workflow_archive_at number(11),
   workflow_session clob,
   watchdog_key varchar2(64),
   PRIMARY KEY (workflow_id)
 );
-
---
--- Table: workflow_attributes
---;
-
-DROP TABLE workflow_attributes CASCADE CONSTRAINTS;
 
 CREATE TABLE workflow_attributes (
   workflow_id number NOT NULL,
@@ -252,24 +169,12 @@ CREATE TABLE workflow_attributes (
   PRIMARY KEY (workflow_id, attribute_contentkey)
 );
 
---
--- Table: workflow_context
---;
-
-DROP TABLE workflow_context CASCADE CONSTRAINTS;
-
 CREATE TABLE workflow_context (
   workflow_id number NOT NULL,
   workflow_context_key varchar2(255) NOT NULL,
   workflow_context_value clob,
   PRIMARY KEY (workflow_id, workflow_context_key)
 );
-
---
--- Table: workflow_history
---;
-
-DROP TABLE workflow_history CASCADE CONSTRAINTS;
 
 CREATE TABLE workflow_history (
   workflow_hist_id number NOT NULL,
@@ -278,54 +183,30 @@ CREATE TABLE workflow_history (
   workflow_description clob,
   workflow_state varchar2(255),
   workflow_user varchar2(255),
-  workflow_history_date varchar2(20) NOT NULL,
   workflow_node varchar2(64),
+  workflow_history_date date,
   PRIMARY KEY (workflow_hist_id)
 );
-
-DROP TABLE ocsp_responses CASCADE CONSTRAINTS;
 
 CREATE TABLE ocsp_responses (
   identifier varchar2(64),
   serial_number varchar2(128) NOT NULL,
   authority_key_identifier varchar2(128) NOT NULL,
   body clob NOT NULL,
-  expiry timestamp DEFAULT current_timestamp NOT NULL,
+  expiry date DEFAULT current_timestamp NOT NULL,
   PRIMARY KEY (serial_number, authority_key_identifier)
 );
 
 
-CREATE OR REPLACE TRIGGER ai_audittrail_audittrail_key
-BEFORE INSERT ON audittrail
-FOR EACH ROW WHEN (
- new.audittrail_key IS NULL OR new.audittrail_key = 0
-)
-BEGIN
- SELECT sq_audittrail_audittrail_key.nextval
- INTO :new.audittrail_key
- FROM dual;
-END;
-/
-
-DROP SEQUENCE seq_application_log;
 CREATE SEQUENCE seq_application_log START WITH 0 INCREMENT BY 1 MINVALUE 0;
-DROP SEQUENCE seq_audittrail;
 CREATE SEQUENCE seq_audittrail START WITH 0 INCREMENT BY 1 MINVALUE 0;
-DROP SEQUENCE seq_certificate;
 CREATE SEQUENCE seq_certificate START WITH 0 INCREMENT BY 1 MINVALUE 0;
-DROP SEQUENCE seq_certificate_attributes;
 CREATE SEQUENCE seq_certificate_attributes START WITH 0 INCREMENT BY 1 MINVALUE 0;
-DROP SEQUENCE seq_crl;
 CREATE SEQUENCE seq_crl START WITH 0 INCREMENT BY 1 MINVALUE 0;
-DROP SEQUENCE seq_csr;
 CREATE SEQUENCE seq_csr START WITH 0 INCREMENT BY 1 MINVALUE 0;
-DROP SEQUENCE seq_csr_attributes;
 CREATE SEQUENCE seq_csr_attributes START WITH 0 INCREMENT BY 1 MINVALUE 0;
-DROP SEQUENCE seq_secret;
 CREATE SEQUENCE seq_secret START WITH 0 INCREMENT BY 1 MINVALUE 0;
-DROP SEQUENCE seq_workflow;
 CREATE SEQUENCE seq_workflow START WITH 0 INCREMENT BY 1 MINVALUE 0;
-DROP SEQUENCE seq_workflow_history;
 CREATE SEQUENCE seq_workflow_history START WITH 0 INCREMENT BY 1 MINVALUE 0;
 
 
@@ -400,3 +281,4 @@ INSERT INTO datapool (`pki_realm`,`namespace`,`datapool_key`,`datapool_value`)
 VALUES ('','config','dbschema','3');
 
 QUIT;
+
