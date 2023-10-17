@@ -1,0 +1,22 @@
+# Note when using this field you must also add the set_revocation_code
+# action to map the verbose reason code to a RFC compliant code
+label: I18N_OPENXPKI_UI_WORKFLOW_FIELD_REASON_CODE_LABEL
+name: revocation_reason 
+description: I18N_OPENXPKI_UI_WORKFLOW_FIELD_REASON_DESC
+tooltip: I18N_OPENXPKI_UI_WORKFLOW_FIELD_REASON_CODE_TOOLTIP
+required: 1
+type: select
+option:
+    item:
+      - cert-replace
+      - key-lost
+      - discontinued
+      - key-compromise       
+    label: I18N_OPENXPKI_UI_CUST_WORKFLOW_FIELD_REVOCATION_REASON_OPTION
+
+#labels for i18n parser
+#I18N_OPENXPKI_UI_CUST_WORKFLOW_FIELD_REVOCATION_REASON_OPTION_CERT-REPLACE
+#I18N_OPENXPKI_UI_CUST_WORKFLOW_FIELD_REVOCATION_REASON_OPTION_KEY-LOST
+#I18N_OPENXPKI_UI_CUST_WORKFLOW_FIELD_REVOCATION_REASON_OPTION_DISCONTINUED
+#I18N_OPENXPKI_UI_CUST_WORKFLOW_FIELD_REVOCATION_REASON_OPTION_KEY-COMPROMISE
+

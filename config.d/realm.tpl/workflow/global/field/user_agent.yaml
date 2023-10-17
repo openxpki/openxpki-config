@@ -1,0 +1,5 @@
+label: I18N_OPENXPKI_UI_WORKFLOW_FIELD_USER_AGENT_LABEL
+description: I18N_OPENXPKI_UI_WORKFLOW_USER_AGENT_DESC
+name: user_agent
+type: server
+required: 0
