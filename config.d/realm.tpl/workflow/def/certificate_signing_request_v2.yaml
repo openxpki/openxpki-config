@@ -791,11 +791,9 @@ field:
         label: I18N_OPENXPKI_UI_WORKFLOW_FIELD_CERT_SUBJECT_STYLE_LABEL
         name: cert_subject_style
         description: I18N_OPENXPKI_UI_WORKFLOW_FIELD_CERT_SUBJECT_STYLE_DESC
-        placeholder: I18N_OPENXPKI_UI_WORKFLOW_FIELD_CERT_SUBJECT_STYLE_PLACEHOLDER
-        tooltip: I18N_OPENXPKI_UI_WORKFLOW_FIELD_CERT_SUBJECT_STYLE_TOOLTIP
         type: select
         # The options are provided by the uihandle class!
-        required: 0
+        required: 1
 
     # output only, filled by check_policy activities
     check_policy_dns:
