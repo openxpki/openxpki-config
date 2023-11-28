@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: OpenXPKI 3.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-09-08 14:02+0200\n"
-"PO-Revision-Date: 2023-08-17 13:41+0200\n"
+"PO-Revision-Date: 2023-11-27 14:54+0100\n"
 "Last-Translator: OpenXPKI Team <i18n@openxpki.org>\n"
 "Language-Team: OpenXPKI developers list <openxpki-devel@lists.sourceforge."
 "net>\n"
@@ -13,6 +13,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.0.1\n"
 "X-Poedit-Bookmarks: -1,-1,77,-1,-1,-1,-1,-1,-1,-1\n"
+
+msgid "I18N_OPENXPKI_UI_ACCOUNT_CONTACT_INFORMATION_LABEL"
+msgstr "Kontaktinformationen"
 
 msgid "I18N_OPENXPKI_UI_ACTION_NOT_FOUND"
 msgstr "Die ausgewählte Aktion ist nicht verfügbar"
@@ -440,7 +443,7 @@ msgid "I18N_OPENXPKI_UI_CSR_KEY_GENERATION_FAILED"
 msgstr "Schlüsselerzeugung fehlgeschlagen"
 
 msgid "I18N_OPENXPKI_UI_CUST_WORKFLOW_FIELD_REVOCATION_REASON_OPTION"
-msgstr ""
+msgstr "I18N_OPENXPKI_UI_BULK_PENDING_ENROLLMENT_LABELI18N_OPENXPKI_UI_BULK_PENDING_ENROLLMENT_LABEL"
 
 msgid "I18N_OPENXPKI_UI_CUST_WORKFLOW_FIELD_REVOCATION_REASON_OPTION_CERT"
 msgstr ""
@@ -571,6 +574,9 @@ msgstr "Download als PEM + Text"
 
 msgid "I18N_OPENXPKI_UI_ELIGIBILITY_CHECK_UNEXPECTED_ERROR"
 msgstr "Berechtigungsprüfung nicht möglich (Backend nicht erreichbar)"
+
+msgid "I18N_OPENXPKI_UI_ENDPOINT_REQUIRES_TLS_CLIENT_AUTHENTICATION"
+msgstr "Endpunkt erfordert Anmeldung per mTLS "
 
 msgid "I18N_OPENXPKI_UI_ENROLLMENT_ERROR_CLEANUP"
 msgstr "Antrag wurde aufgrund Inaktivität beendet"
@@ -1294,9 +1300,6 @@ msgstr ""
 
 msgid "I18N_OPENXPKI_UI_PROFILE_BASIC_STYLE_LABEL"
 msgstr "Standardmodus"
-
-msgid "I18N_OPENXPKI_UI_PROFILE_CHOOSE_PROFILE_FIRST"
-msgstr "Bitte zuerst Profil wählen"
 
 msgid "I18N_OPENXPKI_UI_PROFILE_CN_DESC"
 msgstr "Bezeichner (CN)"
@@ -2023,16 +2026,13 @@ msgstr "Sperrung genehmigen"
 msgid "I18N_OPENXPKI_UI_WORKFLOW_ACTION_APPROVE_CSR_DESC"
 msgstr "~"
 
-#, fuzzy
 msgid "I18N_OPENXPKI_UI_WORKFLOW_ACTION_APPROVE_DESC"
 msgstr ""
-"Bitte überprüfen Sie die Informationen des Sperrantrages und bestätigen Sie "
-"die Sperrung nur, wenn Sie sicher sind, dass diese Informationen korrekt "
-"sind."
+"Bitte überprüfen Sie die Informationen des Antrages und bestätigen Sie "
+"diesen, wenn Sie sicher sind, dass alle Informationen korrekt sind."
 
-#, fuzzy
 msgid "I18N_OPENXPKI_UI_WORKFLOW_ACTION_APPROVE_LABEL"
-msgstr "Sperrung genehmigen"
+msgstr "Antrag genehmigen"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_ACTION_CERTIFICATE_PUBLISHING_INITIALIZE_DESC"
 msgstr "Initialize"
@@ -2485,9 +2485,8 @@ msgstr "wartend"
 msgid "I18N_OPENXPKI_UI_WORKFLOW_ACTION_RESETPASS_PERSIST_DESC"
 msgstr "Speichert die Änderungen in der Datenbank."
 
-#, fuzzy
 msgid "I18N_OPENXPKI_UI_WORKFLOW_ACTION_RESETPASS_PERSIST_LABEL"
-msgstr "Persist Data"
+msgstr ""
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_ACTION_REVOKE_CERTIFICATE_DESC"
 msgstr "Dieses Zertifikat zur Sperrung vormerken"
@@ -2535,6 +2534,15 @@ msgstr "Bitte aktualisieren/komplettieren Sie die nachfolgenden Informationen."
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_ACTION_UPDATE_CRR_LABEL"
 msgstr "Antrag aktualisieren"
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_ACTION_UPDATE_ENDPOINT_AUTH_DESC"
+msgstr ""
+"Berechtigen Sie das gewählte Zertifikat als \"autorisierter Antragsteller\" "
+"für die angegebenen Endpunkte. Sie können die Berechtigung widerrufen indem "
+"Sie die Einträge entfernen."
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_ACTION_UPDATE_ENDPOINT_AUTH_LABEL"
+msgstr "Antragsteller Autorisierung"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_APPROVE_BUTTON"
 msgstr "Antrag Freigeben"
@@ -2601,8 +2609,14 @@ msgstr "Trotz Policy-Verletzung absenden"
 msgid "I18N_OPENXPKI_UI_WORKFLOW_BUTTON_POLICY_VIOLATION_RECHECK_LABEL"
 msgstr "Policy-Prüfung wiederholen"
 
+msgid "I18N_OPENXPKI_UI_WORKFLOW_BUTTON_REMOVE_TOKEN_LABEL"
+msgstr "Registrierung löschen"
+
 msgid "I18N_OPENXPKI_UI_WORKFLOW_BUTTON_SET_VALIDITY_LABEL"
 msgstr "Laufzeit ändern"
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_BUTTON_UPDATE_ENDPOINT_AUTH_LABEL"
+msgstr "Aktualisiere Autorisierung"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_CANCEL_BUTTON"
 msgstr "Antrag abbrechen"
@@ -2661,9 +2675,6 @@ msgstr "Fehlermeldung"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_EXPORT_PRIVATEKEY_RETRY_PASSWORD_BUTTON_LABEL"
 msgstr "Passwort wiederholen"
-
-msgid "I18N_OPENXPKI_UI_WORKFLOW_EXTRA_INFO_LABEL"
-msgstr "Technische Informationen"
 
 #, fuzzy
 msgid "I18N_OPENXPKI_UI_WORKFLOW_FIELD_ADDUSER_EMAIL_DESC"
@@ -4398,6 +4409,17 @@ msgstr ""
 msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_POLICY_VIOLATION_LABEL"
 msgstr "Policyverletzung"
 
+msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_PREREG_DUPLICATE_TOKEN_DESC"
+msgstr ""
+"Der gewählte Name wurde bereits vorregistriert. Falls bisher kein aktives "
+"Registrierungsprofil existiert, können Sie über \"Registrierung löschen\" "
+"den bestehenden Eintrag löschen. Falls die Registrierung bereits "
+"abgeschlossen wurde, müssen Sie diese über den vorgesehenen Prozess löschen "
+"bevor sie fortfahren können."
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_PREREG_DUPLICATE_TOKEN_LABEL"
+msgstr "Name bereits registriert"
+
 msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_PROVIDE_SECRET_DESC"
 msgstr ""
 "Bitte geben Sie das API-Token/Passwort ein, welches ihnen während der "
@@ -4601,6 +4623,12 @@ msgstr "Dieser Workflow wurde erfolgreich beendet."
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_SUBMIT_BUTTON"
 msgstr "Weiter"
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_TYPE_ACME_DOMAIN_VALIDATAION_DESC"
+msgstr ""
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_TYPE_ACME_DOMAIN_VALIDATAION_LABEL"
+msgstr "ACME Domain Validierung"
 
 #, fuzzy
 msgid "I18N_OPENXPKI_UI_WORKFLOW_TYPE_ADDUSER_DESC"
@@ -4861,6 +4889,12 @@ msgstr "aufwecken"
 msgid "I18N_OPENXPKI_UI_YES"
 msgstr "ja"
 
+#~ msgid "I18N_OPENXPKI_UI_BULK_PENDING_ENROLLMENT_DESCRIPTION"
+#~ msgstr "Ausstehende Enrollments gesammelt bestätigen oder ablehnen."
+
+#~ msgid "I18N_OPENXPKI_UI_BULK_PENDING_ENROLLMENT_LABEL"
+#~ msgstr "Automatische Enrollments"
+
 #~ msgid "I18N_OPENXPKI_UI_CERT_SUBJECT_PARTS"
 #~ msgstr "Subjectkomponenten"
 
@@ -4879,6 +4913,21 @@ msgstr "ja"
 
 #~ msgid "I18N_OPENXPKI_UI_MENU_USERS"
 #~ msgstr "Benutzer"
+
+#~ msgid "I18N_OPENXPKI_UI_PROFILE_CHOOSE_PROFILE_FIRST"
+#~ msgstr "Bitte zuerst Profil wählen"
+
+#~ msgid "I18N_OPENXPKI_UI_WORKFLOW_ACTION_UPLOAD_CERTIFICATE_DESC"
+#~ msgstr " "
+
+#~ msgid "I18N_OPENXPKI_UI_WORKFLOW_ACTION_UPLOAD_CERTIFICATE_LABEL"
+#~ msgstr "Zertifikat hochladen"
+
+#~ msgid "I18N_OPENXPKI_UI_WORKFLOW_BUTTON_ENDPOINT_AUTH_LABEL"
+#~ msgstr "Berechtigte(r) Endpunkt(e)"
+
+#~ msgid "I18N_OPENXPKI_UI_WORKFLOW_EXTRA_INFO_LABEL"
+#~ msgstr "Technische Informationen"
 
 #, fuzzy
 #~ msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_CERT_AUTH_PENDING_DESC"
