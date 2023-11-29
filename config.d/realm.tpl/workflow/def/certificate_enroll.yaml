@@ -685,15 +685,15 @@ condition:
     is_renewal_request:
         class: Workflow::Condition::LazyAND
         param:
-            condition1: enroll_signer_subject_matches_csr_subject
-            condition2: "!enroll_signer_key_matches_subject_key"
+            condition1: signer_subject_matches_csr_subject
+            condition2: "!signer_key_matches_subject_key"
 
     is_onbehalf_request:
         class: Workflow::Condition::LazyAND
         param:
             condition1: global_has_authorized_signer_rules
-            condition2: "!enroll_signer_subject_matches_csr_subject"
-            condition3: "!enroll_signer_key_matches_subject_key"
+            condition2: "!signer_subject_matches_csr_subject"
+            condition3: "!signer_key_matches_subject_key"
 
     signer_key_matches_subject_key:
         class: Workflow::Condition::Evaluate

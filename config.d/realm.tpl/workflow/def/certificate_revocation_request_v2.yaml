@@ -275,8 +275,8 @@ condition:
     is_approved:
         class: Workflow::Condition::LazyOR
         param:
-            condition1: crr_is_autoapproval
-            condition2: crr_has_approvals
+            condition1: is_autoapproval
+            condition2: has_approvals
             condition3: global_is_signer_authorized
 
     has_approvals:
