@@ -310,8 +310,7 @@ then
    echo -n "Creating a SCEP request .. "
    test -f "${SCEP_REQUEST}" && \
     mv "${SCEP_REQUEST}" "${SCEP_REQUEST}${BACKUP_SUFFIX}"
-   make_password "${SCEP_KEY_PASSWORD}"
-   openssl req -verbose -config "${OPENSSL_CONF}" -reqexts v3_scep_reqexts -batch -newkey rsa:$BITS -passout file:"${SCEP_KEY_PASSWORD}" -keyout "${SCEP_KEY}" -subj "${SCEP_SUBJECT}" -out "${SCEP_REQUEST}"
+   openssl req -verbose -config "${OPENSSL_CONF}" -reqexts v3_scep_reqexts -batch -newkey rsa:$BITS -nodes -keyout "${SCEP_KEY}" -subj "${SCEP_SUBJECT}" -out "${SCEP_REQUEST}"
    echo "done."
    echo -n "Signing SCEP certificate with Issuing CA .. "
    test -f "${SCEP_CERTIFICATE}" && \
@@ -327,8 +326,7 @@ then
    echo -n "Creating a Web request .. "
    test -f "${WEB_REQUEST}" && \
     mv "${WEB_REQUEST}" "${WEB_REQUEST}${BACKUP_SUFFIX}"
-   make_password "${WEB_KEY_PASSWORD}"
-   openssl req -verbose -config "${OPENSSL_CONF}" -reqexts v3_web_reqexts -batch -newkey rsa:$BITS -passout file:"${WEB_KEY_PASSWORD}" -keyout "${WEB_KEY}" -subj "${WEB_SUBJECT}" -out "${WEB_REQUEST}"
+   openssl req -verbose -config "${OPENSSL_CONF}" -reqexts v3_web_reqexts -batch -newkey rsa:$BITS -nodes -keyout "${WEB_KEY}" -subj "${WEB_SUBJECT}" -out "${WEB_REQUEST}"
    echo "done."
    echo -n "Signing Web certificate with Issuing CA .. "
    test -f "${WEB_CERTIFICATE}" && \
@@ -382,7 +380,7 @@ if [ ! -e "/etc/openxpki/tls/endentity/openxpki.crt" ]; then
     mkdir -m700 -p /etc/openxpki/tls/private
     cp ${WEB_CERTIFICATE} /etc/openxpki/tls/endentity/openxpki.crt
     cat ${ISSUING_CA_CERTIFICATE} >> /etc/openxpki/tls/endentity/openxpki.crt
-    openssl rsa -in ${WEB_KEY} -passin file:${WEB_KEY_PASSWORD} -out /etc/openxpki/tls/private/openxpki.pem
+    cp ${WEB_KEY} /etc/openxpki/tls/private/openxpki.pem
     chmod 400 /etc/openxpki/tls/private/openxpki.pem
     service apache2 restart
 fi
