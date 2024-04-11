@@ -181,8 +181,9 @@ field:
           [% USE Certificate %]
           [% IF value %]
             [% FOREACH identifier = value %]
-              - <a target="modal" href="#certificate!detail!identifier![% identifier %]">
-                [% Certificate.dn(identifier, 'CN') %] / [% identifier %]</a>
+              - |-
+                  <a target="modal" href="#certificate!detail!identifier![% identifier %]">
+                  [% Certificate.dn(identifier, 'CN') %] / [% identifier %]</a>
             [% END %]
           [% END %]
 
