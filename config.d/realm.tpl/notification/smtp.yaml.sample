@@ -69,7 +69,7 @@ message:
     cert_expiry:
         default:
             template: cert_expiry
-            subject: Certificate Expiry Warning for [% cert_subject %]
+            subject: Certificate Expiry Warning for [% USE Certificate; Certificate.body( cert_identifier, 'subject') %]
 
     # notifies for the scep server
     enroll_auth_denied:
