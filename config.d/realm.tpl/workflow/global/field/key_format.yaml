@@ -4,7 +4,6 @@ description: I18N_OPENXPKI_UI_EXPORT_PRIVATEKEY_KEY_FORMAT_DESC
 type: select
 required: 1
 option:
-  item:
     mode: keyvalue
     item:
      - value: PKCS12
