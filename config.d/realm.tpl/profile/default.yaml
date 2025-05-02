@@ -57,7 +57,7 @@ key:
           - 4096
 
 validity:
-    notafter: +01
+    notafter: "+01"
 
 digest: sha256
 increasing_serials: 1

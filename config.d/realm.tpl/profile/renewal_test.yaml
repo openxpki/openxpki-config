@@ -6,7 +6,7 @@
 label: Renewal Test Profile - remove for production setup
 
 validity:
-    notafter: +000030
+    notafter: "+000030"
 
 style:
     enroll:

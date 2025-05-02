@@ -50,7 +50,7 @@ action:
         param:
             prefix: publishing.cacert
             retry_count: 3
-            retry_interval: +000000000015
+            retry_interval: "+000000000015"
             on_error: queue
 
     publish_crl:
@@ -61,7 +61,7 @@ action:
             prefix: publishing.crl
             crl_serial: latest
             retry_count: 3
-            retry_interval: +000000000015
+            retry_interval: "+000000000015"
             on_error: queue
 
     get_next_ca:

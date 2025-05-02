@@ -8,7 +8,7 @@ validity:
     # notbefore defaults to now if it is omitted
     #notbefore: 20120101000000
     # absolute date or relative to notbefore
-    notafter: +0006
+    notafter: "+0006"
 
 # digest to use
 digest: sha256

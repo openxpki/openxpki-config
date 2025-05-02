@@ -79,7 +79,7 @@ action:
             _map_ca_alias: $tmp_queue_item
             _map_crl_serial: '[% context.crl_list.item(context.tmp_queue_item) %]'
             retry_count: 3
-            retry_interval: +000000000015
+            retry_interval: "+000000000015"
             on_error: queue
 
     get_next_ca:

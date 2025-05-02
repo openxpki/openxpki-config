@@ -50,7 +50,7 @@ action:
             _map_target: $target
             export_context: 1
             retry_count: 3
-            retry_interval: +000000000015
+            retry_interval: "+000000000015"
             on_error: queue
 
     publish_prefix:
@@ -61,7 +61,7 @@ action:
             _map_prefix: $prefix
             export_context: 1
             retry_count: 3
-            retry_interval: +000000000015
+            retry_interval: "+000000000015"
             on_error: queue
 
 
@@ -73,7 +73,7 @@ action:
             export_context: 1
             _map_publish_key: $publish_key
             retry_count: 3
-            retry_interval: +000000000015
+            retry_interval: "+000000000015"
             on_error: queue
 
 condition:

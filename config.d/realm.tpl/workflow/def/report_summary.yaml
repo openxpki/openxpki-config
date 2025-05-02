@@ -42,9 +42,9 @@ action:
           - valid_at
           - show_chart
         param:
-            near_expiry: +0000045
-            recent_expiry: -0000030
-            recent_renewal: -0000030
+            near_expiry: "+0000045"
+            recent_expiry: "-0000030"
+            recent_renewal: "-0000030"
             _map_valid_at: $valid_at
             _map_target_key: "[% IF context.show_chart; 'report_data'; END %]"
 

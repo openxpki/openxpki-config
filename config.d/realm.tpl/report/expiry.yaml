@@ -1,8 +1,8 @@
 label: Expiry Report
 head: "Certificate Expiry Report, created at: [% export_date %]"
 delimiter: "\t"
-cutoff_notafter: +000060
-include_expired: -000030
+cutoff_notafter: "+000060"
+include_expired: "-000030"
 
 cols:
   - head: Requestor eMail

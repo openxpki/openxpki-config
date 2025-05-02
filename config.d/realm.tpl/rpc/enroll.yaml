@@ -3,17 +3,17 @@ label: Enrollment
 
 # A renewal request is only accpeted if the used certificate will
 # expire within this period of time.
-renewal_period: 000060
+renewal_period: "000060"
 
 # Create certificates for initial requests with a short validity to
 # allow an immediate renewal
-initial_validity: +000030
+initial_validity: "+000030"
 
 # If the request was a replacement, optionally revoke the replaced
 # certificate after a grace period
 revoke_on_replace:
     reason_code: keyCompromise
-    delay_revocation_time: +000014
+    delay_revocation_time: "+000014"
 
 # if you remove this section, any non-renewal request will be treated
 # as an initial request, this works around non-standard MDM and devices

@@ -42,7 +42,7 @@ action:
     generate_to_disk:
         class: OpenXPKI::Server::Workflow::Activity::Reports::Detail
         param:            
-            target_umask: 0644
+            target_umask: "0644"
             _map_valid_at: $valid_at
             _map_target_filename: $target_filename
             target_dir: /tmp
