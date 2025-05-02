@@ -1,0 +1,123 @@
+global:
+    # we might make this a static value / path mapping
+    scripturl: cgi-bin/webui.fcgi
+
+    # path to read the static content targets from
+    # must have one dir per realm or _global serving as fallback
+    staticdir: /var/www/static/
+
+# customize redirect target on "first contact"
+# might be replaced / merged with new realm overview
+login:
+    # Preset an auth stack to use, prevents the drop down
+    # stack: Testing
+
+    # Redirect to a inline page handler instead of the default login screen
+    # With the source module, this makes it easy to show some text
+    # FIXME - this is currently not working!
+    # page: source!html!file!login
+
+    # Redirect to an external page, can be a local or absolute external url
+    # url: https://login.example.com/
+
+locale:
+    prefix: /usr/share/locale/
+    language: en_US
+
+logger:
+    # Log level: overrides system.logger.level
+    #   "DEBUG" MIGHT disclose sensitive user input data.
+    #   "TRACE" WILL dump unfiltered communication.
+    #level: INFO
+
+# Properties of the session storage to manage the frontend session
+session:
+    # dsn driver specification, see CGI::Session, default is undef = file based
+    # Recommended driver is now driver:openxpki which is a CGI::Session compatible
+    # driver based on DBI with some extra features. See driver section below or
+    # perldoc CGI::Session::Driver::openxpki for configuration details
+    # Note - the driver is not part of the core package and must be installed
+    # on its own. For debian there is a package: openxpki-cgi-session-driver
+    #driver: driver:openxpki
+    # parameters to be passed to the driver
+    params:
+        # only for file based driver, path to store the session files
+        # Directory: /tmp
+
+        # below are the settings for openxpki driver
+        # DSN and credentals to connect to the database
+        DataSource: dbi:MariaDB:dbname=openxpki;host=localhost
+        # it is strongly recommended to create a seperate user for this
+        # otherwise an attacker on the webservice can access your backend tables!
+        # CREATE USER 'openxpki_session'@'localhost' IDENTIFIED BY 'mysecret';
+        # GRANT SELECT, INSERT, UPDATE, DELETE ON openxpki.frontend_session TO 'openxpki_session'@'localhost';
+        User: openxpki_session
+        Password: openxpki
+
+    # Set to store session data encrypted in the DB
+    EncryptKey: SessionSecret
+
+    # Log client IP in session table
+    # LogIP: 1
+
+    # FIXME Add options for TLS / additional parameters to DBI
+    # Required for Oracle, default is 100.000
+    # LongReadLen = 100000
+    # Required for Oracle
+    # NameSpace: openxpki
+
+    # Session expiration, see CGI::Session for syntax, default is no expiry
+    # timeout: +1m
+    # Set the IP Match option in CGI::Session, default is off
+    # ip_match: 1
+
+    # Bind the session to a fingerprint created from server env variables
+    # this makes it harder to takeover sessions by stealing the cookie
+    # If you use an environment based authentication handler (x509/SSO) you
+    # should also bind the session to those variables to ensure that the
+    # session becomes invalid once the external session has expired
+    # Variables that do not exist or have a non-true value are ignored
+    fingerprint:
+      - HTTP_ACCEPT_ENCODING
+      - HTTP_USER_AGENT
+      - HTTP_ACCEPT_LANGUAGE
+      - REMOTE_USER
+      - SSL_CLIENT_CERT
+
+    # Key to encrypt the session cookie, prevents people with "internal"
+    # access to the server or database from stealing frontend sessions
+    cookey: TheCookieMonster
+
+realm:
+    # Controls how requests are mapped to realms
+    #   select
+    #     Shows a realm selection page (default if nothing is set).
+    #   fixed
+    #     Expects a fixed realm set via "value: democa" in this block
+    #   path|hostname
+    #     Expects a map defined in the [realm] section (see below)
+    mode: path
+
+    # Layout of the realm selection page:
+    #   card
+    #       Display realm cards in a grid (default)
+    #   list
+    #       Display realm cards as a vertical list
+    layout: card
+
+    # fixed mode
+    #value: democa
+
+    # map path compontent / hostname to realm (based on mode)
+    map:
+        # with mode: path
+        democa: democa
+        rootca: rootca
+        # with mode: hostname
+        # demo.pki.example.com: democa
+
+# Additonal HTTP headers added to all http responses
+header:
+    Strict-Transport-Security: max-age=31536000;
+    X-Frame-Options: SAMEORIGIN;
+    X-XSS-Protection: "1; mode=block"

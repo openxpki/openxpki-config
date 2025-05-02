@@ -1,0 +1,51 @@
+global:
+    realm: democa
+
+logger:
+    # Log level: overrides system.logger.level
+    #   "DEBUG" MIGHT disclose sensitive user input data.
+    #   "TRACE" WILL dump unfiltered communication.
+    #level: INFO
+
+auth:
+    stack: _System
+
+output:
+    # You can define what certificates should be included into the
+    # certificate response, the default is to include the chain
+    # certificates without the root (chain). Set "chain" to add
+    # the root (fullchain) or send only the requested cert (none)
+    # chain: chain
+
+    # To ease debugging and error handling you can set the workflowid
+    # transactionid and workflow error code as HTTP headers.
+    # Only supported value for now is "all"
+    # headers: all
+
+PKIOperation:
+    input:
+     - signature
+    pickup:
+        namespace: transaction_id
+    # Support endpoint expansion for PKIOperation
+    env:
+     - server
+
+# If you need to have endpoint specific settings for general calls
+# you must set the server from env here and make sure the workflows
+# accept interface/server parameters
+# GetCACert:
+#    env:
+#     - server
+
+# GetCACAPS:
+#    env:
+#     - server
+
+# GetNextCACert:
+#    env:
+#     - server
+
+# GetCRL:
+#    env:
+#     - server

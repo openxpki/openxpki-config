@@ -1,0 +1,18 @@
+# Global Log4perl configuration
+
+# Default log level (default: WARN)
+level: INFO
+
+# Target for service logs (server always logs to "console")
+#   "file"    = (default) /var/log/openxpki-ui/<service>.log
+#   "console" = journald if running as systemd unit, STDOUT otherwise
+#target: console
+
+# Complete Log4perl config that overrides everything.
+# (either a multiline string or key:value pairs)
+#config: |-
+#    log4perl.oneMessagePerAppender = 1
+#    log4perl.rootLogger = INFO, BASE
+#    log4perl.appender.BASE = OpenXPKI::Log4perl::Appender::Journald
+#    log4perl.appender.BASE.layout = Log::Log4perl::Layout::PatternLayout
+#    log4perl.appender.BASE.layout.ConversionPattern = [%c{2}] %m

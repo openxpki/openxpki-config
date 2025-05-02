@@ -1,0 +1,23 @@
+# The global configuration for the Mojolicious wrapper
+
+# A loglevel of DEBUG MIGHT disclose sensitive user input data
+# A loglevel of TRACE WILL dump any communication unfiltered
+# Defaults to system.logger.level
+logger:
+#    level: INFO
+
+# user, group and pid file must be changed via the systemd unit file
+#user:         openxpkiclient
+#group:        openxpkiclient
+#pid_file:     /run/openxpki-clientd/openxpki-clientd.pid
+
+# set group and mode to allow your webserver to connect
+# systemd starts the daemon as non-root user with a supplemental group
+# adjust your systemd unit file if you need additional privileges
+socket_group: www-data
+socket_mode:  "0660"
+# you must also change your apache config when changing this
+#socket_file:  /run/openxpki-clientd/openxpki-clientd.sock
+
+prefork:
+    workers: 4

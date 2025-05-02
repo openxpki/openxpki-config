@@ -1,0 +1,3 @@
+# Connection to the backend service
+# builtin default, should only be changed if really needed
+#socket: /run/openxpkid/openxpkid.sock

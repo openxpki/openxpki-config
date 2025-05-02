@@ -1,0 +1,29 @@
+global:
+    realm: democa
+
+locale:
+    language: en_US
+
+auth:
+    stack: _System
+
+input:
+    allow_raw_post: 1
+    parse_depth: 5
+
+output:
+    use_http_status_codes: 1
+
+openapi:
+    title: Public Certificate API
+
+SearchCertificate:
+    workflow: certificate_search
+    input:
+      - common_name
+    # Append "certificate" if you want the full PEM block in the result
+    output:
+      - cert_identifier
+      - notbefore
+      - notafter
+      - status
