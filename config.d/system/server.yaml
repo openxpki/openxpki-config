@@ -4,16 +4,22 @@ name: main
 # Location of the log4perl configuration
 log4perl: /etc/openxpki/log.conf
 
+
 # Daemon settings
+# when using systemd the process is started directly as non-root user
+# so those settings must match the user/group set in the unit file
+# it is recommended to keep it for cases where you want to run the
+# service for debugging directly from a root console
 user:         openxpki
 group:        openxpki
-socket_file:  /var/openxpki/openxpki.socket
-pid_file:     /run/openxpkid.pid
+#socket_file:  /run/openxpkid/openxpkid.sock
+#pid_file:     /run/openxpkid/openxpkid.pid
+
 stderr:       /var/log/openxpki/stderr.log
 tmpdir:       /var/tmp
 
-# we need to give write permission to the socket for the webserver
-socket_owner: www-data
+# give write permission to the socket for the openxpki-clientd
+socket_group: openxpkiclient
 
 # This is experimental!
 #type: PreFork
