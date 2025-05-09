@@ -38,7 +38,7 @@ session:
     # perldoc CGI::Session::Driver::openxpki for configuration details
     # Note - the driver is not part of the core package and must be installed
     # on its own. For debian there is a package: openxpki-cgi-session-driver
-    #driver: driver:openxpki
+    driver: driver:openxpki
     # parameters to be passed to the driver
     params:
         # only for file based driver, path to store the session files
@@ -52,7 +52,7 @@ session:
         # CREATE USER 'openxpki_session'@'localhost' IDENTIFIED BY 'mysecret';
         # GRANT SELECT, INSERT, UPDATE, DELETE ON openxpki.frontend_session TO 'openxpki_session'@'localhost';
         User: openxpki_session
-        Password: openxpki
+        Password: mysecret
 
     # Set to store session data encrypted in the DB
     EncryptKey: SessionSecret
