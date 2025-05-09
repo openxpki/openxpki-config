@@ -8,6 +8,24 @@ set -e
 # MyPerl='true'
 [ "$MyPerl" = ' true' ] && [ -d /opt/myperl/bin ] && export PATH=/opt/myperl/bin:$PATH
 
+
+if [ ! -e "/run/openxpkid/openxpkid.sock" ]; then
+    echo "####################################################################"
+    echo "#                                                                  #"
+    echo "#   your system is not up - please exec systemctl start openxpkid  #"
+    echo "#                                                                  #"
+    echo "####################################################################"
+   exit 1;
+fi;
+
+# install locale if needed
+HAS_LOCALE=$(locale -a | grep en_UPS | wc -l)
+if [ -z "$HAS_LOCALE" ]; then
+   sed -r "/en_US.UTF-8/d" -i /etc/locale.gen
+   echo "en_US.UTF-8 UTF-8" >>  /etc/locale.gen
+   locale-gen
+fi
+
 #
 # basic openxpki settings
 #
