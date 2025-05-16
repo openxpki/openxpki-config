@@ -8,10 +8,6 @@ User:
 RA Operator:
     label: RA Operator
 
-# operator with ca key access
-CA Operator:
-    label: CA Operator
-
 # system user, anything which is running on the shell
 System:
     label: System

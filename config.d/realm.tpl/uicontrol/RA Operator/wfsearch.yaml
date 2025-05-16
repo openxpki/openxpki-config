@@ -27,4 +27,3 @@ default:
       - label: I18N_OPENXPKI_UI_SEARCH_TRANSACTION_ID_LABEL
         key: transaction_id
 
-

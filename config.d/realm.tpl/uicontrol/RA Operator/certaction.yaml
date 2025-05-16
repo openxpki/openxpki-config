@@ -21,4 +21,3 @@
 - label: I18N_OPENXPKI_UI_CERT_ACTION_UPDATE_METADATA
   workflow: change_metadata
   autorun: 1
-

@@ -1,5 +1,6 @@
-- key: home
+- key:   home
   label: I18N_OPENXPKI_UI_MENU_HOME
+  icon:  glyphicon-home
   entries:
     - key:    source!html!file!home
       label:  I18N_OPENXPKI_UI_MENU_HOME
@@ -8,14 +9,20 @@
     - key:    certificate!mine
       label:  I18N_OPENXPKI_UI_MENU_MY_CERTIFICATE
 
-- key:   workflow!index!wf_type!certificate_signing_request_v2
-  label: I18N_OPENXPKI_UI_MENU_REQUEST_CERTIFICATE
-
-- key:   workflow!index!wf_type!certificate_revocation_request_v2
-  label: I18N_OPENXPKI_UI_MENU_REVOKE_CERTIFICATE
+- key: request
+  label: I18N_OPENXPKI_UI_MENU_REQUEST
+  icon: glyphicon-edit
+  entries:
+    - key:   workflow!index!wf_type!certificate_signing_request_v2
+      label: I18N_OPENXPKI_UI_MENU_REQUEST_CERTIFICATE
+    - key:   workflow!index!wf_type!certificate_revocation_request_v2
+      label: I18N_OPENXPKI_UI_MENU_REVOKE_CERTIFICATE
+    - key:   workflow!index!wf_type!request_checker
+      label: I18N_OPENXPKI_UI_MENU_CSR_CHECK
 
 - key:   info
   label: I18N_OPENXPKI_UI_MENU_INFORMATION
+  icon:  glyphicon-info-sign
   entries:
     - key:   information!issuer
       label: I18N_OPENXPKI_UI_MENU_CA_CERTIFICATES
@@ -24,10 +31,9 @@
 
 - key:   certificate!search
   label: I18N_OPENXPKI_UI_MENU_CERTIFICATE_SEARCH
+  icon:  glyphicon-search
 
 - key:   workflow!index!wf_type!search_scep_workflow
   label: I18N_OPENXPKI_UI_MENU_ENROLLMENT_SEARCH
-
-- key:   workflow!index!wf_type!request_checker
-  label: I18N_OPENXPKI_UI_MENU_CSR_CHECK
+  icon:  glyphicon-search
 

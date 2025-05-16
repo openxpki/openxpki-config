@@ -9,4 +9,3 @@
 - label: I18N_OPENXPKI_UI_CERT_ACTION_REVOKE
   workflow: certificate_revocation_request_v2
   condition: issued
-

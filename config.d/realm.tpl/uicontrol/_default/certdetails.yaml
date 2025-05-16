@@ -4,8 +4,20 @@ metadata:
   - label: I18N_OPENXPKI_UI_WORKFLOW_FIELD_META_REQUESTOR_LABEL
     field: meta_requestor
   - template: >
-      [% IF meta_email %]
-      I18N_OPENXPKI_UI_WORKFLOW_FIELD_META_EMAIL_LABEL:
-      [% FOREACH mail = meta_email %]
-          <a href="mailto:[% mail FILTER html %]">[% mail FILTER html %]</a>,
+      [% IF meta_owner_contact %]
+      I18N_OPENXPKI_UI_WORKFLOW_FIELD_META_OWNER_CONTACT_LABEL:
+      [% FOREACH mail = meta_owner_contact %]
+          <a href="mailto:[% mail FILTER html %]">[% mail FILTER html %]</a>
       [% END %][% END %]
+  - template: >
+      [% IF meta_owner_group %]
+      I18N_OPENXPKI_UI_WORKFLOW_FIELD_META_OWNER_GROUP_LABEL:
+      [% meta_owner_group.join(' ') %]
+      [% END %]
+  - template: >
+      [% IF meta_expiry_notification %]
+      I18N_OPENXPKI_UI_WORKFLOW_FIELD_META_EXPIRY_NOTIFICATION_LABEL: I18N_OPENXPKI_UI_EXPIRY_NOTIFICATION_[% meta_expiry_notification.0 FILTER upper %]
+        [% IF meta_expiry_notification_last.0 && meta_expiry_notification.0 != 'renewed' %]
+          ([% USE date; date.format(meta_expiry_notification_last.0) %])
+        [% END %]
+      [% END %]

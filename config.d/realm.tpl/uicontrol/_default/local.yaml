@@ -3,4 +3,3 @@
 # Setting undef here hides the grey box on the right
 # Do not set this node to use the builtin default
 wfdetails: ~
-
