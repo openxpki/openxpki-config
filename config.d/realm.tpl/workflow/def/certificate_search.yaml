@@ -49,9 +49,9 @@ action:
 
 condition:
     has_result:
-         class: Workflow::Condition::Evaluate
-         param:
-             test: $context->{cert_identifier}
+        class: OpenXPKI::Server::Workflow::Condition::IsTrue
+        param:
+            key: cert_identifier
 
 validator:
     common_name:

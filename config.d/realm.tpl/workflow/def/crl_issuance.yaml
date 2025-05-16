@@ -112,9 +112,9 @@ condition:
             condition: is_empty
 
     has_ca_alias_set:
-        class: Workflow::Condition::Evaluate
+        class: OpenXPKI::Server::Workflow::Condition::IsTrue
         param:
-          test: $context->{ca_alias}
+            key: ca_alias
 
 field:
     force_issue:

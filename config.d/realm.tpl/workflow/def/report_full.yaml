@@ -12,13 +12,13 @@ state:
     GENERATE:
         autorun: 1
         action:
-          - generate_to_context global_uuid store_in_datapool create_download_link > SUCCESS ? use_datapool
-          - generate_to_disk create_download_link > SUCCESS ? !use_datapool
+          - generate_to_context global_uuid store_in_datapool create_download_link > SUCCESS ? !has_target_filename
+          - generate_to_disk create_download_link > SUCCESS ? has_target_filename
 
     SUCCESS:
         label: I18N_OPENXPKI_UI_WORKFLOW_STATE_REPORT_DETAIL_SUCCESS_LABEL
         description: I18N_OPENXPKI_UI_WORKFLOW_STATE_REPORT_DETAIL_SUCCESS_DESC
-        output: 
+        output:
           - valid_at
           - total_count
           - download
@@ -34,20 +34,20 @@ action:
 
     generate_to_context:
         class: OpenXPKI::Server::Workflow::Activity::Reports::Detail
-        param:            
+        param:
             target_key: _report_data
             _map_valid_at: $valid_at
             _map_report_config: $report_config
-             
+
     generate_to_disk:
         class: OpenXPKI::Server::Workflow::Activity::Reports::Detail
-        param:            
+        param:
             target_umask: "0644"
             _map_valid_at: $valid_at
             _map_target_filename: $target_filename
             target_dir: /tmp
             _map_report_config: $report_config
-  
+
     store_in_datapool:
         class: OpenXPKI::Server::Workflow::Activity::Tools::Datapool::SetEntry
         param:
@@ -57,7 +57,7 @@ action:
             encrypt: 0
             force: 1
             expiration_date: "+000001"
-            
+
     create_download_link:
         class: OpenXPKI::Server::Workflow::Activity::Tools::SetContextHash
         param:
@@ -66,14 +66,14 @@ action:
           _map_source: >
               [% IF context.report_filename %]file:[% context.report_filename %]
               [% ELSE %]datapool:[% context.uuid %][% END %]
-  
+
 
 condition:
-    use_datapool:
-        class: Workflow::Condition::Evaluate
+    has_target_filename:
+        class: OpenXPKI::Server::Workflow::Condition::IsTrue
         param:
-            test: not $context->{target_filename}
-          
+            key: target_filename
+
 field:
     valid_at:
         name: valid_at
@@ -87,10 +87,10 @@ field:
     total_count:
         name: total_count
         label: I18N_OPENXPKI_UI_WORKFLOW_REPORT_FIELD_TOTAL_COUNT
-        
+
     target_filename:
         name: target_filename
-        type: server 
+        type: server
         required: 0
 
     report_config:

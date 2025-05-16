@@ -146,34 +146,39 @@ action:
 
 condition:
     is_pkcs12:
-        class: Workflow::Condition::Evaluate
+        class: OpenXPKI::Server::Workflow::Condition::Matches
         param:
-            test: $context->{key_format} =~ m{\APKCS12}
+            key: key_format
+            regex: "\\APKCS12"
 
     is_pkcs8_pem:
-        class: Workflow::Condition::Evaluate
+        class: OpenXPKI::Server::Workflow::Condition::IsEqual
         param:
-            test: $context->{key_format} eq 'PKCS8_PEM'
+            key: key_format
+            value: PKCS8_PEM
 
     is_pkcs8_der:
-        class: Workflow::Condition::Evaluate
+        class: OpenXPKI::Server::Workflow::Condition::IsEqual
         param:
-            test: $context->{key_format} eq 'PKCS8_DER'
+            key: key_format
+            value: PKCS8_DER
 
     is_openssl_privkey:
-        class: Workflow::Condition::Evaluate
+        class: OpenXPKI::Server::Workflow::Condition::IsEqual
         param:
-            test: $context->{key_format} eq 'OPENSSL_PRIVKEY'
+            key: key_format
+            value: OPENSSL_PRIVKEY
 
     is_java_keystore:
-        class: Workflow::Condition::Evaluate
+        class: OpenXPKI::Server::Workflow::Condition::IsEqual
         param:
-            test: $context->{key_format} eq 'JAVA_KEYSTORE'
+            key: key_format
+            value: JAVA_KEYSTORE
 
     key_exists:
-        class: Workflow::Condition::Evaluate
+        class: OpenXPKI::Server::Workflow::Condition::IsTrue
         param:
-            test: $context->{_export}
+            key: _export
 
 
 field:

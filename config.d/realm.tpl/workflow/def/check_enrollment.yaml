@@ -62,9 +62,9 @@ field:
 
 condition:
     has_request_pending:
-        class: Workflow::Condition::Evaluate
+        class: OpenXPKI::Server::Workflow::Condition::IsTrue
         param:
-            test: $context->{workflow_id}
+            key: workflow_id
 
 acl:
     System:

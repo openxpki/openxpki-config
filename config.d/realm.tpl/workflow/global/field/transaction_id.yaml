@@ -5,6 +5,8 @@ placeholder: d2b5848880cdb8bdac5cfe01adbe50c475fc00e8
 required: 0
 type: text
 api_type: Str
-# Support word character prefix and suffix using a colon 
-# Support md5 to sha256 hashes with upper and lowercase hex
-match: \A(\w+:)?[0-9a-zA-Z]{32,64}(:\d+)?\z
+# Support word character prefix and suffix using a colon
+# Support hashes with upper and lowercase hex
+# Support base64url encoded UUIDs for ACME Orders
+# Some products have 16 chars :/
+match: \A(\w+:)?[0-9a-zA-Z_-]{16,128}(:\d+)?\z

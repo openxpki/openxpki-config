@@ -1,4 +1,4 @@
-class: Workflow::Condition::Evaluate
+class: OpenXPKI::Server::Workflow::Condition::IsTrue
 param:
-    test: $context->{flag_batch_mode}
+    key: flag_batch_mode
 

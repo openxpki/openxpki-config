@@ -97,19 +97,21 @@ action:
 
 condition:
     is_notify_pending:
-        class: Workflow::Condition::Evaluate
+        class: OpenXPKI::Server::Workflow::Condition::IsEqual
         param:
-            test: ($context->{meta_expiry_notification} eq 'pending')
+            key: meta_expiry_notification
+            value: pending
 
     is_notify_disabled:
-        class: Workflow::Condition::Evaluate
+        class: OpenXPKI::Server::Workflow::Condition::Matches
         param:
-            test: (!$context->{meta_expiry_notification} || $context->{meta_expiry_notification} =~ m{(disabled|suppress)})
+            key: meta_expiry_notification
+            regex: "\\A(|disabled|suppress)\\z"
 
     has_updates:
-        class: Workflow::Condition::Evaluate
+        class: OpenXPKI::Server::Workflow::Condition::IsTrue
         param:
-            test: ($context->{updated})
+            key: updated
 
 acl:
     CA Operator:

@@ -1,3 +1,3 @@
-class: Workflow::Condition::Evaluate
+class: OpenXPKI::Server::Workflow::Condition::IsTrue
 param:
-    test: ($context->{signer_revoked})
+    key: signer_revoked

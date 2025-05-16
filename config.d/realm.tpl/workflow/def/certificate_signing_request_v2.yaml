@@ -705,9 +705,9 @@ condition:
             generate: client
 
     pending_notification_send:
-        class: Workflow::Condition::Evaluate
+        class: OpenXPKI::Server::Workflow::Condition::IsTrue
         param:
-            test: $context->{flag_pending_notification_send}
+            key: flag_pending_notification_send
 
     has_policy_violation:
         class: Workflow::Condition::LazyOR
@@ -720,9 +720,9 @@ condition:
             # condition4: global_has_duplicate_key_workflow
 
     has_password_in_context:
-        class: Workflow::Condition::Evaluate
+        class: OpenXPKI::Server::Workflow::Condition::IsTrue
         param:
-            test: $context->{_password}
+            key: _password
 
     has_privkey_and_password_in_context:
         class: Workflow::Condition::Evaluate
@@ -730,14 +730,15 @@ condition:
             test: $context->{_password} && $context->{_private_key}
 
     server_key_generation:
-        class: Workflow::Condition::Evaluate
+        class: OpenXPKI::Server::Workflow::Condition::IsTrue
         param:
-            test: defined $context->{key_gen_params}
+            key: key_gen_params
 
     key_password_user:
-        class: Workflow::Condition::Evaluate
+        class: OpenXPKI::Server::Workflow::Condition::IsEqual
         param:
-            test: $context->{password_type} eq 'client'
+            key: password_type
+            value: client
 
     profile_has_san_section:
         class: OpenXPKI::Server::Workflow::Condition::Connector::Exists

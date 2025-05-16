@@ -268,9 +268,9 @@ condition:
         class: OpenXPKI::Server::Workflow::Condition::CertificateNotYetRevoked
 
     is_delayed_revocation:
-        class: Workflow::Condition::Evaluate
+        class: OpenXPKI::Server::Workflow::Condition::IsTrue
         param:
-            test: $context->{delay_revocation_time}
+            key: delay_revocation_time
 
     is_approved:
         class: Workflow::Condition::LazyOR
@@ -285,14 +285,14 @@ condition:
             role: RA Operator
 
     is_autoapproval:
-        class: Workflow::Condition::Evaluate
+        class: OpenXPKI::Server::Workflow::Condition::IsTrue
         param:
-            test: $context->{flag_auto_approval}
+            key: flag_auto_approval
 
     pending_notification_send:
-        class: Workflow::Condition::Evaluate
+        class: OpenXPKI::Server::Workflow::Condition::IsTrue
         param:
-            test: $context->{flag_pending_notification_send}
+            key: flag_pending_notification_send
 
 
 validator:

@@ -1,4 +1,4 @@
-class: Workflow::Condition::Evaluate
+class: OpenXPKI::Server::Workflow::Condition::IsTrue
 param:
-    test: $context->{signer_cert}
+    key: signer_cert
 

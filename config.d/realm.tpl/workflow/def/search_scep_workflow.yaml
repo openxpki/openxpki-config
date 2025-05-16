@@ -71,9 +71,9 @@ field:
 
 condition:
     has_result:
-        class: Workflow::Condition::Evaluate
+        class: OpenXPKI::Server::Workflow::Condition::IsTrue
         param:
-            test: ($context->{search_result})
+            key: search_result
 
 acl:
     User:

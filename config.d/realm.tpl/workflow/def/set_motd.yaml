@@ -104,9 +104,9 @@ field:
 
 condition:
     has_message:
-        class: Workflow::Condition::Evaluate
+        class: OpenXPKI::Server::Workflow::Condition::IsTrue
         param:
-            test: $context->{message}
+            key: message
 
 validator:
     full_uri:

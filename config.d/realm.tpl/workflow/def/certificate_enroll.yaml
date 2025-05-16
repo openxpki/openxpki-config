@@ -611,39 +611,39 @@ action:
 
 condition:
     is_anonymous_enrollment_allowed:
-        class: Workflow::Condition::Evaluate
+        class: OpenXPKI::Server::Workflow::Condition::IsTrue
         param:
-            test: $context->{p_allow_anon_enroll};
+            key: p_allow_anon_enroll
 
     is_manual_authentication_allowed:
-        class: Workflow::Condition::Evaluate
+        class: OpenXPKI::Server::Workflow::Condition::IsTrue
         param:
-            test: $context->{p_allow_man_authen};
+            key: p_allow_man_authen
 
     is_manual_approval_allowed:
-        class: Workflow::Condition::Evaluate
+        class: OpenXPKI::Server::Workflow::Condition::IsTrue
         param:
-            test: $context->{p_allow_man_approv};
+            key: p_allow_man_approv
 
     is_in_renewal_window:
-        class: Workflow::Condition::Evaluate
+        class: OpenXPKI::Server::Workflow::Condition::IsTrue
         param:
-            test: $context->{in_renewal_window}
+            key: in_renewal_window
 
     is_replacement_allowed:
-        class: Workflow::Condition::Evaluate
+        class: OpenXPKI::Server::Workflow::Condition::IsTrue
         param:
-            test: $context->{p_allow_replace}
+            key: p_allow_replace
 
     is_eligibility_recheck_allowed:
-        class: Workflow::Condition::Evaluate
+        class: OpenXPKI::Server::Workflow::Condition::IsTrue
         param:
-            test: $context->{p_allow_eligibility_recheck};
+            key: p_allow_eligibility_recheck
 
     need_auto_revoke_existing_certs:
-        class: Workflow::Condition::Evaluate
+        class: OpenXPKI::Server::Workflow::Condition::IsTrue
         param:
-            test: $context->{p_auto_revoke_existing_certs}
+            key: p_auto_revoke_existing_certs
 
     has_certificate_template:
         class: OpenXPKI::Server::Workflow::Condition::WFHash
@@ -653,30 +653,33 @@ condition:
             hash_key: certificateTemplateName
 
     has_profile_in_workflow_param:
-        class: Workflow::Condition::Evaluate
+        class: OpenXPKI::Server::Workflow::Condition::IsTrue
         param:
-            test: $context->{profile};
+            key: profile
 
     has_profile_in_url_params:
-        class: Workflow::Condition::Evaluate
+        class: OpenXPKI::Server::Workflow::Condition::IsTrue
         param:
-            test: $context->{url_profile};
+            key: url_profile
 
     has_profile_set:
-        class: Workflow::Condition::Evaluate
+        class: OpenXPKI::Server::Workflow::Condition::IsTrue
         param:
-            test: $context->{cert_profile};
+            key: cert_profile
 
     is_eligible:
-        class: Workflow::Condition::Evaluate
+        class: OpenXPKI::Server::Workflow::Condition::IsTrue
         param:
-            test: $context->{is_eligible}
+            key: is_eligible
 
     is_approved:
-        class: Workflow::Condition::Evaluate
+        class: OpenXPKI::Server::Workflow::Condition::Compare
         param:
-            # the defined prevents any accidental "autoapprovals" by missing parameters
-            test: (defined $context->{p_approval_points} && $context->{approval_points} >= $context->{p_approval_points})
+            key: approval_points
+            operator: gte
+            # if p_approval_points is not set this will be '' and fail
+            _map_value: $p_approval_points
+
 
     # Mode Detection is a bit tricky with special SCEP enrollers
     # We explicitly define what is a renewal or onbehalf request
@@ -696,9 +699,10 @@ condition:
             condition3: "!signer_key_matches_subject_key"
 
     signer_key_matches_subject_key:
-        class: Workflow::Condition::Evaluate
+        class: OpenXPKI::Server::Workflow::Condition::IsEqual
         param:
-             test: $context->{signer_subject_key_identifier} && ($context->{signer_subject_key_identifier} eq $context->{csr_subject_key_identifier})
+            key: signer_subject_key_identifier
+            _map_value: $csr_subject_key_identifier
 
     signer_subject_matches_csr_subject:
         class: OpenXPKI::Server::Workflow::Condition::SubjectsMatch
@@ -712,9 +716,9 @@ condition:
             _map_config_path: "[% context.interface %].[% context.server %].hmac"
 
     is_valid_hmac:
-        class: Workflow::Condition::Evaluate
+        class: OpenXPKI::Server::Workflow::Condition::IsTrue
         param:
-             test: ($context->{is_valid_hmac} == 1)
+            key: is_valid_hmac
 
     need_challenge_password:
         class: OpenXPKI::Server::Workflow::Condition::Connector::Exists
@@ -722,9 +726,9 @@ condition:
             _map_config_path: "[% context.interface %].[% context.server %].challenge"
 
     is_valid_challenge_password:
-        class: Workflow::Condition::Evaluate
+        class: OpenXPKI::Server::Workflow::Condition::IsTrue
         param:
-             test: ($context->{challenge_password_valid})
+            key: challenge_password_valid
 
     is_renewal_mode:
         class: Workflow::Condition::Evaluate
@@ -732,19 +736,19 @@ condition:
              test: ($context->{request_mode} eq 'renewal')
 
     is_signer_in_current_realm:
-        class: Workflow::Condition::Evaluate
+        class: OpenXPKI::Server::Workflow::Condition::IsTrue
         param:
-             test: ($context->{signer_in_current_realm})
+            key: signer_in_current_realm
 
     has_subject_duplicate:
-        class: Workflow::Condition::Evaluate
+        class: OpenXPKI::Server::Workflow::Condition::IsTrue
         param:
-             test: ($context->{check_policy_subject_duplicate})
+            key: check_policy_subject_duplicate
 
     need_subject_duplicate_check:
-        class: Workflow::Condition::Evaluate
+        class: OpenXPKI::Server::Workflow::Condition::IsTrue
         param:
-             test: ($context->{p_max_active_certs})
+            key: p_max_active_certs
 
     is_cert_count_ok_for_initial:
         class: OpenXPKI::Server::Workflow::Condition::WFArray
@@ -766,20 +770,21 @@ condition:
             _map_config_path: "[% context.interface %].[% context.server %].revoke_on_replace"
 
     need_export_certificate:
-        class: Workflow::Condition::Evaluate
+        class: OpenXPKI::Server::Workflow::Condition::IsTrue
         param:
-            test: $context->{p_export_certificate}
+            key: p_export_certificate
 
     need_export_certificate_with_chain:
-        class: Workflow::Condition::Evaluate
+        class: OpenXPKI::Server::Workflow::Condition::IsEqual
         param:
-            test: ($context->{p_export_certificate} && $context->{p_export_certificate} eq "chain")
+            key: p_export_certificate
+            value: chain
 
     need_export_certificate_with_fullchain:
-        class: Workflow::Condition::Evaluate
+        class: OpenXPKI::Server::Workflow::Condition::IsEqual
         param:
-            test: ($context->{p_export_certificate} && $context->{p_export_certificate} eq "fullchain")
-
+            key: p_export_certificate
+            value: fullchain
 
 field:
     _pkcs7:

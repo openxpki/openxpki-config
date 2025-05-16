@@ -60,9 +60,9 @@ action:
 
 condition:
     has_show_chart:
-        class: Workflow::Condition::Evaluate
+        class: OpenXPKI::Server::Workflow::Condition::IsTrue
         param:
-            test: $context->{show_chart}
+            key: show_chart
 
 field:
     valid_at:
