@@ -4,7 +4,6 @@ name: main
 # Location of the log4perl configuration
 log4perl: /etc/openxpki/log.conf
 
-
 # Daemon settings
 # when using systemd the process is started directly as non-root user
 # so those settings must match the user/group set in the unit file
@@ -12,14 +11,27 @@ log4perl: /etc/openxpki/log.conf
 # service for debugging directly from a root console
 user:         openxpki
 group:        openxpki
-#socket_file:  /run/openxpkid/openxpkid.sock
 #pid_file:     /run/openxpkid/openxpkid.pid
 
+# socket file location - builtin default
+# must be set in several placed if changed!
+# socket_file:  /run/openxpkid/openxpkid.sock
+
+# socket must be made available to the openxpki-clientd
+# as we are starting as non-root under systemd the best way is to change
+# to a shared group which is allowed via SupplementaryGroups
+socket_group: openxpkiclient
+socket_mode: '0664'
+# Additional privileges are required to change socket_owner
+# This is deprecated and will be removed in the next release
+#socket_owner: openxpki
+
+
+# path for startup logging
 stderr:       /var/log/openxpki/stderr.log
+# and system tmpdir
 tmpdir:       /var/tmp
 
-# give write permission to the socket for the openxpki-clientd
-socket_group: openxpkiclient
 
 # This is experimental!
 #type: PreFork
@@ -55,6 +67,10 @@ service:
         # Kill server process if command does not return after n seconds
         # this is still in beta phase, use with caution!
         # max_execution_time: 20
+
+    # new "oxi" CLI interface introduced with v3.32
+    CLI:
+        enabled: 1
 
 # settings for i18n
 i18n:

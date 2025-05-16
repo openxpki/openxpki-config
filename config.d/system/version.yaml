@@ -2,10 +2,13 @@
 # management tools - you can extend the file with your own attributes all
 # values are listed on the system status page and are returned via
 # "openxpkicli version" call
-config: 3.28
 commit: ~
 
 # this was introduced with v3.12 and will prevent the system to start
 # if the used application version is older
 depend:
-  core: 3.28
+    core: 3.32
+    # this is for future use and has no direct effect with v3.32
+    # set "2" if you have upgraded or started from this config
+    # use "1" in case your configuration was not fully upgraded
+    config: 2
