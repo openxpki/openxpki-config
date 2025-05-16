@@ -48,6 +48,7 @@ token:
   # use KEY_IDENTIFIER as we might use the same key for multiple token
   ratoken:
     inherit: default
+    engine: Inline
     key_store: DATAPOOL
     key: "[% KEY_IDENTIFIER %]"
     secret: ratoken
