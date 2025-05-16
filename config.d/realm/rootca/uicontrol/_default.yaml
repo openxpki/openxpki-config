@@ -1,0 +1,8 @@
+landmark:
+  welcome: crl!index 
+
+main:
+  - key:   information!issuer
+    label: I18N_OPENXPKI_UI_MENU_CA_CERTIFICATES
+  - key:   crl!index
+    label: I18N_OPENXPKI_UI_MENU_CRL
