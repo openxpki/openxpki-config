@@ -20,7 +20,7 @@ style:
         subject:
             dn: CN=[% hostname.lower %][% IF application_name %]:[% application_name %][% END %],DC=Test Deployment,DC=OpenXPKI,DC=org
             san:
-              DNS:
+                dns:
                   - "[% hostname.lower %]"
                   - "[% FOREACH entry = hostname2 %][% entry.lower %] | [% END %]"
 
@@ -77,8 +77,7 @@ style:
                 ip : "[% FOREACH entry = SAN_IP %][% entry %] | [% END %]"
 
         metadata:
-            system_id: "[% data.cust_id %]"
-            server_id: "[% data.server_id %]"
+            application_id: "[% data.application_id %]"
             entity: "[% CN.0.replace(':.*','') FILTER lower %]"
 
 # Profile extensions - set 0/1 as needed

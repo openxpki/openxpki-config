@@ -38,8 +38,7 @@ style:
                 ip : "[% FOREACH entry = SAN_IP %][% entry %] | [% END %]"
 
         metadata:
-            system_id: "[% data.cust_id %]"
-            server_id: "[% data.server_id %]"
+            application_id: "[% data.application_id %]"
             entity: "[% CN.0.replace(':.*','') FILTER lower %]"
 
 # Profile extensions - set 0/1 as needed

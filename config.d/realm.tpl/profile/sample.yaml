@@ -1,4 +1,5 @@
 # The name of the file equals the name of the profile
+label: OpenXPKI example profile
 
 # Validity of certificates, can be in absolute or relative format
 # absolute: YYYYMMDD[HH[MM[SS]]]
@@ -63,6 +64,8 @@ style:
             subject:
                 - hostname
                 - port
+                - ipv4
+                - ipv6
             info:
                 - requestor_realname
                 - requestor_email
@@ -75,6 +78,10 @@ style:
             dn: CN=[% hostname %][% IF port AND port != 443 %]:[% port %][% END %],DC=Test Deployment,DC=OpenXPKI,DC=org
         # You can use the fields from ui.subject here
             san: dns=[% hostname %]
+            ip:
+             - "[% FOREACH entry = ipv4 %][% entry.lower %] | [% END %]"
+             - "[% FOREACH entry = ipv6 %][% entry.lower %] | [% END %]"
+
 
         # this is attached to the certificate, all fields from ui can be used
         metadata:
@@ -144,8 +151,7 @@ style:
         # PersistMetadata action in the workflow are available in data
         # DN/SAN parts are available as defined above
         metadata:
-            system_id: "[% data.cust_id %]"
-            server_id: "[% data.server_id %]"
+            application_id: "[% data.application_id %]"
             entity: "[% CN.0.replace(':.*','') FILTER lower %]"
 
         # Consumed by RenderExtensions to add extra extensions
@@ -192,6 +198,7 @@ extensions:
         time_stamping:    0
         ocsp_signing:     0
         # Any other oid can be given by number
+        # MS SmartCard Login
         1.3.6.1.4.1.311.20.2.2: 0
 
 

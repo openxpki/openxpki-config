@@ -1,0 +1,7 @@
+id: application_id
+label: I18N_OPENXPKI_UI_PROFILE_APPLICATION_ID
+description: I18N_OPENXPKI_UI_PROFILE_APPLICATION_ID_DESC
+preset: ~
+type: freetext
+match: \A[a-z][a-z0-9\-]{1,10}[a-z0-9]\z
+required: 0

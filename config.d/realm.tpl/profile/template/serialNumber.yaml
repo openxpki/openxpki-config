@@ -1,0 +1,4 @@
+id: serialNumber
+label: I18N_OPENXPKI_UI_PROFILE_SERIALNUMBER
+type: text
+preset: "[% serialNumber.0 || SERIALNUMBER.0 %]"

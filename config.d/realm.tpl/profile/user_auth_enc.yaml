@@ -41,8 +41,9 @@ extensions:
     key_usage:
         critical: 1
         digital_signature: 1
-        # you should set this only for keys held in hardware
-        non_repudiation:   1
+        # Make sure that you understood the legal implications
+        # before enabling this one!
+        non_repudiation:   0
         key_encipherment:  1
 
     extended_key_usage:

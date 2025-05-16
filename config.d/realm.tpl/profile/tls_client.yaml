@@ -26,6 +26,28 @@ style:
             owner_contact: "[% owner_contact || requestor_email %]"
             entity: "[% hostname FILTER lower %]"
 
+    10_iot_device:
+        label: I18N_OPENXPKI_UI_PROFILE_IOT_DEVICE_STYLE_LABEL
+        description: I18N_OPENXPKI_UI_PROFILE_IOT_DEVICE_STYLE_DESC
+        ui:
+            subject:
+                - serialNumber
+            info:
+                - requestor_realname
+                - requestor_email
+                - requestor_affiliation
+                - owner_contact
+                - comment
+
+        subject:
+            dn: serialNumber=[% serialNumber %],DC=Test Deployment,DC=OpenXPKI,DC=org
+
+        metadata:
+            requestor: "[% requestor_realname %]"
+            email: "[% requestor_email %]"
+            owner_contact: "[% owner_contact || requestor_email %]"
+            entity: "[% serialNumber FILTER lower %]"
+
     enroll:
         subject:
             dn: CN=[% CN.0 %],DC=Test Deployment,DC=OpenXPKI,DC=org
