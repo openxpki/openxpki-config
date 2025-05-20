@@ -96,11 +96,8 @@ challenge:
 
 eligible:
     initial:
-       value@: connector:scep.generic.connector.initial
+       value@: connector:scep.generic.connector.intranet
        args: '[% context.cert_subject_parts.CN.0 %]'
-       expect:
-         - Build
-         - New
 
     renewal:
        value: 1
@@ -108,11 +105,7 @@ eligible:
     onbehalf:
        value: 1
 
-
 connector:
-    initial:
-        class: Connector::Proxy::YAML
-        # this file must have a key/value list with the key being
-        # the subject and the value being a true value
-        # e.g. "pc1234.example.org: 1"
-        LOCATION: /home/pkiadm/cmdb.yaml
+    intranet:
+        class: OpenXPKI::Connector::Regex
+        LOCATION: \w+\.openxpki.test(:[\w]+)?\z
