@@ -15,15 +15,25 @@ Place the connection details for the database in `config.d/system/database.yaml`
 Note that the driver names are case sensitive: `MariaDB`, `MariaDB2`, `MySQL`, `PostgreSQL`, `Oracle`.
 
 As we need some capabilities of the server process for the next steps, please start the
-server now (there is also an init-script and systemd unit available)
+server now:
 
 ```bash
-    $ openxpkictl start
-
-    Starting OpenXPKI...
-    OpenXPKI Server is running and accepting requests.
-    DONE.
+    $ systemctl start openxpkid
 ```
+
+You can watch the startup via `journalctl -u openxpkid -f`:
+
+```
+   Starting openxpkid.service - OpenXPKI Trustcenter Backend...
+   Started openxpkid.service - OpenXPKI Trustcenter Backend.
+   Starting OpenXPKI Community Edition v3.32.0
+   Modules: core
+   OpenXPKI initialization finished
+```
+
+Depending on the size of your configuration and the ressources of the machine
+the startup process can take several seconds. The system is ready to be used
+when the socket file was created at `/run/openxpkid/openxpkid.sock`.
 
 In the process list, you should see two process running:
 
@@ -32,7 +42,7 @@ In the process list, you should see two process running:
     14303 ?        S      0:00 openxpki server ( main )
 ```
 
-If this is not the case, check `/var/log/openxpki/stderr.log`.
+If this is not the case, check the systemd log and `/var/log/openxpki/stderr.log`.
 
 ### Setup Tokens
 
@@ -42,7 +52,6 @@ usually shared across all realms and resides in `/etc/openxpki/local/keys`.
 
 If you plan to keep also your other key files on disk, we recommend to add one
 directory per realm under this path and keep them there.
-
 
 #### Internal Datavault
 
@@ -62,11 +71,11 @@ Please make sure to keep a copy of this key and the certificate in a safe place
 as you will need it to restore database encryption in case of a disk failure. If
 you set up more then one node, please copy the **same** key file to the given
 location on **all nodes**. There is no need to copy the certificate as this is
-kept in the database. As the password does not any extra security when it is kept
-as literal in the config, it is also possible to use an unencrypted key. In any
+kept in the database. As the password does not add any extra security when it is
+kept as literal in the config, it is also possible to use an unencrypted key. In any
 case make sure that the access permissions are properly set so the OpenXPKI server
 can read the file - recommended settings are permissions set to 0400 owned by the
-OpenXPKI user.
+`openxpki` user.
 
 If you used a passphrase, put it into the default secret group found in the file
 `config.d/system/crypto.yaml`.
@@ -217,19 +226,19 @@ if this path is empty.
 
 #### Realm Seletion
 
-Please check the comments in the `webui/default.conf` file regarding the
-selection of realms by either URL path, virtual hosts or cookies. You need
-to adjust this to your backend configuration to be able to reach your
-realms.
+Please check the comments in the `client.d/service/webui/default.yaml` file
+regarding the selection of realms by either URL path, virtual hosts or
+cookies. You need to adjust this to your backend configuration to be able to
+reach your realms.
 
 #### Session Storage
 
 The default configuration uses a database backend to store the webui
-session information. Please review the section `[session]` and
-`[session_driver]` in the file `/etc/openxpki/webui/default.conf`. It is
-strongly advised to use a dedicated user here with access only to the
-`frontend_session` table for security reasons. You can even put this on
-a different database as the information is not used by the backend.
+session information. Please review the section `session` and in
+`client.d/service/webui/default.yaml`. It is strongly advised to use
+a dedicated user here with access only to the `frontend_session` table
+for security reasons. You can even put this on a different database as
+the information is not used by the backend.
 
 If you have a single node setup, you can switch to the filesystem based
 driver.
