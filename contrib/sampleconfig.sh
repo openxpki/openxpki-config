@@ -19,8 +19,8 @@ if [ ! -e "/run/openxpkid/openxpkid.sock" ]; then
 fi;
 
 # install locale if needed
-HAS_LOCALE=$(locale -a | grep en_UPS | wc -l)
-if [ -z "$HAS_LOCALE" ]; then
+HAS_LOCALE=$(locale -a | grep en_US | wc -l)
+if [ "$HAS_LOCALE" == "0" ]; then
    sed -r "/en_US.UTF-8/d" -i /etc/locale.gen
    echo "en_US.UTF-8 UTF-8" >>  /etc/locale.gen
    locale-gen
@@ -363,9 +363,6 @@ chmod 440 ${TMP_CA_DIR}/*.key
 chmod 444 ${TMP_CA_DIR}/*.crt
 chown root:root ${TMP_CA_DIR}/*.csr ${TMP_CA_DIR}/*.key ${TMP_CA_DIR}/*.pass
 chown root:${group} ${TMP_CA_DIR}/*.crt ${TMP_CA_DIR}/*.key
-
-echo -n "Starting server before running import ... "
-openxpkictl start
 
 mkdir -p /etc/openxpki/local/keys
 
