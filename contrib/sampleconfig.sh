@@ -368,7 +368,7 @@ mkdir -p /etc/openxpki/local/keys
 
 # the import command with the --key parameter takes care to copy the key
 # files to the datapool or filesystem locations
-openxpkiadm certificate import --file "${ROOT_CA_CERTIFICATE}"
+openxpkiadm alias  --token certsign --realm rootca --file "${ROOT_CA_CERTIFICATE}"
 
 openxpkiadm alias --file "${DATAVAULT_CERTIFICATE}" --realm "${REALM}" --token datasafe --key ${DATAVAULT_KEY}
 sleep 1;
