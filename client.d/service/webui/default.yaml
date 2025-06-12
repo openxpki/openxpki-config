@@ -92,8 +92,6 @@ realm:
     # Controls how requests are mapped to realms
     #   select
     #     Shows a realm selection page (default if nothing is set).
-    #   fixed
-    #     Expects a fixed realm set via "value: democa" in this block
     #   path|hostname
     #     Expects a map defined in the [realm] section (see below)
     mode: path
