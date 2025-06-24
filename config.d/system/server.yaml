@@ -28,7 +28,7 @@ socket_mode: '0664'
 
 
 # path for startup logging
-stderr:       /var/log/openxpki/stderr.log
+stderr:       /var/log/openxpki-server/stderr.log
 # and system tmpdir
 tmpdir:       /var/tmp
 

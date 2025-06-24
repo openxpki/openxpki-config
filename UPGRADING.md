@@ -71,7 +71,7 @@ review your configuration and add quotes around:
 ### Logfiles
 
 The default logger configuration for the webfrontend / client parts is now
-`/var/log/openxpki-ui`. As the installer creates this with permissions set
+`/var/log/openxpki-client`. As the installer creates this with permissions set
 for the new layout you need to change this to run the old frontend.
 Unability to write to this folder will crash the frontend immediately.
 

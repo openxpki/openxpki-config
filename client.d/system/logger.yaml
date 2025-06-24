@@ -4,7 +4,7 @@
 level: INFO
 
 # Target for service logs (server always logs to "console")
-#   "file"    = (default) /var/log/openxpki-ui/<service>.log
+#   "file"    = (default) /var/log/openxpki-client/<service>.log
 #   "console" = journald if running as systemd unit, STDOUT otherwise
 #target: console
 

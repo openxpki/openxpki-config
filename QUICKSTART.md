@@ -42,7 +42,7 @@ In the process list, you should see two process running:
     14303 ?        S      0:00 openxpki server ( main )
 ```
 
-If this is not the case, check the systemd log and `/var/log/openxpki/stderr.log`.
+If this is not the case, check the systemd log and `/var/log/openxpki-server/stderr.log`.
 
 ### Setup Tokens
 
