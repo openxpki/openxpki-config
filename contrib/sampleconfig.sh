@@ -10,11 +10,11 @@ set -e
 
 
 if [ ! -e "/run/openxpkid/openxpkid.sock" ]; then
-    echo "####################################################################"
-    echo "#                                                                  #"
-    echo "#   your system is not up - please exec systemctl start openxpkid  #"
-    echo "#                                                                  #"
-    echo "####################################################################"
+    echo "#####################################################################"
+    echo "#                                                                   #"
+    echo "#  system is not up - please exec systemctl start openxpki-serverd  #"
+    echo "#                                                                   #"
+    echo "#####################################################################"
    exit 1;
 fi;
 
