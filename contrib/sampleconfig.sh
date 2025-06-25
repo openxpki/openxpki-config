@@ -15,7 +15,7 @@ if [ ! -e "/run/openxpkid/openxpkid.sock" ]; then
     echo "#  system is not up - please exec systemctl start openxpki-serverd  #"
     echo "#                                                                   #"
     echo "#####################################################################"
-   exit 1;
+    exit 1;
 fi;
 
 # install locale if needed
@@ -273,84 +273,82 @@ fi
 # signing certificate (issuing)
 if [ ! -e "${ISSUING_CA_KEY}" ]
 then
-   echo "Did not find existing issuing CA key file."
-   echo -n "Creating an issuing CA request .. "
-   test -f "${ISSUING_CA_REQUEST}" && \
+    echo "Did not find existing issuing CA key file."
+    echo -n "Creating an issuing CA request .. "
+    test -f "${ISSUING_CA_REQUEST}" && \
     mv "${ISSUING_CA_REQUEST}" "${ISSUING_CA_REQUEST}${BACKUP_SUFFIX}"
-   make_password "${ISSUING_CA_KEY_PASSWORD}"
-   openssl req -verbose -config "${OPENSSL_CONF}" -reqexts v3_ca_reqexts -batch -newkey rsa:$BITS -passout file:"${ISSUING_CA_KEY_PASSWORD}" -keyout "${ISSUING_CA_KEY}" -subj "${ISSUING_CA_SUBJECT}" -out "${ISSUING_CA_REQUEST}"
-   echo "done."
-   if [ -e "${ROOT_CA_KEY}" ]
-   then
-      echo -n "Signing issuing certificate with own root CA .. "
-      test -f "${ISSUING_CA_CERTIFICATE}" && \
-       mv "${ISSUING_CA_CERTIFICATE}" "${ISSUING_CA_CERTIFICATE}${BACKUP_SUFFIX}"
-      openssl ca -create_serial -config "${OPENSSL_CONF}" -extensions v3_issuing_extensions -batch -days ${IDAYS} -in "${ISSUING_CA_REQUEST}" -cert "${ROOT_CA_CERTIFICATE}" -passin file:"${ROOT_CA_KEY_PASSWORD}" -keyfile "${ROOT_CA_KEY}" -out "${ISSUING_CA_CERTIFICATE}"
-      echo "done."
-   else
-      echo "No '${ROOT_CA_KEY}' key file!"
-      echo "please sign generated request with the company's root CA key"
-      exit 0
-   fi
+    make_password "${ISSUING_CA_KEY_PASSWORD}"
+    openssl req -verbose -config "${OPENSSL_CONF}" -reqexts v3_ca_reqexts -batch -newkey rsa:$BITS -passout file:"${ISSUING_CA_KEY_PASSWORD}" -keyout "${ISSUING_CA_KEY}" -subj "${ISSUING_CA_SUBJECT}" -out "${ISSUING_CA_REQUEST}"
+    echo "done."
+    if [ -e "${ROOT_CA_KEY}" ]
+    then
+        echo -n "Signing issuing certificate with own root CA .. "
+        test -f "${ISSUING_CA_CERTIFICATE}" && \
+        mv "${ISSUING_CA_CERTIFICATE}" "${ISSUING_CA_CERTIFICATE}${BACKUP_SUFFIX}"
+        openssl ca -create_serial -config "${OPENSSL_CONF}" -extensions v3_issuing_extensions -batch -days ${IDAYS} -in "${ISSUING_CA_REQUEST}" -cert "${ROOT_CA_CERTIFICATE}" -passin file:"${ROOT_CA_KEY_PASSWORD}" -keyfile "${ROOT_CA_KEY}" -out "${ISSUING_CA_CERTIFICATE}"
+        echo "done."
+    else
+        echo "No '${ROOT_CA_KEY}' key file!"
+        echo "please sign generated request with the company's root CA key"
+        exit 0
+    fi
 else
-   if [ ! -e "${ISSUING_CA_CERTIFICATE}" ]
-   then
-      echo "No '${ISSUING_CA_CERTIFICATE}' certificate file!"
-      if [ ! -e "${ROOT_CA_KEY}" ]
-      then
-         echo "No '${ROOT_CA_KEY}' key file!"
-         echo "please sign generated request with the company's root CA key"
-         exit 0
-      else
-         echo -n "Signing issuing certificate with own root CA .. "
-         openssl ca -create_serial -config "${OPENSSL_CONF}" -extensions v3_issuing_extensions -batch -days ${IDAYS} -in "${ISSUING_CA_REQUEST}" -cert "${ROOT_CA_CERTIFICATE}" -passin file:"${ROOT_CA_KEY_PASSWORD}" -keyfile "${ROOT_CA_KEY}" -out "${ISSUING_CA_CERTIFICATE}"
-         echo "done."
-      fi
-   fi
+    if [ ! -e "${ISSUING_CA_CERTIFICATE}" ]; then
+        echo "No '${ISSUING_CA_CERTIFICATE}' certificate file!"
+        if [ ! -e "${ROOT_CA_KEY}" ]; then
+            echo "No '${ROOT_CA_KEY}' key file!"
+            echo "please sign generated request with the company's root CA key"
+            exit 0
+        else
+            echo -n "Signing issuing certificate with own root CA .. "
+            openssl ca -create_serial -config "${OPENSSL_CONF}" -extensions v3_issuing_extensions -batch -days ${IDAYS} -in "${ISSUING_CA_REQUEST}" -cert "${ROOT_CA_CERTIFICATE}" -passin file:"${ROOT_CA_KEY_PASSWORD}" -keyfile "${ROOT_CA_KEY}" -out "${ISSUING_CA_CERTIFICATE}"
+            echo "done."
+        fi
+    fi
 fi
 
 # Data Vault is only used internally, use self signed
 if [ ! -e "${DATAVAULT_KEY}" ]
 then
-   echo "Did not find existing DataVault certificate file."
-   echo -n "Creating a self signed DataVault certificate .. "
-   test -f "${DATAVAULT_CERTIFICATE}" && \
+    echo "Did not find existing DataVault certificate file."
+    echo -n "Creating a self signed DataVault certificate .. "
+    test -f "${DATAVAULT_CERTIFICATE}" && \
     mv "${DATAVAULT_CERTIFICATE}" "${DATAVAULT_CERTIFICATE}${BACKUP_SUFFIX}"
-   make_password "${DATAVAULT_KEY_PASSWORD}"
-   openssl req -verbose -config "${OPENSSL_CONF}" -extensions v3_datavault_extensions -batch -x509 -newkey rsa:$BITS -days ${DDAYS} -passout file:"${DATAVAULT_KEY_PASSWORD}" -keyout "${DATAVAULT_KEY}" -subj "${DATAVAULT_SUBJECT}" -out "${DATAVAULT_CERTIFICATE}"
-   echo "done."
+    make_password "${DATAVAULT_KEY_PASSWORD}"
+    openssl req -verbose -config "${OPENSSL_CONF}" -extensions v3_datavault_extensions -batch -x509 -newkey rsa:$BITS -days ${DDAYS} -passout file:"${DATAVAULT_KEY_PASSWORD}" -keyout "${DATAVAULT_KEY}" -subj "${DATAVAULT_SUBJECT}" -out "${DATAVAULT_CERTIFICATE}"
+    echo "done."
 fi
 
 # scep certificate
 if [ ! -e "${SCEP_KEY}" ]
 then
-   echo "Did not find existing SCEP certificate file."
-   echo -n "Creating a SCEP request .. "
-   test -f "${SCEP_REQUEST}" && \
+    echo "Did not find existing SCEP certificate file."
+    echo -n "Creating a SCEP request .. "
+    test -f "${SCEP_REQUEST}" && \
     mv "${SCEP_REQUEST}" "${SCEP_REQUEST}${BACKUP_SUFFIX}"
-   openssl req -verbose -config "${OPENSSL_CONF}" -reqexts v3_scep_reqexts -batch -newkey rsa:$BITS -nodes -keyout "${SCEP_KEY}" -subj "${SCEP_SUBJECT}" -out "${SCEP_REQUEST}"
-   echo "done."
-   echo -n "Signing SCEP certificate with Issuing CA .. "
-   test -f "${SCEP_CERTIFICATE}" && \
+    openssl req -verbose -config "${OPENSSL_CONF}" -reqexts v3_scep_reqexts -batch -newkey rsa:$BITS -nodes -keyout "${SCEP_KEY}" -subj "${SCEP_SUBJECT}" -out "${SCEP_REQUEST}"
+    echo "done."
+    echo -n "Signing SCEP certificate with Issuing CA .. "
+    test -f "${SCEP_CERTIFICATE}" && \
     mv "${SCEP_CERTIFICATE}" "${SCEP_CERTIFICATE}${BACKUP_SUFFIX}"
-   openssl ca -create_serial -config "${OPENSSL_CONF}" -extensions v3_scep_extensions -batch -days ${SDAYS} -in "${SCEP_REQUEST}" -cert "${ISSUING_CA_CERTIFICATE}" -passin file:"${ISSUING_CA_KEY_PASSWORD}" -keyfile "${ISSUING_CA_KEY}" -out "${SCEP_CERTIFICATE}"
-   echo "done."
+    openssl ca -create_serial -config "${OPENSSL_CONF}" -extensions v3_scep_extensions -batch -days ${SDAYS} -in "${SCEP_REQUEST}" -cert "${ISSUING_CA_CERTIFICATE}" -passin file:"${ISSUING_CA_KEY_PASSWORD}" -keyfile "${ISSUING_CA_KEY}" -out "${SCEP_CERTIFICATE}"
+    echo "done."
 fi
 
 # web certificate
 if [ ! -e "${WEB_KEY}" ]
 then
-   echo "Did not find existing WEB certificate file."
-   echo -n "Creating a Web request .. "
-   test -f "${WEB_REQUEST}" && \
+    echo "Did not find existing WEB certificate file."
+    echo -n "Creating a Web request .. "
+    test -f "${WEB_REQUEST}" && \
     mv "${WEB_REQUEST}" "${WEB_REQUEST}${BACKUP_SUFFIX}"
-   openssl req -verbose -config "${OPENSSL_CONF}" -reqexts v3_web_reqexts -batch -newkey rsa:$BITS -nodes -keyout "${WEB_KEY}" -subj "${WEB_SUBJECT}" -out "${WEB_REQUEST}"
-   echo "done."
-   echo -n "Signing Web certificate with Issuing CA .. "
-   test -f "${WEB_CERTIFICATE}" && \
+    openssl req -verbose -config "${OPENSSL_CONF}" -reqexts v3_web_reqexts -batch -newkey rsa:$BITS -nodes -keyout "${WEB_KEY}" -subj "${WEB_SUBJECT}" -out "${WEB_REQUEST}"
+    echo "done."
+    echo -n "Signing Web certificate with Issuing CA .. "
+    test -f "${WEB_CERTIFICATE}" && \
     mv "${WEB_CERTIFICATE}" "${WEB_CERTIFICATE}${BACKUP_SUFFIX}"
-   openssl ca -create_serial -config "${OPENSSL_CONF}" -extensions v3_web_extensions -batch -days ${WDAYS} -in "${WEB_REQUEST}" -cert "${ISSUING_CA_CERTIFICATE}" -passin file:"${ISSUING_CA_KEY_PASSWORD}" -keyfile "${ISSUING_CA_KEY}" -out "${WEB_CERTIFICATE}"
-   echo "done."
+    openssl ca -create_serial -config "${OPENSSL_CONF}" -extensions v3_web_extensions -batch -days ${WDAYS} -in "${WEB_REQUEST}" -cert "${ISSUING_CA_CERTIFICATE}" -passin file:"${ISSUING_CA_KEY_PASSWORD}" -keyfile "${ISSUING_CA_KEY}" -out "${WEB_CERTIFICATE}"
+    echo "done."
 fi
 
 cd $OLDPWD;
@@ -378,10 +376,11 @@ openxpkiadm alias --file "${SCEP_CERTIFICATE}" --realm "${REALM}" --token scep  
 echo "done."
 echo ""
 
-# Setup the Webserver
-a2enmod ssl rewrite headers
-a2ensite openxpki
-a2dissite 000-default default-ssl
+# Setup the Webserver (this is usually already done by the package
+# installer but only if apache was installed before openxpki)
+a2enmod ssl rewrite headers || /bin/true
+a2ensite openxpki || /bin/true
+a2dissite 000-default default-ssl || /bin/true
 
 if [ ! -e "/etc/openxpki/tls/chain" ]; then
     mkdir -m755 -p /etc/openxpki/tls/chain
@@ -403,6 +402,8 @@ fi
 cp ${ISSUING_CA_CERTIFICATE} /etc/ssl/certs
 cp ${ROOT_CA_CERTIFICATE} /etc/ssl/certs
 c_rehash /etc/ssl/certs
+
+systemctl start openxpki-clientd
 
 echo "OpenXPKI configuration should be and server should be running..."
 echo ""
