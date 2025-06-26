@@ -376,9 +376,15 @@ openxpkiadm alias --file "${SCEP_CERTIFICATE}" --realm "${REALM}" --token scep  
 echo "done."
 echo ""
 
+# check if we are in docker
+PID=$(cat /run/openxpkid/openxpkid.pid)
+if [ "$PID" -eq "1" ]; then
+    exit 0;
+fi;
+
 # Setup the Webserver (this is usually already done by the package
 # installer but only if apache was installed before openxpki)
-a2enmod ssl rewrite headers || /bin/true
+a2enmod headers macro proxy proxy_http rewrite ssl || /bin/true
 a2ensite openxpki || /bin/true
 a2dissite 000-default default-ssl || /bin/true
 
