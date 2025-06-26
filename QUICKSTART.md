@@ -18,10 +18,10 @@ As we need some capabilities of the server process for the next steps, please st
 server now:
 
 ```bash
-    $ systemctl start openxpkid
+    $ systemctl start openxpki-serverd
 ```
 
-You can watch the startup via `journalctl -u openxpkid -f`:
+You can watch the startup via `journalctl -u openxpki-serverd -f`:
 
 ```
    Starting openxpkid.service - OpenXPKI Trustcenter Backend...
@@ -211,6 +211,14 @@ openxpkiadm alias --realm democa --token scep --file scep.crt --key scep.pem
 ```
 
 ### WebUI and Enrollment Endpoints
+
+Starting with v3.32 the webserver acts as a reverse proxy only and the application server runs as a dedicated process:
+
+```bash
+    $ systemctl start openxpki-clientd
+```
+
+Startup logs of the process are logged via systemd, the application itself logs to `/var/log/openxpki-client`.
 
 You can find a working configuration for the Apache webserver in `contrib/apache2-openxpki-site.conf` - copy or symlink this to your webservers config directory (`/etc/apache2/sites-enabled/` on debian). This config exposes SCEP on Port 80 and the WebUI as well as the RPC and EST APIs on Port 443 via HTTPS.
 
