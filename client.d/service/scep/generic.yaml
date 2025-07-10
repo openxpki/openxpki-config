@@ -26,7 +26,10 @@ PKIOperation:
     input:
      - signature
     pickup:
-        namespace: transaction_id
+        workflow: check_enrollment
+        input:
+          - pkcs10
+          - transaction_id
     # Support endpoint expansion for PKIOperation
     env:
      - server
