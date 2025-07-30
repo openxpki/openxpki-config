@@ -23,10 +23,6 @@ output:
     # headers: all
 
 PKIOperation:
-    input:
-     - signature
-    pickup:
-        namespace: transaction_id
     # Support endpoint expansion for PKIOperation
     env:
      - server
