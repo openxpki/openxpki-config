@@ -71,7 +71,7 @@ style:
 
     enroll:
         subject:
-            dn: CN=[% CN.0 %],DC=Test Deployment,DC=OpenXPKI,DC=org
+            dn: [% IF CN.0 && CN.0 != '' %]CN=[% CN.0 %][% ELSE %]CN=[% SAN_DNS.0 %][% END %],DC=Test Deployment,DC=OpenXPKI,DC=org
             san:
                 dns: "[% FOREACH entry = SAN_DNS %][% entry.lower %] | [% END %]"
                 ip : "[% FOREACH entry = SAN_IP %][% entry %] | [% END %]"
