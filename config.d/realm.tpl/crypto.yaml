@@ -2,56 +2,71 @@
 # The left side are fixed aliases used in the code, the right side
 # are aribtrary chosen names, referencing the tokens below.
 type:
-  certsign: ca-signer
-  datasafe: vault
-  cmcra: ratoken
-  scep: ratoken
+    certsign: ca-signer
+    datasafe: svault
+    cmcra: ratoken
+    scep: ratoken
 
 # The actual token setup
 token:
-  default:
-    backend: OpenXPKI::Crypto::Backend::OpenSSL
+    default: &default_token
+        backend: OpenXPKI::Crypto::Backend::OpenSSL
 
-    # Template to create key, available vars are
-    # ALIAS (ca-signer-1), GROUP (ca-signer), GENERATION (1)
-    # KEY_IDENTIFIER (00:AA:BB...), IDENTIFIER (aGSNY1Z...)
-    key: /etc/openxpki/local/keys/[% PKI_REALM %]/[% ALIAS %].pem
+        # Template to create key, available vars are
+        # ALIAS (ca-signer-1), GROUP (ca-signer), GENERATION (1)
+        # KEY_IDENTIFIER (00:AA:BB...), IDENTIFIER (aGSNY1Z...)
+        key_store: DATAPOOL
+        key: "[% KEY_IDENTIFIER %]"
 
-    # possible values are OpenSSL, nCipher, LunaCA
-    engine: OpenSSL
-    engine_section: ''
-    engine_usage: ''
-    key_store: OPENXPKI
+        # for file based keys use
+        # key_store: OPENXPKI
+        # key: /etc/openxpki/local/keys/[% PKI_REALM %]/[% ALIAS %].pem
 
-    # OpenSSL binary location
-    shell: /usr/bin/openssl
+        # possible values are OpenSSL, nCipher, LunaCA
+        engine: OpenSSL
+        engine_section: ''
+        engine_usage: ''
 
-    # OpenSSL binary call gets wrapped with this command
-    wrapper: ''
+        # OpenSSL binary location
+        shell: /usr/bin/openssl
 
-    # random file to use for OpenSSL
-    randfile: /var/openxpki/rand
+        # OpenSSL binary call gets wrapped with this command
+        wrapper: ''
 
-    # Default value for import, recorded in database, can be overriden
-    secret: default
+        # random file to use for OpenSSL
+        randfile: /var/openxpki/rand
 
-  # use ALIAS as key as it makes debug and management easier
-  ca-signer:
-    inherit: default
-    key_store: DATAPOOL
-    key: "[% ALIAS %]"
+        # Default value for import, recorded in database, can be overriden
+        secret: default
 
-  vault:
-    inherit: default
-    key: /etc/openxpki/local/keys/[% ALIAS %].pem
+    # use ALIAS as key as it makes debug and management easier
+    ca-signer:
+        <<: *default_token
+        key: "[% ALIAS %]"
 
-  # use KEY_IDENTIFIER as we might use the same key for multiple token
-  ratoken:
-    inherit: default
-    engine: Inline
-    key_store: DATAPOOL
-    key: "[% KEY_IDENTIFIER %]"
-    secret: ratoken
+    # the old RSA key based token
+    # if you are migrating from an older version you must keep this as
+    # long as you have encrypted data in your datapool!
+    vault:
+        <<: *default_token
+        key_store: OPENXPKI
+        key: /etc/openxpki/local/keys/[% ALIAS %].pem
+
+    # the new datapool encryption based on a symmetric key
+    svault:
+        class: OpenXPKI::Crypto::Token::Vault
+        secret: svault
+
+    ratoken:
+        # the class has datapool with key identifier set as builtin default
+        class: OpenXPKI::Crypto::Token::Inline
+        export: 1
+        secret: ratoken
+
+    # if you need to use the old token mechanism use this section
+    #ratoken:
+    #    <<: *default_token
+    #    secret: ratoken
 
 # Define the secret groups
 secret:
@@ -65,3 +80,7 @@ secret:
     ratoken:
         import: 1
         export: 1
+
+    # Load a global secret as symmetric vault key
+    svault:
+        import: 1

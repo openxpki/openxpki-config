@@ -44,3 +44,9 @@ secret:
         export: 1
         method: literal
         value: secret
+
+    svault:
+        label: Secret group for datavault encryption
+        method: literal
+        # this must be 64 characters hex -> "openssl  rand -hex 32"
+        value: 6f70656e78706b6969736d796661766f72697465747275737463656e746572
