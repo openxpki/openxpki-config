@@ -19,6 +19,8 @@ state:
     REJECTED:
         output:
          - error_code
+         - signer_cert
+         - signer_chain
          - signer_trusted
          - signer_authorized
          - signer_validity_ok
@@ -30,6 +32,8 @@ state:
 
     SUCCESS:
         output:
+         - signer_cert
+         - signer_chain
          - signer_trusted
          - signer_authorized
          - signer_validity_ok

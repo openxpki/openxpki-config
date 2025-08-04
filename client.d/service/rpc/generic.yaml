@@ -60,6 +60,8 @@ TestConnection:
       - signer_chain
       - server
     output:
+      - signer_cert
+      - signer_chain
       - signer_trusted
       - signer_authorized
       - signer_validity_ok
