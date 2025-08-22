@@ -1125,6 +1125,9 @@ msgstr "Meine Aufgaben"
 msgid "I18N_OPENXPKI_UI_MENU_MY_WORKFLOW"
 msgstr "Meine Workflows"
 
+msgid "I18N_OPENXPKI_UI_MENU_NICE_CONNECT"
+msgstr "Verbindung zur CA Testen"
+
 msgid "I18N_OPENXPKI_UI_MENU_PKI_OPERATION"
 msgstr "PKI-Operationen"
 
@@ -1421,6 +1424,10 @@ msgstr "Geben Sie bitte den FQDN (Hostname) des Systems an."
 
 msgid "I18N_OPENXPKI_UI_PROFILE_IMPORTED_LABEL"
 msgstr "Importiertes Zertifikat"
+
+#, fuzzy
+msgid "I18N_OPENXPKI_UI_PROFILE_IOT_DEVICE_LABEL"
+msgstr "IoT Geräte"
 
 msgid "I18N_OPENXPKI_UI_PROFILE_IOT_DEVICE_STYLE_DESC"
 msgstr ""
@@ -1834,7 +1841,7 @@ msgid "I18N_OPENXPKI_UI_TOKEN_ALIAS"
 msgstr "Token Alias"
 
 msgid "I18N_OPENXPKI_UI_TOKEN_OF_TYPE"
-msgstr "Token vom Typ:"
+msgstr "Token vom Typ"
 
 msgid "I18N_OPENXPKI_UI_TOKEN_STATUS"
 msgstr "Token-Status"
@@ -2008,6 +2015,9 @@ msgstr "Willkommen zu ihrem OpenXPKI Trustcenter"
 
 msgid "I18N_OPENXPKI_UI_WF_TYPE_MOTD_LABEL"
 msgstr "Nachricht des Tages"
+
+msgid "I18N_OPENXPKI_UI_WF_TYPE_NICE_CONNECT_LABEL"
+msgstr "RA-CA Verbindung testen"
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_ABORT_BUTTON"
 msgstr "Abbrechen"
@@ -2390,7 +2400,7 @@ msgstr "Begründung für Policy-Abweichung"
 msgid "I18N_OPENXPKI_UI_WORKFLOW_ACTION_PREREG_DELETE_INITIAL_DESC"
 msgstr ""
 "Bitte geben Sie den namen der Entität / den FQDN ein für den die "
-"Vorregistrierung gelöscht werden soll. Beachten Sie bitte, dass sie zum "
+"Vorregistrierung gelöscht werden soll. Beachten Sie bitte, dass Sie zum "
 "Abschluß dieses Vorgangs das entsprechende API-Token/Passwort benötigen."
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_ACTION_PREREG_DELETE_INITIAL_LABEL"
@@ -4176,6 +4186,23 @@ msgstr ""
 "speichern</i> übernehmen. Falls Sie den Workflow abbrechen werden ihre "
 "Änderungen verworfen."
 
+msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_NICE_CONNECT_FAILURE_DESC"
+msgstr ""
+"Die Verbindung zur CA ist konnte nicht hergestellt werden. Weitere Details "
+"zum Fehler finden Sie in der nachfolgenden Tabelle."
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_NICE_CONNECT_REJECTED_DESC"
+msgstr ""
+"Die physikalische Verbindung zur CA konnte hergestellt werden, das "
+"verwendete Zertifikate wurde jedoch abgelehnt. Weitere Details zum Fehler "
+"finden Sie in der nachfolgenden Tabelle."
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_NICE_CONNECT_REJECTED_LABEL"
+msgstr "Autorisierung fehlgeschlagen"
+
+msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_NICE_CONNECT_SUCCESS_LABEL"
+msgstr "Verbindung erfolgreich"
+
 msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_PAUSE_DESC"
 msgstr ""
 "Dieser Workflow wurde pausiert und wird zu einem späteren Zeitpunkt "
@@ -4191,8 +4218,8 @@ msgstr "Bearbeitung ausstehend"
 msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_PENDING_USER_DESC"
 msgstr ""
 "Bitte überprüfen Sie die Angaben des Antrags und nutzen Sie 'Genehmigen' "
-"wenn sie überzeugt sind, dass die bereitgestellten Informationen korrekt "
-"sind. Falls sie den Antrag zurückweisen möchten, nutzen sie 'Abbrechen'. "
+"wenn Sie überzeugt sind, dass die bereitgestellten Informationen korrekt "
+"sind. Falls Sie den Antrag zurückweisen möchten, nutzen Sie 'Abbrechen'. "
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_PENDING_USER_LABEL"
 msgstr "Genehmigung ausstehend"
@@ -4212,7 +4239,7 @@ msgstr ""
 "Registrierungsprofil existiert, können Sie über \"Registrierung löschen\" "
 "den bestehenden Eintrag löschen. Falls die Registrierung bereits "
 "abgeschlossen wurde, müssen Sie diese über den vorgesehenen Prozess löschen "
-"bevor sie fortfahren können."
+"bevor Sie fortfahren können."
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_PREREG_DUPLICATE_TOKEN_LABEL"
 msgstr "Name bereits registriert"
@@ -4250,7 +4277,7 @@ msgstr ""
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_REDIRECT_DESC"
 msgstr ""
-"Der Antragsprozess wird vorbereitet, sie werden in Kürze weitergeleitet."
+"Der Antragsprozess wird vorbereitet, Sie werden in Kürze weitergeleitet."
 
 msgid "I18N_OPENXPKI_UI_WORKFLOW_STATE_REDIRECT_LABEL"
 msgstr "Antragsprozess wird vorbereitet"
