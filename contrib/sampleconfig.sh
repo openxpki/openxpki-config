@@ -4,21 +4,30 @@
 
 set -e
 
+FQDN=$(hostname -f)
+GENERATION=$(date +%Y%m%d)
+# consumed by clca
+export PASSPHRASE="root"
+
 # Debug='true'
 # MyPerl='true'
 [ "$MyPerl" = ' true' ] && [ -d /opt/myperl/bin ] && export PATH=/opt/myperl/bin:$PATH
 
 
-if [ ! -e "/run/openxpkid/openxpkid.sock" ]; then
-    echo "#####################################################################"
-    echo "#                                                                   #"
-    echo "#  system is not up - please exec systemctl start openxpki-serverd  #"
-    echo "#                                                                   #"
-    echo "#####################################################################"
-    exit 1;
-fi;
+# try to download clca if not found in path
+if [ -z "$(which clca)" ]; then
+    # clca is required - try to download
+    echo "Need clca command line ca tool, trying to download..."
+    wget -q https://raw.githubusercontent.com/openxpki/clca/refs/heads/master/bin/clca -O clca
+    mkdir -p /usr/local/bin/
+    mv clca /usr/local/bin/
+    chmod +x /usr/local/bin/clca
+fi
+
+if [ -n "" ]; then
 
 # install locale if needed
+# shellcheck disable=SC2126 (grep -c does not work with -e)
 HAS_LOCALE=$(locale -a | grep en_US | wc -l)
 if [ "$HAS_LOCALE" == "0" ]; then
    sed -r "/en_US.UTF-8/d" -i /etc/locale.gen
@@ -26,357 +35,273 @@ if [ "$HAS_LOCALE" == "0" ]; then
    locale-gen
 fi
 
-#
-# basic openxpki settings
-#
-BASE='/etc/openxpki';
-OPENXPKI_CONFIG="${BASE}/config.d/system/server.yaml"
-if [ -f "${OPENXPKI_CONFIG}" ]
-then
-   eval `egrep '^user:|^group:' "${OPENXPKI_CONFIG}" | sed -e 's/:  */=/g'`
-else
-   echo "ERROR: It seems that openXPKI is not installed at the default location (${BASE})!" >&2
-   echo "Please install OpenXPKI or set BASE to the new PATH!" >&2
-   exit 1
 fi
-
-REALM='democa'
-FQDN=`hostname -f`
-# For automated testing we want to have this set to root
-# unset this to get random passwords (put into the .pass files)
-KEY_PASSWORD="root"
 
 if [ -z "$1" ]; then
    TMP_CA_DIR=$(mktemp -d)
    echo "Fully automated sample setup using tmpdir $TMP_CA_DIR"
 elif [ -d "$1" ]; then
    TMP_CA_DIR=$1
-   echo "Try to read/build sample hierarchy from $TMP_CA_DIR "
+   echo "Try to build hierarchy in $TMP_CA_DIR"
 else
    echo "Given parameter is not a directory"
    exit 1;
 fi
 
-make_password() {
+cd "$TMP_CA_DIR"
 
-    PASSWORD_FILE=$1;
-    touch "${PASSWORD_FILE}"
-    chown $user:root "${PASSWORD_FILE}"
-    chmod 640 "${PASSWORD_FILE}"
-    if [ -z "$KEY_PASSWORD" ]; then
-        dd if=/dev/urandom bs=32 count=1 2>/dev/null | base64 >"${PASSWORD_FILE}"
-    else
-        echo -n "$KEY_PASSWORD" > "${PASSWORD_FILE}"
-    fi;
+# prepare clca environment
+mkdir etc/
+cat <<EOF > etc/clca.cfg
+# derived paths
+CADBDIR=\$CA_HOME/ca
+CACERT=\$CADBDIR/cacert.pem
+CAPRIVDIR=\$CA_HOME/private
+CERTDIR=\$CA_HOME/certs
+CRLDIR=\$CA_HOME/crl
 
+ENGINE=openssl
+
+# Path to OpenSSL binary
+OPENSSL=/usr/bin/openssl
+
+######################################################################
+# Path to OpenSSL configuration
+CNF=\$CA_HOME/etc/openssl.cnf
+
+# if HSM protected keys are used this may also be the key ident
+ROOTKEYNAME=cakey.pem
+
+# Default settings for genkey subcommand
+# Public key algorithm (rsa, ec)
+DEFAULT_PUBKEY_ALGORITHM=ec
+# RSA key size (bits)
+DEFAULT_RSA_KEYSIZE=3072
+# EC curve name (see openssl ecparam -list_curves)
+DEFAULT_EC_CURVE=secp384r1
+# Private key encryption algorithm
+DEFAULT_ENC_ALGORITHM=aes256
+
+get_passphrase() {
+    echo \$PASSPHRASE
 }
+# Default CA validity in days (unless specified via --startdate and --enddate)
+CA_VALIDITY=3650
 
-#
-# CA and certificate settings
-#
+# Randomize certificate serial numbers (default: off)
+RANDOMIZE_SERIAL=1
 
-BACKUP_SUFFIX='~'
-GENERATION=$(date +%Y%m%d)
+# do not ask for confirmation when issuing certificates
+BATCH=1
+EOF
 
-# root CA selfsigned (in production use company's root certificate)
-ROOT_CA='OpenXPKI_Root_CA'
-ROOT_CA_REQUEST="${TMP_CA_DIR}/${ROOT_CA}.csr"
-ROOT_CA_KEY="${TMP_CA_DIR}/${ROOT_CA}.key"
-ROOT_CA_KEY_PASSWORD="${TMP_CA_DIR}/${ROOT_CA}.pass"
-ROOT_CA_CERTIFICATE="${TMP_CA_DIR}/${ROOT_CA}.crt"
-ROOT_CA_SUBJECT="/CN=OpenXPKI Root CA ${GENERATION}"
-ROOT_CA_SERVER_FQDN='rootca.openxpki.net'
+cat <<EOF > etc/openssl.cnf
+HOME                    = .
 
-# issuing CA signed by root CA above
-ISSUING_CA='OpenXPKI_Issuing_CA'
-ISSUING_CA_REQUEST="${TMP_CA_DIR}/${ISSUING_CA}.csr"
-ISSUING_CA_KEY="${TMP_CA_DIR}/${ISSUING_CA}.key"
-ISSUING_CA_KEY_PASSWORD="${TMP_CA_DIR}/${ISSUING_CA}.pass"
-ISSUING_CA_CERTIFICATE="${TMP_CA_DIR}/${ISSUING_CA}.crt"
-ISSUING_CA_SUBJECT="/C=DE/O=OpenXPKI/OU=PKI/CN=OpenXPKI Demo Issuing CA ${GENERATION}"
+oid_section             = new_oids
+default_md              = sha256
 
-# SCEP registration authority certificate signed by root CA above
-SCEP='OpenXPKI_SCEP_RA'
-SCEP_REQUEST="${TMP_CA_DIR}/${SCEP}.csr"
-SCEP_KEY="${TMP_CA_DIR}/${SCEP}.key"
-SCEP_KEY_PASSWORD="${TMP_CA_DIR}/${SCEP}.pass"
-SCEP_CERTIFICATE="${TMP_CA_DIR}/${SCEP}.crt"
-SCEP_SUBJECT="/CN=${FQDN}:scep-ra"
+dir                     = .
+certs                   = \$dir/certs
+crl_dir                 = \$dir/crl
+database                = \$dir/ca/index.txt
+new_certs_dir           = \$dir/certs
 
-# Apache WEB certificate signed by root CA above
-WEB='OpenXPKI_WebUI'
-WEB_REQUEST="${TMP_CA_DIR}/${WEB}.csr"
-WEB_KEY="${TMP_CA_DIR}/${WEB}.key"
-WEB_KEY_PASSWORD="${TMP_CA_DIR}/${WEB}.pass"
-WEB_CERTIFICATE="${TMP_CA_DIR}/${WEB}.crt"
-WEB_SUBJECT="/CN=${FQDN}"
-WEB_SERVER_FQDN="${FQDN}"
+certificate             = \$dir/ca/cacert.pem
+serial                  = \$dir/ca/serial
+crl                     = \$dir/crl/ca.crl
+crlnumber               = \$dir/ca/crlnumber.txt
 
-# data vault certificate selfsigned
-DATAVAULT='OpenXPKI_DataVault'
-DATAVAULT_REQUEST="${TMP_CA_DIR}/${DATAVAULT}.csr"
-DATAVAULT_KEY="${TMP_CA_DIR}/${DATAVAULT}.key"
-DATAVAULT_KEY_PASSWORD="${TMP_CA_DIR}/${DATAVAULT}.pass"
-DATAVAULT_CERTIFICATE="${TMP_CA_DIR}/${DATAVAULT}.crt"
-DATAVAULT_SUBJECT='/CN=DataVault'
+RANDFILE                = \$dir/private/.rand    # private random number file
 
-#
-# openssl.conf
-#
-BITS=3072
-DAYS=730 # 2 years (default value not used for further enhancements)
-RDAYS="3655" # 10 years for root
-IDAYS="1828" # 5 years for issuing
-SDAYS="365" # 1 years for scep
-WDAYS="1096" # 3 years web
-DDAYS="$RDAYS" # 10 years datavault (same a root)
+unique_subject          = no
+email_in_dn             = no
 
-# creation neccessary directories and files
-echo -n "creating configuration for openssl ($OPENSSL_CONF) .. "
-test -d "${TMP_CA_DIR}" || mkdir -m 755 -p "${TMP_CA_DIR}" && chown ${user}:root "${TMP_CA_DIR}"
-OPENSSL_DIR="${TMP_CA_DIR}/.openssl"
-test -d "${OPENSSL_DIR}" || mkdir -m 700 "${OPENSSL_DIR}" && chown root:root "${OPENSSL_DIR}"
-cd "${OPENSSL_DIR}";
+default_days            = 365                   # how long to certify for
+default_crl_days        = 365                   # how long before next CRL
+preserve                = no                    # keep passed DN ordering
 
-OPENSSL_CONF="${OPENSSL_DIR}/openssl.cnf"
+policy                  = policy_match
 
-touch "${OPENSSL_DIR}/index.txt"
-touch "${OPENSSL_DIR}/index.txt.attr"
-echo 00 > "${OPENSSL_DIR}/crlnumber"
+[ new_oids ]
 
-echo "
-HOME			= .
-RANDFILE		= \$ENV::HOME/.rnd
-
+####################################################################
 [ ca ]
-default_ca		= CA_default
+default_ca              = CA_default            # The default ca section
 
+####################################################################
 [ CA_default ]
-dir			= ${OPENSSL_DIR}
-certs			= ${OPENSSL_DIR}/certs
-crl_dir			= ${OPENSSL_DIR}/
-database		= ${OPENSSL_DIR}/index.txt
-new_certs_dir		= ${OPENSSL_DIR}/
-serial			= ${OPENSSL_DIR}/serial
-crlnumber		= ${OPENSSL_DIR}/crlnumber
+x509_extensions         = root_ext              # The extensions to add to issued certs
+crl_extensions          = root_crl_ext
 
-crl			= ${OPENSSL_DIR}/crl.pem
-private_key		= ${OPENSSL_DIR}/cakey.pem
-RANDFILE		= ${OPENSSL_DIR}/.rand
-
-default_md		= sha256
-preserve		= no
-policy			= policy_none
-default_days		= ${DAYS}
-
-# x509_extensions               = v3_ca_extensions
-# x509_extensions               = v3_issuing_extensions
-# x509_extensions               = v3_datavault_extensions
-# x509_extensions               = v3_scep_extensions
-# x509_extensions               = v3_web_extensions
-
-[policy_none]
+# For the CA policy
+[ policy_match ]
 countryName             = optional
 organizationName        = optional
-domainComponent		= optional
-organizationalUnitName	= optional
-commonName		= supplied
+organizationalUnitName  = optional
+commonName              = supplied
+domainComponent         = optional
 
+####################################################################
 [ req ]
-default_bits		= ${BITS}
-distinguished_name	= req_distinguished_name
+# settings for 'ca initialize' or 'clca certify ...'
+distinguished_name      = root_dn
+prompt                  = no
+x509_extensions         = root_ext
+string_mask             = nombstr
 
-# x509_extensions               = v3_ca_reqexts # not for root self signed, only for issuing
-## x509_extensions              = v3_datavault_reqexts # not required self signed
-# x509_extensions               = v3_scep_reqexts
-# x509_extensions               = v3_web_reqexts
+[ level2 ]
+# settings for 'clca --profile level2 certify ...'
+prompt                  = no
+x509_extensions         = level2_ext
+string_mask             = nombstr
 
-[ req_distinguished_name ]
-domainComponent		= Domain Component
-commonName		= Common Name
+[ endentity ]
+# settings for 'clca --profile endentity --subject "/DC=org/DC=openxpki/O=OpenXPKI/CN=example.openxpki.org" certify ...'
+prompt                  = no
+x509_extensions         = endentity_ext
+string_mask             = nombstr
 
-[ v3_ca_reqexts ]
+[ root_dn ]
+countryName             = DE
+organizationName        = OpenXPKI
+organizationalUnitName  = PKI
+commonName              = OpenXPKI Root DUMMY CA ${GENERATION}
+
+# extensions for self-signed root certificate
+[ root_ext ]
 subjectKeyIdentifier    = hash
-keyUsage                = digitalSignature, keyCertSign, cRLSign
+authorityKeyIdentifier  = keyid:always
+basicConstraints        = critical,CA:true
+keyUsage                = critical, cRLSign, keyCertSign
+# Certificate Policies OID if required
+# certificatePolicies   = ia5org,1.3.6.1.4.1.xxxxx
 
-[ v3_datavault_reqexts ]
+# extensions for issued certificates
+[ level2_ext ]
 subjectKeyIdentifier    = hash
-keyUsage                = keyEncipherment
-extendedKeyUsage        = emailProtection
+authorityKeyIdentifier  = keyid:always
+basicConstraints        = critical,CA:true,pathlen:0
+keyUsage                = critical, cRLSign, keyCertSign
+# Certificate Policies OID if required
+# certificatePolicies   = ia5org,1.3.6.1.4.1.xxxxx
+# CDPs (recommended for Level 2 CAs)
+# crlDistributionPoints = URI:http://example.com/openxpki/crl/root_caX.crl
 
-[ v3_scep_reqexts ]
+# extensions for issued certificates
+[ endentity_ext ]
 subjectKeyIdentifier    = hash
-
-[ v3_web_reqexts ]
-subjectKeyIdentifier    = hash
+authorityKeyIdentifier  = keyid:always
+basicConstraints        = critical,CA:false
 keyUsage                = critical, digitalSignature, keyEncipherment
 extendedKeyUsage        = serverAuth, clientAuth
+# Certificate Policies OID if required
+# certificatePolicies   = ia5org,1.3.6.1.4.1.xxxxx
+# CDPs (recommended for Level 2 CAs)
+# crlDistributionPoints = URI:http://example.com/openxpki/crl/level2_caX.crl
 
-
-[ v3_ca_extensions ]
-subjectKeyIdentifier    = hash
-keyUsage                = digitalSignature, keyCertSign, cRLSign
-basicConstraints        = critical,CA:TRUE
-authorityKeyIdentifier  = keyid:always,issuer
-
-[ v3_issuing_extensions ]
-subjectKeyIdentifier    = hash
-keyUsage                = digitalSignature, keyCertSign, cRLSign
-basicConstraints        = critical,CA:TRUE
+[ root_crl_ext ]
+# set this if you have an issuer alternative name
+# issuerAltName         = issuer:copy
 authorityKeyIdentifier  = keyid:always,issuer:always
-#crlDistributionPoints	= ${ROOT_CA_REVOCATION_URI}
-#authorityInfoAccess	= caIssuers;${ROOT_CA_CERTIFICATE_URI}
+EOF
 
-[ v3_datavault_extensions ]
-subjectKeyIdentifier    = hash
-keyUsage                = keyEncipherment
-extendedKeyUsage        = emailProtection
-basicConstraints        = CA:FALSE
-authorityKeyIdentifier  = keyid:always,issuer
+# generate root key and run initialize
+mkdir private
+clca genkey
+clca initialize
 
-[ v3_scep_extensions ]
-subjectKeyIdentifier    = hash
-keyUsage                = digitalSignature, keyEncipherment
-basicConstraints        = CA:FALSE
-authorityKeyIdentifier  = keyid,issuer
+# create issuing ca key and csr
+clca genkey --keyfile issuingca.key
+openssl req -new -key issuingca.key -passin env:PASSPHRASE -out issuingca.csr -subj "/CN=OpenXPKI Issuing DUMMY CA $GENERATION"
+clca certify --profile level2 --days 3649 issuingca.csr
 
-[ v3_web_extensions ]
-subjectKeyIdentifier    = hash
-keyUsage                = critical, digitalSignature, keyEncipherment
-extendedKeyUsage        = serverAuth, clientAuth
-basicConstraints        = critical,CA:FALSE
-subjectAltName		= DNS:${WEB_SERVER_FQDN}
-#crlDistributionPoints	= ${ISSUING_REVOCATION_URI}
-#authorityInfoAccess	= caIssuers;${ISSUING_CERTIFICATE_URI}
-" > "${OPENSSL_CONF}"
+if [ ! -e newcert.pem ]; then
+    echo "Something went wrong :("
+    exit;
+fi
+mv newcert.pem issuingca.crt
 
-echo "done."
+# also generate a certificate for the webserver and the ratoken
+# use rsa for ratoken to work with SCEP
+PASSPHRASE=secret clca genkey  --algorithm rsa --keyfile ratoken.key
+openssl req -new -key ratoken.key -passin pass:secret -out ratoken.csr -subj "/CN=Internal RA"
+clca certify --profile endentity --days 365 ratoken.csr
+mv newcert.pem ratoken.crt
 
-[ "$Debug" = 'true' ] || exec 2>/dev/null
+clca genkey --protect none --keyfile webserver.key
+openssl req -new -key webserver.key -out webserver.csr -subj "/CN=$FQDN"
+clca certify --profile endentity --days 365 --san "DNS:$FQDN" webserver.csr
+mv newcert.pem webserver.crt
 
-echo "Creating certificates .. "
+# generate oxi admin key
+clca genkey --protect none --curve prime256v1 --keyfile client.key
+PUBKEY=$(openssl pkey -in client.key -pubout | sed "s/^/      /")
+cat <<EOF > cli.yaml
+auth:
+  admin:
+    role: System
+    key: >
+$PUBKEY
+EOF
 
-# self signed root
-if [ ! -e "${ROOT_CA_CERTIFICATE}" ]
-then
-   echo "Did not find a root ca certificate file."
-   echo -n "Creating an own self signed root ca .. "
-   test -f "${ROOT_CA_KEY}" && \
-    mv "${ROOT_CA_KEY}" "${ROOT_CA_KEY}${BACKUP_SUFFIX}"
-   test -f "${ROOT_CA_KEY_PASSWORD}" && \
-    mv "${ROOT_CA_KEY_PASSWORD}" "${ROOT_CA_KEY_PASSWORD}${BACKUP_SUFFIX}"
-   make_password "${ROOT_CA_KEY_PASSWORD}"
-   openssl req -verbose -config "${OPENSSL_CONF}" -extensions v3_ca_extensions -batch -x509 -newkey rsa:$BITS -days ${RDAYS} -passout file:"${ROOT_CA_KEY_PASSWORD}" -keyout "${ROOT_CA_KEY}" -subj "${ROOT_CA_SUBJECT}" -out "${ROOT_CA_CERTIFICATE}"
-   echo "done."
+if [ -e "/etc/openxpki/config.d/system/crypto.yaml" ] ; then
+    SVAULT=$(openssl rand -hex 32)
+    sed -r "s/value: .*##SVAULTKEY##/value: ${SVAULT}/" \
+        /etc/openxpki/config.d/system/crypto.yaml > crypto.yaml
 fi
 
-# signing certificate (issuing)
-if [ ! -e "${ISSUING_CA_KEY}" ]
-then
-    echo "Did not find existing issuing CA key file."
-    echo -n "Creating an issuing CA request .. "
-    test -f "${ISSUING_CA_REQUEST}" && \
-    mv "${ISSUING_CA_REQUEST}" "${ISSUING_CA_REQUEST}${BACKUP_SUFFIX}"
-    make_password "${ISSUING_CA_KEY_PASSWORD}"
-    openssl req -verbose -config "${OPENSSL_CONF}" -reqexts v3_ca_reqexts -batch -newkey rsa:$BITS -passout file:"${ISSUING_CA_KEY_PASSWORD}" -keyout "${ISSUING_CA_KEY}" -subj "${ISSUING_CA_SUBJECT}" -out "${ISSUING_CA_REQUEST}"
-    echo "done."
-    if [ -e "${ROOT_CA_KEY}" ]
-    then
-        echo -n "Signing issuing certificate with own root CA .. "
-        test -f "${ISSUING_CA_CERTIFICATE}" && \
-        mv "${ISSUING_CA_CERTIFICATE}" "${ISSUING_CA_CERTIFICATE}${BACKUP_SUFFIX}"
-        openssl ca -create_serial -config "${OPENSSL_CONF}" -extensions v3_issuing_extensions -batch -days ${IDAYS} -in "${ISSUING_CA_REQUEST}" -cert "${ROOT_CA_CERTIFICATE}" -passin file:"${ROOT_CA_KEY_PASSWORD}" -keyfile "${ROOT_CA_KEY}" -out "${ISSUING_CA_CERTIFICATE}"
-        echo "done."
-    else
-        echo "No '${ROOT_CA_KEY}' key file!"
-        echo "please sign generated request with the company's root CA key"
-        exit 0
-    fi
+# Anything was generated - now install stuff
+if [ -z "$1" ]; then
+    echo "#####################################################################"
+    echo "#                                                                   #"
+    echo "#  (re)starting system now to proceed with import                   #"
+    echo "#                                                                   #"
+    echo "#####################################################################"
 else
-    if [ ! -e "${ISSUING_CA_CERTIFICATE}" ]; then
-        echo "No '${ISSUING_CA_CERTIFICATE}' certificate file!"
-        if [ ! -e "${ROOT_CA_KEY}" ]; then
-            echo "No '${ROOT_CA_KEY}' key file!"
-            echo "please sign generated request with the company's root CA key"
-            exit 0
-        else
-            echo -n "Signing issuing certificate with own root CA .. "
-            openssl ca -create_serial -config "${OPENSSL_CONF}" -extensions v3_issuing_extensions -batch -days ${IDAYS} -in "${ISSUING_CA_REQUEST}" -cert "${ROOT_CA_CERTIFICATE}" -passin file:"${ROOT_CA_KEY_PASSWORD}" -keyfile "${ROOT_CA_KEY}" -out "${ISSUING_CA_CERTIFICATE}"
-            echo "done."
-        fi
-    fi
+    echo "#####################################################################"
+    echo "#                                                                   #"
+    echo "#  system must now be startet - enter to continue, CTRL-C to abort  #"
+    echo "#                                                                   #"
+    echo "#####################################################################"
+    read -r
 fi
 
-# Data Vault is only used internally, use self signed
-if [ ! -e "${DATAVAULT_KEY}" ]
-then
-    echo "Did not find existing DataVault certificate file."
-    echo -n "Creating a self signed DataVault certificate .. "
-    test -f "${DATAVAULT_CERTIFICATE}" && \
-    mv "${DATAVAULT_CERTIFICATE}" "${DATAVAULT_CERTIFICATE}${BACKUP_SUFFIX}"
-    make_password "${DATAVAULT_KEY_PASSWORD}"
-    openssl req -verbose -config "${OPENSSL_CONF}" -extensions v3_datavault_extensions -batch -x509 -newkey rsa:$BITS -days ${DDAYS} -passout file:"${DATAVAULT_KEY_PASSWORD}" -keyout "${DATAVAULT_KEY}" -subj "${DATAVAULT_SUBJECT}" -out "${DATAVAULT_CERTIFICATE}"
-    echo "done."
-fi
+# install oxi client key
+cp cli.yaml /etc/openxpki/config.d/system/
+mkdir -p ~/.oxi/pkiadm/oxi/
+# shellcheck disable=SC2225
+cp client.key ~/.oxi/
 
-# scep certificate
-if [ ! -e "${SCEP_KEY}" ]
-then
-    echo "Did not find existing SCEP certificate file."
-    echo -n "Creating a SCEP request .. "
-    test -f "${SCEP_REQUEST}" && \
-    mv "${SCEP_REQUEST}" "${SCEP_REQUEST}${BACKUP_SUFFIX}"
-    openssl req -verbose -config "${OPENSSL_CONF}" -reqexts v3_scep_reqexts -batch -newkey rsa:$BITS -nodes -keyout "${SCEP_KEY}" -subj "${SCEP_SUBJECT}" -out "${SCEP_REQUEST}"
-    echo "done."
-    echo -n "Signing SCEP certificate with Issuing CA .. "
-    test -f "${SCEP_CERTIFICATE}" && \
-    mv "${SCEP_CERTIFICATE}" "${SCEP_CERTIFICATE}${BACKUP_SUFFIX}"
-    openssl ca -create_serial -config "${OPENSSL_CONF}" -extensions v3_scep_extensions -batch -days ${SDAYS} -in "${SCEP_REQUEST}" -cert "${ISSUING_CA_CERTIFICATE}" -passin file:"${ISSUING_CA_KEY_PASSWORD}" -keyfile "${ISSUING_CA_KEY}" -out "${SCEP_CERTIFICATE}"
-    echo "done."
-fi
+# install crypto.yaml
+test -e crypto.yaml && (cat crypto.yaml > /etc/openxpki/config.d/system/crypto.yaml)
 
-# web certificate
-if [ ! -e "${WEB_KEY}" ]
-then
-    echo "Did not find existing WEB certificate file."
-    echo -n "Creating a Web request .. "
-    test -f "${WEB_REQUEST}" && \
-    mv "${WEB_REQUEST}" "${WEB_REQUEST}${BACKUP_SUFFIX}"
-    openssl req -verbose -config "${OPENSSL_CONF}" -reqexts v3_web_reqexts -batch -newkey rsa:$BITS -nodes -keyout "${WEB_KEY}" -subj "${WEB_SUBJECT}" -out "${WEB_REQUEST}"
-    echo "done."
-    echo -n "Signing Web certificate with Issuing CA .. "
-    test -f "${WEB_CERTIFICATE}" && \
-    mv "${WEB_CERTIFICATE}" "${WEB_CERTIFICATE}${BACKUP_SUFFIX}"
-    openssl ca -create_serial -config "${OPENSSL_CONF}" -extensions v3_web_extensions -batch -days ${WDAYS} -in "${WEB_REQUEST}" -cert "${ISSUING_CA_CERTIFICATE}" -passin file:"${ISSUING_CA_KEY_PASSWORD}" -keyfile "${ISSUING_CA_KEY}" -out "${WEB_CERTIFICATE}"
-    echo "done."
-fi
+# restart to activate key
+systemctl restart openxpki-serverd
 
-cd $OLDPWD;
-# rm $TMP/*;
-# rmdir $TMP;
+# shellcheck disable=SC2034
+for ii in $(seq 1 5); do
+    echo "waiting for system to be ready ($ii/5)..."
+    sleep 5;
+    test -e /run/openxpkid/openxpkid.sock && break;
+done;
 
-# chown/chmod
-chmod 400 ${TMP_CA_DIR}/*.pass
-chmod 440 ${TMP_CA_DIR}/*.key
-chmod 444 ${TMP_CA_DIR}/*.crt
-chown root:root ${TMP_CA_DIR}/*.csr ${TMP_CA_DIR}/*.key ${TMP_CA_DIR}/*.pass
-chown root:${group} ${TMP_CA_DIR}/*.crt ${TMP_CA_DIR}/*.key
+# test connection
+oxi cli ping
 
-mkdir -p /etc/openxpki/local/keys
+# import the root as signer token in root realm
+oxi token add --realm rootca --type certsign --cert ca/cacert.pem
 
-# the import command with the --key parameter takes care to copy the key
-# files to the datapool or filesystem locations
-openxpkiadm alias  --token certsign --realm rootca --file "${ROOT_CA_CERTIFICATE}"
+# import issuing ca
+oxi token add --realm democa --type certsign --cert issuingca.crt --key issuingca.key
 
-openxpkiadm alias --file "${DATAVAULT_CERTIFICATE}" --realm "${REALM}" --token datasafe --key ${DATAVAULT_KEY}
-sleep 1;
-openxpkiadm alias --file "${ISSUING_CA_CERTIFICATE}" --realm "${REALM}" --token certsign --key ${ISSUING_CA_KEY}
-openxpkiadm alias --file "${SCEP_CERTIFICATE}" --realm "${REALM}" --token scep  --key ${SCEP_KEY}
+# load SCEP token
+oxi token add --realm democa --type scep --cert ratoken.crt --key ratoken.key
 
-echo "done."
-echo ""
+# create initial CRL
+oxi workflow create --realm democa --type crl_issuance
 
-# check if we are in docker
+# check if we are in docker as we do not need to setup the webserver
 PID=$(cat /run/openxpkid/openxpkid.pid)
 if [ "$PID" -eq "1" ]; then
     exit 0;
@@ -389,24 +314,27 @@ a2ensite openxpki || /bin/true
 a2dissite 000-default default-ssl || /bin/true
 
 if [ ! -e "/etc/openxpki/tls/chain" ]; then
+    # shellcheck disable=SC2174
     mkdir -m755 -p /etc/openxpki/tls/chain
-    cp ${ROOT_CA_CERTIFICATE} /etc/openxpki/tls/chain/
-    cp ${ISSUING_CA_CERTIFICATE} /etc/openxpki/tls/chain/
+    cp ca/cacert.pem /etc/openxpki/tls/chain/
+    cp issuingca.crt /etc/openxpki/tls/chain/
     c_rehash /etc/openxpki/tls/chain/
 fi
 
 if [ ! -e "/etc/openxpki/tls/endentity/openxpki.crt" ]; then
+    # shellcheck disable=SC2174
     mkdir -m755 -p /etc/openxpki/tls/endentity
+    # shellcheck disable=SC2174
     mkdir -m700 -p /etc/openxpki/tls/private
-    cp ${WEB_CERTIFICATE} /etc/openxpki/tls/endentity/openxpki.crt
-    cat ${ISSUING_CA_CERTIFICATE} >> /etc/openxpki/tls/endentity/openxpki.crt
-    cp ${WEB_KEY} /etc/openxpki/tls/private/openxpki.pem
+    cp webserver.crt /etc/openxpki/tls/endentity/openxpki.crt
+    cat issuingca.crt >> /etc/openxpki/tls/endentity/openxpki.crt
+    cp webserver.key /etc/openxpki/tls/private/openxpki.pem
     chmod 400 /etc/openxpki/tls/private/openxpki.pem
     service apache2 restart
 fi
 
-cp ${ISSUING_CA_CERTIFICATE} /etc/ssl/certs
-cp ${ROOT_CA_CERTIFICATE} /etc/ssl/certs
+cp issuingca.crt /etc/ssl/certs
+cp ca/cacert.pem /etc/ssl/certs
 c_rehash /etc/ssl/certs
 
 systemctl start openxpki-clientd
