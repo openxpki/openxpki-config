@@ -3,8 +3,8 @@ head:
     persister: Volatile
 
 state:
-    INITIAL:      
-        action: 
+    INITIAL:
+        action:
           - initalize > SUCCESS
 
     SUCCESS:
@@ -15,7 +15,8 @@ action:
     initalize:
         class: OpenXPKI::Server::Workflow::Activity::Tools::SetContext
         param:
-          token: certsign,datasafe
+          # add "datasafe" if you are using certificate bound vault tokens
+          token: certsign,scep
 
 acl:
     CA Operator:
