@@ -48,5 +48,6 @@ secret:
     svault:
         label: Secret group for datavault encryption
         method: literal
+        # please set your own key string here and keep it in a safe place
         # this must be 64 characters hex -> "openssl  rand -hex 32"
-        value: 6f70656e78706b6969736d796661766f72697465747275737463656e746572
+        value: you must put your own 64 characters key here ##SVAULTKEY##
