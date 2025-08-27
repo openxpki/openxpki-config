@@ -2,6 +2,29 @@
 
 ## DO NOT USE THIS SCRIPT FOR PRODUCTION SYSTEMS
 
+
+# check if we are in docker
+IS_DOCKER=0
+PID=$(cat /run/openxpkid/openxpkid.pid)
+if [ "$PID" -eq "1" ]; then
+    IS_DOCKER=1
+    if [ "$(whoami)" != "pkiadm" ]; then
+        echo "#####################################################################"
+        echo "#  Looks like you are running in docker                             #"
+        echo "#  please start this script as pkiadm                               #"
+        echo "#####################################################################"
+        exit 1;
+    fi
+    # we expect that the cli is set up
+    if ! oxi cli ping; then
+        echo "#####################################################################"
+        echo "#  Looks like you are running in docker but oxi cli was not set up  #"
+        echo "#  check if the key setup of the pkiadm user                        #"
+        echo "#####################################################################"
+        exit 1;
+    fi
+fi;
+
 set -e
 
 FQDN=$(hostname -f)
@@ -9,10 +32,8 @@ GENERATION=$(date +%Y%m%d)
 # consumed by clca
 export PASSPHRASE="root"
 
-# Debug='true'
-# MyPerl='true'
-[ "$MyPerl" = ' true' ] && [ -d /opt/myperl/bin ] && export PATH=/opt/myperl/bin:$PATH
 
+test -d /opt/myperl/bin && export PATH=/opt/myperl/bin:$PATH
 
 # try to download clca if not found in path
 if [ -z "$(which clca)" ]; then
@@ -24,17 +45,13 @@ if [ -z "$(which clca)" ]; then
     chmod +x /usr/local/bin/clca
 fi
 
-if [ -n "" ]; then
-
 # install locale if needed
-# shellcheck disable=SC2126 (grep -c does not work with -e)
+# shellcheck disable=SC2126 # grep -c does not work with -e
 HAS_LOCALE=$(locale -a | grep en_US | wc -l)
 if [ "$HAS_LOCALE" == "0" ]; then
-   sed -r "/en_US.UTF-8/d" -i /etc/locale.gen
-   echo "en_US.UTF-8 UTF-8" >>  /etc/locale.gen
-   locale-gen
-fi
-
+    sed -r "/en_US.UTF-8/d" -i /etc/locale.gen
+    echo "en_US.UTF-8 UTF-8" >>  /etc/locale.gen
+    dpkg-reconfigure --frontend=noninteractive locales
 fi
 
 if [ -z "$1" ]; then
@@ -210,6 +227,7 @@ EOF
 mkdir private
 clca genkey
 clca initialize
+cp ca/cacert.pem rootca.crt
 
 # create issuing ca key and csr
 clca genkey --keyfile issuingca.key
@@ -251,46 +269,56 @@ if [ -e "/etc/openxpki/config.d/system/crypto.yaml" ] ; then
         /etc/openxpki/config.d/system/crypto.yaml > crypto.yaml
 fi
 
-# Anything was generated - now install stuff
-if [ -z "$1" ]; then
+# do not proceed if a folder was given
+if [ -n "$1" ]; then
+    echo "#####################################################################"
+    echo "#                                                                   #"
+    echo "#  Artefacts have been created in given directory - you need to...  #"
+    echo "#                                                                   #"
+    echo "#  Copy cli.yaml and crypto.yaml to /etc/openxpki/config.d/system/  #"
+    echo "#  Copy client.key to /home/openxpki/.oxi/client.key                #"
+    echo "#  Make sure to set proper permissions                              #"
+    echo "#                                                                   #"
+    echo "#  Import the keys and certificates using *oxi token add ...*       #"
+    echo "#                                                                   #"
+    echo "#####################################################################"
+    exit 0;
+fi
+
+
+# cli setup and server restart not required in docker
+if [ "$IS_DOCKER" == "0" ]; then
+    # install oxi client key
+    cp cli.yaml /etc/openxpki/config.d/system/
+    mkdir -p ~/.oxi/
+    # shellcheck disable=SC2225
+    cp client.key ~/.oxi/
+
+    # install crypto.yaml
+    test -e crypto.yaml && (cat crypto.yaml > /etc/openxpki/config.d/system/crypto.yaml)
+
     echo "#####################################################################"
     echo "#                                                                   #"
     echo "#  (re)starting system now to proceed with import                   #"
     echo "#                                                                   #"
     echo "#####################################################################"
-else
-    echo "#####################################################################"
-    echo "#                                                                   #"
-    echo "#  system must now be startet - enter to continue, CTRL-C to abort  #"
-    echo "#                                                                   #"
-    echo "#####################################################################"
-    read -r
+
+    # restart to activate key
+    systemctl restart openxpki-serverd
+
+    # shellcheck disable=SC2034
+    for ii in $(seq 1 5); do
+        echo "waiting for system to be ready ($ii/5)..."
+        sleep 5;
+        test -e /run/openxpkid/openxpkid.sock && break;
+    done;
 fi
-
-# install oxi client key
-cp cli.yaml /etc/openxpki/config.d/system/
-mkdir -p ~/.oxi/pkiadm/oxi/
-# shellcheck disable=SC2225
-cp client.key ~/.oxi/
-
-# install crypto.yaml
-test -e crypto.yaml && (cat crypto.yaml > /etc/openxpki/config.d/system/crypto.yaml)
-
-# restart to activate key
-systemctl restart openxpki-serverd
-
-# shellcheck disable=SC2034
-for ii in $(seq 1 5); do
-    echo "waiting for system to be ready ($ii/5)..."
-    sleep 5;
-    test -e /run/openxpkid/openxpkid.sock && break;
-done;
 
 # test connection
 oxi cli ping
 
 # import the root as signer token in root realm
-oxi token add --realm rootca --type certsign --cert ca/cacert.pem
+oxi token add --realm rootca --type certsign --cert rootca.crt
 
 # import issuing ca
 oxi token add --realm democa --type certsign --cert issuingca.crt --key issuingca.key
@@ -302,8 +330,7 @@ oxi token add --realm democa --type scep --cert ratoken.crt --key ratoken.key
 oxi workflow create --realm democa --type crl_issuance
 
 # check if we are in docker as we do not need to setup the webserver
-PID=$(cat /run/openxpkid/openxpkid.pid)
-if [ "$PID" -eq "1" ]; then
+if [ "$IS_DOCKER" == "1" ]; then
     exit 0;
 fi;
 
