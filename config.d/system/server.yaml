@@ -21,7 +21,7 @@ group:        openxpki
 # as we are starting as non-root under systemd the best way is to change
 # to a shared group which is allowed via SupplementaryGroups
 socket_group: openxpkiclient
-socket_mode: '0664'
+socket_mode: '0660'
 # Additional privileges are required to change socket_owner
 # This is deprecated and will be removed in the next release
 #socket_owner: openxpki
