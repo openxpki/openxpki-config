@@ -4,7 +4,7 @@
 # read the keys from the credential manager
 auth: ~
 #   admin:
-#        key: >
+#        key: |
 #         -----BEGIN PUBLIC KEY-----
 #          ....
 #         -----END PUBLIC KEY-----
