@@ -1,0 +1,4 @@
+class:  Workflow::Condition::LazyOR
+param:
+    condition1: global_is_cert_expired
+    condition2: global_is_cert_revoked_or_pending

@@ -17,8 +17,8 @@ state:
         autorun: 1
         action:
          - global_set_error_search_has_no_matches > FAILURE ? global_is_cert_identifier_list_empty
-         - queue_certs_to_revoke > HANDLE_REVOCATION_QUEUE ? is_requestor_authorized !global_is_cert_identifier_list_empty
-         - global_set_error_signer_not_authorized > PENDING ? !is_requestor_authorized !global_is_cert_identifier_list_empty
+         - queue_certs_to_revoke > HANDLE_REVOCATION_QUEUE ? global_is_signer_signature_valid !global_is_cert_identifier_list_empty
+         - global_set_error_signer_not_authorized > PENDING ? !global_is_signer_signature_valid !global_is_cert_identifier_list_empty
 
     PENDING:
         label: I18N_OPENXPKI_UI_WORKFLOW_STATE_CRR_BY_ENTITY_PENDING_LABEL
@@ -155,11 +155,6 @@ condition:
         param:
             condition1: global_is_operator
 #           condition2: "!global_is_creator"
-
-    is_requestor_authorized:
-        class: Workflow::Condition::Evaluate
-        param:
-            test: ($context->{signer_trusted} and $context->{signer_authorized} and $context->{signer_validity_ok})
 
     is_policy_loaded:
         class: Workflow::Condition::Evaluate

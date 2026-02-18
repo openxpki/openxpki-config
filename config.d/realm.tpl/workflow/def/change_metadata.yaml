@@ -6,7 +6,7 @@ head:
 state:
     INITIAL:
         action:
-          - load_data > EDIT_DATA
+          - initialize > EDIT_DATA
 
     EDIT_DATA:
         label: I18N_OPENXPKI_UI_WORKFLOW_STATE_METADATA_EDIT_DATA_LABEL
@@ -26,8 +26,6 @@ state:
           - update_base > EDIT_DATA
           - global_cancel > CANCELED ? has_updates
           - global_noop > CANCELED ? !has_updates
-          - set_notify_active > EDIT_DATA ? is_notify_disabled
-          - set_notify_inactive > EDIT_DATA ? is_notify_pending
         button:
           persist:
             format: expected
@@ -68,7 +66,7 @@ state:
           - meta_system_id
 
 action:
-    load_data:
+    initialize:
         class: OpenXPKI::Server::Workflow::Activity::Tools::LoadCertificateMetadata
         label: I18N_OPENXPKI_UI_WORKFLOW_ACTION_CHANGEMETA_LOAD_DATA_LABEL
         description: I18N_OPENXPKI_UI_WORKFLOW_ACTION_CHANGEMETA_LOAD_DATA_DESC
@@ -92,22 +90,8 @@ action:
           - cert_identifier_static
           - meta_email
           - meta_system_id
-        validator:
-          - global_system_id
 
 condition:
-    is_notify_pending:
-        class: OpenXPKI::Server::Workflow::Condition::IsEqual
-        param:
-            key: meta_expiry_notification
-            value: pending
-
-    is_notify_disabled:
-        class: OpenXPKI::Server::Workflow::Condition::Matches
-        param:
-            key: meta_expiry_notification
-            regex: "\\A(|disabled|suppress)\\z"
-
     has_updates:
         class: OpenXPKI::Server::Workflow::Condition::IsTrue
         param:

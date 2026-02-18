@@ -1,0 +1,4 @@
+class: OpenXPKI::Server::Workflow::Condition::IsEqual
+param:
+    key: request_mode
+    value: renewal

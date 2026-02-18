@@ -11,10 +11,10 @@ state:
         autorun: 1
         action:
           - global_set_error_not_authenticated > REJECTED ? !global_is_signed_request
-          - global_set_error_signer_not_authorized > REJECTED ? !global_is_signer_authorized !global_is_signer_revoked global_is_signed_request
-          - global_set_error_signer_expired > REJECTED ? global_is_signer_authorized !global_is_signer_revoked !global_is_signer_validity_ok
+          - global_set_error_signer_not_authorized > REJECTED ? !global_is_signer_authorized_trusted !global_is_signer_revoked global_is_signed_request
+          - global_set_error_signer_expired > REJECTED ? global_is_signer_authorized_trusted !global_is_signer_revoked !global_is_signer_validity_ok
           - global_set_error_signer_revoked > REJECTED ? global_is_signer_revoked global_is_signer_validity_ok
-          - global_noop > SUCCESS ? global_is_signer_authorized !global_is_signer_revoked global_is_signer_validity_ok
+          - global_noop > SUCCESS ? global_is_signer_authorized_trusted !global_is_signer_revoked global_is_signer_validity_ok
 
     REJECTED:
         output:

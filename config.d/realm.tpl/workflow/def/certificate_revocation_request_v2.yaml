@@ -13,15 +13,15 @@ state:
         autorun: 1
         action:
           - global_noop > PENDING_USER ? !global_is_automated_request
-          - global_noop2 > CHECK_APPROVALS ? global_is_automated_request !global_is_signed_request
-          - check_authorized_signer > CHECK_APPROVALS ? global_is_automated_request global_is_signed_request
+          - global_noop2 > CHECK_APPROVALS ? global_is_automated_request
+          - global_check_authorized_signer > CHECK_APPROVALS ? global_is_automated_request global_is_signed_request
 
     CHECK_APPROVALS:
         autorun: 1
         action:
-          - cleanup > SUCCESS ? !is_not_revoked_or_pending
-          - global_noop > CHECK_FOR_DELAYED_REVOKE ? is_approved is_not_revoked_or_pending
-          - search_active_revocation_workflow > NOTIFY_CRR_PENDING ? !is_approved is_not_revoked_or_pending
+          - cleanup > CANCELED ? global_is_cert_revoked_or_pending
+          - global_noop > CHECK_FOR_DELAYED_REVOKE ? is_approved !global_is_cert_revoked_or_pending
+          - search_active_revocation_workflow > PENDING ? !is_approved !global_is_cert_revoked_or_pending
 
     CHECK_FOR_DELAYED_REVOKE:
         autorun: 1
@@ -38,20 +38,14 @@ state:
     DISPATCH_REVOKE:
         autorun: 1
         action:
-          - global_nice_revoke_certificate > SUCCESS ? is_not_revoked_or_pending
-          - global_noop > SUCCESS ? !is_not_revoked_or_pending
-
-    NOTIFY_CRR_PENDING:
-        autorun: 1
-        action:
-          - global_noop > PENDING ? pending_notification_send
-          - send_pending_notification flag_pending_notification_send > PENDING ? !pending_notification_send
+          - global_nice_revoke_certificate global_certificate_unpublish > SUCCESS ? !global_is_cert_revoked_or_pending
+          - global_noop > SUCCESS ? global_is_cert_revoked_or_pending
 
     PENDING_USER:
         label: I18N_OPENXPKI_UI_WORKFLOW_STATE_CRR_REQUEST_COMPLETE_LABEL
         description: I18N_OPENXPKI_UI_WORKFLOW_STATE_CRR_REQUEST_COMPLETE_DESC
         action:
-          - submit > CHECK_APPROVALS
+          - submit > CHECK_NOTIFY
           - update_crr > PENDING_USER
           - global_cancel > CANCELED
         output:
@@ -65,19 +59,25 @@ state:
             format: expected
           update_crr:
             format: optional
-          cancel:
+          global_cancel:
             format: failure
+
+    CHECK_NOTIFY:
+        autorun: 1
+        action:
+          - cleanup > CANCELED ? global_is_cert_revoked_or_pending
+          - search_active_revocation_workflow send_pending_notification > PENDING ? !global_is_cert_revoked_or_pending
 
     PENDING:
         label: I18N_OPENXPKI_UI_WORKFLOW_STATE_CRR_PENDING_LABEL
         description: I18N_OPENXPKI_UI_WORKFLOW_STATE_CRR_PENDING_DESC
         action:
-          - approve_crr > CHECK_APPROVALS ? acl_can_approve is_not_revoked_or_pending global_is_tmp_queue_empty
-          - global_noop approve_crr > CHECK_APPROVALS ? acl_can_approve is_not_revoked_or_pending !global_is_tmp_queue_empty
-          - search_active_revocation_workflow > PENDING ? acl_can_approve is_not_revoked_or_pending
-          - update_crr > PENDING ? acl_can_approve is_not_revoked_or_pending
-          - reject_crr > REJECTED ? acl_can_reject is_not_revoked_or_pending
-          - cleanup > SUCCESS ? !is_not_revoked_or_pending
+          - approve_crr > CHECK_APPROVALS ? acl_can_approve !global_is_cert_revoked_or_pending global_is_tmp_queue_empty
+          - global_noop approve_crr > CHECK_APPROVALS ? acl_can_approve !global_is_cert_revoked_or_pending !global_is_tmp_queue_empty
+          - search_active_revocation_workflow > PENDING ? acl_can_approve !global_is_cert_revoked_or_pending
+          - update_crr > PENDING ? acl_can_approve !global_is_cert_revoked_or_pending
+          - reject_crr > REJECTED ? acl_can_reject !global_is_cert_revoked_or_pending
+          - cleanup > SUCCESS ? global_is_cert_revoked_or_pending
         output:
           - cert_identifier
           - related_workflow_list
@@ -180,11 +180,6 @@ action:
           - global_reason_code
           - global_cert_identifier_exists
 
-    check_authorized_signer:
-        class: OpenXPKI::Server::Workflow::Activity::Tools::EvaluateSignerTrust
-        param:
-            _map_rules: "[% context.interface %].[% context.server %].authorized_signer"
-
     delay_revocation:
         class: OpenXPKI::Server::Workflow::Activity::Tools::Pause
         param:
@@ -196,18 +191,10 @@ action:
         label: I18N_OPENXPKI_UI_WORKFLOW_ACTION_CLEANUP_LABEL
         description: I18N_OPENXPKI_UI_WORKFLOW_ACTION_CLEANUP_DESC
 
-    persist_crr:
-        class: OpenXPKI::Server::Workflow::Activity::CRR::PersistRequest
-
     reject_crr:
         class: OpenXPKI::Server::Workflow::Activity::Noop
         label: I18N_OPENXPKI_UI_WORKFLOW_ACTION_REJECT_CRR_LABEL
         description: I18N_OPENXPKI_UI_WORKFLOW_ACTION_REJECT_CRR_DESC
-
-    flag_pending_notification_send:
-        class: OpenXPKI::Server::Workflow::Activity::Tools::SetContext
-        param:
-            flag_pending_notification_send: 1
 
     send_pending_notification:
         class: OpenXPKI::Server::Workflow::Activity::Tools::Notify
@@ -264,9 +251,6 @@ condition:
             condition1: global_is_operator
 #           condition2: "!global_is_creator"
 
-    is_not_revoked_or_pending:
-        class: OpenXPKI::Server::Workflow::Condition::CertificateNotYetRevoked
-
     is_delayed_revocation:
         class: OpenXPKI::Server::Workflow::Condition::IsTrue
         param:
@@ -276,10 +260,10 @@ condition:
         class: Workflow::Condition::LazyOR
         param:
             condition1: is_autoapproval
-            condition2: has_approvals
-            condition3: global_is_signer_authorized
+            condition2: is_approved_raop
+            condition3: global_is_signer_signature_valid
 
-    has_approvals:
+    is_approved_raop:
         class: OpenXPKI::Server::Workflow::Condition::Approved
         param:
             role: RA Operator
@@ -288,12 +272,6 @@ condition:
         class: OpenXPKI::Server::Workflow::Condition::IsTrue
         param:
             key: flag_auto_approval
-
-    pending_notification_send:
-        class: OpenXPKI::Server::Workflow::Condition::IsTrue
-        param:
-            key: flag_pending_notification_send
-
 
 validator:
     validate_invalidity_time:

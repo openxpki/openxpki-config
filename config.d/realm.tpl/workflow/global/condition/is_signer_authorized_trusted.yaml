@@ -1,0 +1,4 @@
+class:  Workflow::Condition::LazyAND
+param:
+    condition1: global_is_signer_trusted
+    condition2: global_is_signer_authorized

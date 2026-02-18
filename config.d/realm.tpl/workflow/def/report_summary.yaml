@@ -28,6 +28,7 @@ state:
           - valid_revoked
           - near_expiry
           - recent_expiry
+          - recent_renewed
           - total_count
           - total_distinct
           - total_revoked
@@ -102,7 +103,7 @@ field:
 
     valid_distinct:
         name: valid_distinct
-        label: I18N_OPENXPKI_UI_WORKFLOW_REPORT_FIELD_VALID_DISTINTCT
+        label: I18N_OPENXPKI_UI_WORKFLOW_REPORT_FIELD_VALID_DISTINCT
 
     valid_revoked:
         name: valid_revoked
@@ -160,7 +161,7 @@ field:
               - key: valid_count
                 label: I18N_OPENXPKI_UI_WORKFLOW_REPORT_FIELD_VALID_COUNT
               - key: valid_distinct
-                label: I18N_OPENXPKI_UI_WORKFLOW_REPORT_FIELD_VALID_DISTINTCT
+                label: I18N_OPENXPKI_UI_WORKFLOW_REPORT_FIELD_VALID_DISTINCT
               - key: valid_revoked
                 label: I18N_OPENXPKI_UI_WORKFLOW_REPORT_FIELD_VALID_REVOKED
               - key: near_expiry

@@ -1,0 +1,3 @@
+class: OpenXPKI::Server::Workflow::Condition::CertificateHasStatus
+param:
+  expected_status: ISSUED

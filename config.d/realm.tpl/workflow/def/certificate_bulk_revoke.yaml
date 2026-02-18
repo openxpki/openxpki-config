@@ -10,16 +10,16 @@ state:
     CHECK_BATCHMODE:
         autorun: 1
         action:
-          - global_noop > PENDING  ? !global_is_automated_request
+          - global_noop > PENDING  ? !global_is_signed_request
           - check_authorized_signer > CHECK_AUTHORIZATION ? global_is_signed_request
 
     CHECK_AUTHORIZATION:
         autorun: 1
         action:
-          - global_set_error_signer_not_authorized > FAILURE ? !global_is_signer_authorized !global_is_signer_revoked
-          - global_set_error_signer_expired > FAILURE ? global_is_signer_authorized !global_is_signer_revoked !global_is_signer_validity_ok
+          - global_set_error_signer_not_authorized > FAILURE ? !global_is_signer_authorized_trusted !global_is_signer_revoked
+          - global_set_error_signer_expired > FAILURE ? global_is_signer_authorized_trusted !global_is_signer_revoked !global_is_signer_validity_ok
           - global_set_error_signer_revoked > FAILURE ? global_is_signer_revoked global_is_signer_validity_ok
-          - global_noop > APPROVED ? global_is_signer_authorized !global_is_signer_revoked global_is_signer_validity_ok
+          - global_noop > APPROVED ? global_is_signer_authorized_trusted !global_is_signer_revoked global_is_signer_validity_ok
 
     PENDING:
         label: I18N_OPENXPKI_UI_WORKFLOW_STATE_CRR_BULK_PENDING_LABEL

@@ -124,9 +124,9 @@ field:
 
 condition:
     is_renewed:
-        class: Workflow::Condition::Evaluate
+        class: OpenXPKI::Server::Workflow::Condition::IsTrue
         param:
-            test: $context->{renewed_identifier}
+            key: renewed_identifier
 
     is_notified:
         class: OpenXPKI::Server::Workflow::Condition::CertificateAttribute
