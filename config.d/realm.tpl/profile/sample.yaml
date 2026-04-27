@@ -271,26 +271,6 @@ extensions:
     # configurable value. critical is not supported for this extension.
     ocsp_nocheck: 1
 
-    # This extension is deprecated and should not be used unless required
-    netscape:
-        comment:
-            critical: 0
-            text: This is a generic certificate. Generated with OpenXPKI trustcenter software.
-        certificate_type:
-            critical: 0
-            ssl_client:        0
-            smime_client:      0
-            object_signing:    0
-            ssl_client_ca:     0
-            smime_client_ca:   0
-            object_signing_ca: 0
-
-        cdp:
-            critical: 0
-            # No lists - only one item allowed!
-            uri: http://localhost/cacrl.crt
-            ca_uri: http://localhost/cacrl.crt
-     # end of netscape section
 # end of extensions
 
 # Define the input fields you used below here
