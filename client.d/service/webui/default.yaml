@@ -54,17 +54,17 @@ session:
         # User: openxpki_session
         # Password: mysecret
 
-    # Set to store session data encrypted in the DB
-    EncryptKey: SessionSecret
+        # Set to store session data encrypted in the DB
+        EncryptKey: SessionSecret
 
-    # Log client IP in session table
-    # LogIP: 1
+        # Log client IP in session table
+        # LogIP: 1
 
-    # FIXME Add options for TLS / additional parameters to DBI
-    # Required for Oracle, default is 100.000
-    # LongReadLen = 100000
-    # Required for Oracle
-    # NameSpace: openxpki
+        # FIXME Add options for TLS / additional parameters to DBI
+        # Required for Oracle, default is 100.000
+        # LongReadLen = 100000
+        # Required for Oracle
+        # NameSpace: openxpki
 
     # Session expiration, see CGI::Session for syntax, default is no expiry
     # timeout: +1m
