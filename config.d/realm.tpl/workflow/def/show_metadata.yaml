@@ -14,7 +14,7 @@ state:
         description: I18N_OPENXPKI_UI_WORKFLOW_STATE_SHOWMETA_RESULT_DESC
         output:
           - meta_entity
-          - meta_email
+          - meta_requestor_email
           - meta_system_id
 
 action:

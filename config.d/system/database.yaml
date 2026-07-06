@@ -4,12 +4,28 @@ main:
     name: openxpki
     #host: localhost
     #port: 3306
+
     user: openxpki
     passwd: openxpki
 
-    # extra options passed to the driver as parameter
-    #driver:
-    #    LongReadLen: 10000000
+    tls:
+        # Enable TLS connection (supported for MariaDB + PostgreSQL)
+        #enabled: 1
+        # Verify the "host" (see above) against the DB server certificate
+        #verify_hostname: 1
+        # Single file with one or more PEM encoded certificates
+        #ca_file: /path/to/pem
+        # Directory with PEM encoded certificates (alternative to ca_file)
+        #ca_dir: /path/to/pemdir
+
+    # Customized options to pass to DBI->connect()
+    dbi:
+        # Additional parameters for the DSN (will be prepended by a semicolon)
+        #dsn_extra: dummyvalue=1
+
+        # Additional attributes to pass to DBI->connect (fourth parameter)
+        attrs:
+            #LongReadLen: 10000000
 
     # How often to try to connect to the database on startup if not avail -
     # default is to fail immediately. This is mainly useful if database and
@@ -18,6 +34,7 @@ main:
     #wait_on_init:
     #    retry_count: 10
     #    retry_interval: 30
+
 
 # To log to a different database create a section "log" by copying and adjusting
 # the upper block, e.g.:

@@ -57,8 +57,8 @@ action:
     send_notification:
         class: OpenXPKI::Server::Workflow::Activity::Tools::Notify
         param:
-            _map_notify_to: "[% USE Certificate %][% Certificate.attr( context.cert_identifier, 'meta_email').0 %]"
-            _map_requestor: "[% USE Certificate %][% Certificate.attr( context.cert_identifier, 'meta_requestor').0 %]"
+            _map_notify_to: "[% USE Certificate %][% Certificate.attr( context.cert_identifier, 'meta_requestor_email').0 %]"
+            _map_requestor: "[% USE Certificate %][% Certificate.attr( context.cert_identifier, 'meta_requestor_name').0 %]"
             message: cert_expiry
             target_key: ''
 

@@ -1,22 +1,48 @@
+# Retry this often to fork away the initial watchdog process before failing finally.
 max_fork_redo: 5
-max_exception_threshhold: 10
-interval_sleep_exception: 60
-max_tries_hanging_workflows:  3
 
+# After this many consecutive fork/resource errors, the watchdog is killed.
+# This is a fatal error that must be handled!
+max_exception_threshhold: 10
+
+# Seconds to sleep after the watchdog ran into an exception.
+interval_sleep_exception: 60
+
+# Try to restart stale workflows this often before marking them as failed.
+# Not implemented
+#max_tries_hanging_workflows:  3
+
+# Maximum number of worker processes running in parallel.
+# No new workflows are woken up if this limit is reached.
 max_worker_count: 50
 
+# Seconds to wait after server start before the watchdog begins scanning.
 interval_wait_initial: 10
+
+# Seconds between two scan runs if no pending workflow was found on the last run.
 interval_loop_idle: 5
+
+# Seconds between two scan runs if a pending workflow was found on the last run.
 interval_loop_run: 1
+
+# Seconds to sleep when the max_worker_count limit is reached.
 interval_sleep_overload: 15
 
+# Seconds between two purges of expired sessions from the backend.
 interval_session_purge: 300
 
+# Seconds between two updates of the node status record in the datapool.
+# Set to 0 to disable status record writing.
 interval_status_update: 120
 
-# purge expired CRLs once a day
+# Seconds between two attempts to purge expired / superseded CRLs.
+# Set to 0 to disable crl purge.
 interval_crl_purge: 86400
 
+# Allow multiple watchdog control processes in parallel.
+# Setting this to more than 1 is usually not necessary and not wise.
 # You should not change this unless you know what you are doing
 max_instance_count: 1
+
+# Set to 1 to disable the watchdog entirely.
 disabled: 0

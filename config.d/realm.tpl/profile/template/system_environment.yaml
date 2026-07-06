@@ -1,0 +1,16 @@
+label: I18N_OPENXPKI_UI_META_SYSTEM_ENVIRONMENT
+description: I18N_OPENXPKI_UI_META_SYSTEM_ENVIRONMENT_DESC
+type: select
+option:
+    mode: keyvalue
+    item:
+      - label: I18N_OPENXPKI_UI_META_SYSTEM_ENVIRONMENT_DEVELOPMENT
+        value: development
+      - label: I18N_OPENXPKI_UI_META_SYSTEM_ENVIRONMENT_INTEGRATION
+        value: integration
+      - label: I18N_OPENXPKI_UI_META_SYSTEM_ENVIRONMENT_STAGING
+        value: staging
+      - label: I18N_OPENXPKI_UI_META_SYSTEM_ENVIRONMENT_PRODUCTION
+        value: production
+edit: update
+renew: keep

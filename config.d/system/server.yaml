@@ -32,15 +32,6 @@ stderr:       /var/log/openxpki-server/stderr.log
 # and system tmpdir
 tmpdir:       /var/tmp
 
-
-# This is experimental!
-#type: PreFork
-prefork:
-  min_servers: 5
-  min_spare_servers: 5
-  max_servers: 25
-  max_spare_servers: 10
-
 # environment:
 #    key: value
 
@@ -68,7 +59,6 @@ service:
         # this is still in beta phase, use with caution!
         # max_execution_time: 20
 
-    # new "oxi" CLI interface introduced with v3.32
     CLI:
         enabled: 1
 

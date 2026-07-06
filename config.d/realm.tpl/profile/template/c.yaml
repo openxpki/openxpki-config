@@ -6,3 +6,4 @@ type: text
 width: 2
 required: 0
 placeholder: DE
+match: \A [a-zA-Z]{2} \z

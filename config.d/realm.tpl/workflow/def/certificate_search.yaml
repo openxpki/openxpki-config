@@ -59,7 +59,7 @@ validator:
         arg:
           - $common_name
         param:
-            regex: "\\A [a-zA-Z0-9-\\.\\:]+"
+            regex: "\\A [a-zA-Z0-9-\\.\\:]+ \\z"
             modifier: xi
 
 field:

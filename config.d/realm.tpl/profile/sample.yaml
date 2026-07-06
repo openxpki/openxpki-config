@@ -85,8 +85,8 @@ style:
 
         # this is attached to the certificate, all fields from ui can be used
         metadata:
-            requestor: "[% requestor_realname %]"
-            email: "[% requestor_email %]"
+            requestor_name: "[% requestor_realname %]"
+            requestor_email: "[% requestor_email %]"
             owner_contact: "[% owner_contact || requestor_email %]"
             entity: "[% hostname FILTER lower %]"
 
@@ -130,8 +130,8 @@ style:
 
         # metadata is the same as above
         metadata:
-            requestor: "[% requestor_realname %]"
-            email: "[% requestor_email %]"
+            requestor_name: "[% requestor_realname %]"
+            requestor_email: "[% requestor_email %]"
             owner_contact: "[% owner_contact || requestor_email %]"
             entity: "[% CN FILTER lower %]"
 
@@ -151,8 +151,7 @@ style:
         # PersistMetadata action in the workflow are available in data
         # DN/SAN parts are available as defined above
         metadata:
-            application_id: "[% data.application_id %]"
-            entity: "[% CN.0.replace(':.*','') FILTER lower %]"
+            entity: "[% cert_subject_parts.CN.0.replace(':.*','') FILTER lower %]"
 
         # Consumed by RenderExtensions to add extra extensions
         extension:

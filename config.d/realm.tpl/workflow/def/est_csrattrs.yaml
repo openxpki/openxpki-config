@@ -14,7 +14,8 @@ action:
         input:
           - server
           - interface
-
+          - client_ip
+          - user_agent
         param:
           target_key: output
           oidlist: |

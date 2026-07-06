@@ -10,7 +10,7 @@ state:
           - initialize > SUCCESS
 
     SUCCESS:
-        uihandle: OpenXPKI::Client::UI::Handle::Report::render_report_list
+        uihandle: Report::render_report_list
 
 action:
     initialize:

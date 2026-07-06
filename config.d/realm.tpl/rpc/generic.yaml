@@ -23,7 +23,7 @@ authorized_signer:
         subject: CN=.+:pkiclient,.*
     rule2:
         # Full DN
-            subject: CN=my.scep.enroller.com:generic,.*
+        subject: CN=my.scep.enroller.com:generic,.*
 
 policy:
     # Authentication Options
@@ -103,7 +103,7 @@ challenge:
 
 eligible:
     initial:
-       value@: connector:rpc.enroll.connector.intranet
+       value@: connector:rpc.generic.connector.intranet
        args: '[% context.cert_subject_parts.CN.0 %]'
 
     renewal:

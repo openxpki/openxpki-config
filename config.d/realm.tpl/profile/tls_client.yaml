@@ -13,7 +13,7 @@ style:
             info:
                 - requestor_realname
                 - requestor_email
-                - requestor_affiliation
+                - system_environment
                 - owner_contact
                 - comment
 
@@ -21,9 +21,10 @@ style:
             dn: CN=[% hostname %][% IF application_name %]:[% application_name %][% END %],DC=Test Deployment,DC=OpenXPKI,DC=org
 
         metadata:
-            requestor: "[% requestor_realname %]"
-            email: "[% requestor_email %]"
+            requestor_name: "[% requestor_realname %]"
+            requestor_email: "[% requestor_email %]"
             owner_contact: "[% owner_contact || requestor_email %]"
+            system_environment: $system_environment
             entity: "[% hostname FILTER lower %]"
 
     10_iot_device:
@@ -35,7 +36,7 @@ style:
             info:
                 - requestor_realname
                 - requestor_email
-                - requestor_affiliation
+                - system_environment
                 - owner_contact
                 - comment
 
@@ -43,9 +44,10 @@ style:
             dn: serialNumber=[% serialNumber %],DC=Test Deployment,DC=OpenXPKI,DC=org
 
         metadata:
-            requestor: "[% requestor_realname %]"
-            email: "[% requestor_email %]"
+            requestor_name: "[% requestor_realname %]"
+            requestor_email: "[% requestor_email %]"
             owner_contact: "[% owner_contact || requestor_email %]"
+            system_environment: $system_environment
             entity: "[% serialNumber FILTER lower %]"
 
     enroll:
@@ -53,8 +55,7 @@ style:
             dn: CN=[% CN.0 %],DC=Test Deployment,DC=OpenXPKI,DC=org
 
         metadata:
-            server_id: "[% data.server_id %]"
-            entity: "[% CN.0.replace(':.*','') FILTER lower %]"
+            entity: "[% cert_subject_parts.CN.0.replace(':.*','') FILTER lower %]"
 
 # Profile extensions - set 0/1 as needed
 extensions:

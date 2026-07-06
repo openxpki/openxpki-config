@@ -8,9 +8,16 @@ option:
     item:
      - value: PKCS12
        label: I18N_OPENXPKI_UI_EXPORT_PRIVATEKEY_KEY_FORMAT_PKCS12
-     - value: PKCS12_LEGACY_NOFLAG
-       # For OpenSSL 3.x use PKCS12_LEGACY
-       label: I18N_OPENXPKI_UI_EXPORT_PRIVATEKEY_KEY_FORMAT_PKCS12_LEGACY
+     # PKCS#12 Legacy Crypto Export option
+     # By default export with legacy cryptographic algorithms is disabled.
+     # If legacy export is required, uncomment one of the following sections
+     # depending on the OpenSSL version used on this system:
+     # Only for OpenSSL 1.x:
+     # - value: PKCS12_LEGACY_NOFLAG
+     #   label: I18N_OPENXPKI_UI_EXPORT_PRIVATEKEY_KEY_FORMAT_PKCS12_LEGACY
+     # Only for OpenSSL 3+:
+     # - value: PKCS12_LEGACY
+     #   label: I18N_OPENXPKI_UI_EXPORT_PRIVATEKEY_KEY_FORMAT_PKCS12_LEGACY
      - value: PKCS12_VANILLA
        label: I18N_OPENXPKI_UI_EXPORT_PRIVATEKEY_KEY_FORMAT_PKCS12_VANILLA
      - value: OPENSSL_PRIVKEY

@@ -46,8 +46,20 @@ secret:
         value: secret
 
     svault:
-        label: Secret group for datavault encryption
+        label: Secret group for datavault encryption key
         method: literal
         # please set your own key string here and keep it in a safe place
         # this must be 64 characters hex -> "openssl  rand -hex 32"
         value: you must put your own 64 characters key here ##SVAULTKEY##
+
+        # example for password / kdf based symmetric vault key
+        # CAVEAT: a bad password in combination with weak KCV settings
+        # eases brute force attack if the adversary has access to the KCV
+        # ensure you have enough memory available to perform the calculation
+        #    method: kdf
+        #    kdf: argon2
+        #    salt: create your salt with openssl rand -hex 32
+        #    kdf_param:
+        #        memory: 32M
+        #    cache: daemon
+        #    kcv: compute kcv for your passphrase

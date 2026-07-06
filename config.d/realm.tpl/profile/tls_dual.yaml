@@ -13,7 +13,7 @@ style:
             info:
                 - requestor_realname
                 - requestor_email
-                - requestor_affiliation
+                - system_environment
                 - owner_contact
                 - comment
 
@@ -25,9 +25,10 @@ style:
                   - "[% FOREACH entry = hostname2 %][% entry.lower %] | [% END %]"
 
         metadata:
-            requestor: "[% requestor_realname %]"
-            email: "[% requestor_email %]"
+            requestor_name: "[% requestor_realname %]"
+            requestor_email: "[% requestor_email %]"
             owner_contact: "[% owner_contact || requestor_email %]"
+            system_environment: $system_environment
             entity: "[% hostname FILTER lower %]"
 
     enroll:
@@ -38,8 +39,7 @@ style:
                 ip : "[% FOREACH entry = SAN_IP %][% entry %] | [% END %]"
 
         metadata:
-            application_id: "[% data.application_id %]"
-            entity: "[% CN.0.replace(':.*','') FILTER lower %]"
+            entity: "[% cert_subject_parts.CN.0.replace(':.*','') FILTER lower %]"
 
 # Profile extensions - set 0/1 as needed
 # Also see sections defined in default.yaml

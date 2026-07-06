@@ -93,11 +93,11 @@ extensions:
     crl_distribution_points:
         critical: 0
         uri:
-            - http://pki.example.com/download/[% ISSUER.CN.0.replace(' ','_') %].crl
+            - http://pki.example.com/download/[% ISSUER.CN.0.replace('[^\\w-]','_') %].crl
 
     authority_info_access:
         critical: 0
-        ca_issuers: http://pki.example.com/download/[% ISSUER.CN.0.replace(' ','_') %].cer
+        ca_issuers: http://pki.example.com/download/[% ISSUER.CN.0.replace('[^\\w-]','_') %].cer
         ocsp: http://ocsp.example.com/
 
     policy_identifier:

@@ -30,8 +30,8 @@ style:
                email: "[% email.lower %]"
 
         metadata:
-            requestor: "[% realname %]"
-            email: "[% requestor_email %]"
+            requestor_name: "[% realname %]"
+            requestor_email: "[% email %]"
             owner_contact: "[% owner_contact || requestor_email %]"
             department: "[% department %]"
 

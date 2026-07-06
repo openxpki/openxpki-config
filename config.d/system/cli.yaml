@@ -1,8 +1,12 @@
 # Public keys to authenticate requests over the CLI interface
-# the name of the key is only used for logging purposes
-# the keys can be generated using `oxi cli create`
-# read the keys from the credential manager
+# The keys can be generated using `oxi cli create`
+# The name of the key is only used for logging purposes
+
+# While it is possible to have any number of keys, most setups will likely
+# need only a single one and so we keep this configuration easy.
+# See the handbook on how to best manage multiple keys
 auth: ~
+#auth:
 #   admin:
 #        key: |
 #         -----BEGIN PUBLIC KEY-----

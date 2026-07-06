@@ -15,7 +15,8 @@ action:
           - server
           - interface
           - endpoint
-
+          - client_ip
+          - user_agent
         param:
           target_key: output
 

@@ -26,17 +26,17 @@ default:
           field: identifier
 # adding attribute from metadata
 #           - label: Mail
-#             field: attribute.meta_email
+#             field: attribute.meta_requestor_email
 
     attributes:
       - label: I18N_OPENXPKI_UI_SEARCH_REQUESTOR_NAME_LABEL
-        key: meta_requestor
+        key: meta_requestor_name
         pattern: '*%s*'
         operator: inlike
         description: I18N_OPENXPKI_UI_SEARCH_REQUESTOR_NAME_HINT
 
       - label: I18N_OPENXPKI_UI_SEARCH_REQUESTOR_EMAIL_LABEL
-        key: meta_email
+        key: meta_requestor_email
         operator: in
         description: I18N_OPENXPKI_UI_SEARCH_REQUESTOR_EMAIL_HINT
 
