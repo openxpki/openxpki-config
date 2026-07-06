@@ -26,3 +26,25 @@ VALUES ('','config','dbschema','2');
 UPDATE datapool SET datapool_value = 3
     WHERE `namespace` = 'config' and `datapool_key` = 'dbschema';
 ```
+
+## Upgrades for schema version v4
+
+### Add unique constraint to alias table
+```sql
+ALTER TABLE `aliases` ADD UNIQUE KEY `identifier_group` (`identifier`,`pki_realm`,`group_id`);
+
+UPDATE datapool SET datapool_value = 4
+    WHERE `namespace` = 'config' and `datapool_key` = 'dbschema';
+```
+
+## Upgrades for schema version v5
+
+### Add columns to workflow table for "inline" persister mode
+
+```sql
+ALTER TABLE `workflow` ADD COLUMN `workflow_context` JSON DEFAULT NULL,
+    ADD COLUMN `workflow_exec_state` JSON DEFAULT NULL;
+
+UPDATE datapool SET datapool_value = 5
+    WHERE `namespace` = 'config' and `datapool_key` = 'dbschema';
+```

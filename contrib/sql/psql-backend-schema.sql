@@ -1,8 +1,4 @@
--- Schema version v3 - 2023-07-19
-
---
--- PostgreSQL database dump
---
+-- Schema version v5 - 2026-02-18
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -200,18 +196,6 @@ CREATE TABLE backend_session (
 );
 
 --
--- Name: frontend_session; Type: TABLE; Schema: public; Tablespace:
---
-
-CREATE TABLE frontend_session (
-    session_id text NOT NULL,
-    data text,
-    created bigint NOT NULL,
-    modified bigint NOT NULL,
-    ip_address text
-);
-
---
 -- Name: seq_application_log; Type: SEQUENCE; Schema: public;
 --
 
@@ -343,7 +327,9 @@ CREATE TABLE workflow (
     workflow_reap_at bigint,
     workflow_archive_at bigint,
     workflow_session text,
-    watchdog_key text
+    watchdog_key text,
+    workflow_context jsonb,
+    workflow_exec_state jsonb
 );
 
 --
@@ -359,6 +345,7 @@ CREATE TABLE workflow_attributes (
 --
 -- Name: workflow_context; Type: TABLE; Schema: public; Tablespace:
 --
+-- obsolete when using inline persister
 
 CREATE TABLE workflow_context (
     workflow_id bigint NOT NULL,
@@ -393,24 +380,10 @@ CREATE TABLE ocsp_responses (
     expiry timestamp with time zone
 );
 
-CREATE TABLE users (
-  username text NOT NULL,
-  password text,
-  pki_realm text,
-  mail text NOT NULL,
-  realname text,
-  role text
-);
---
--- Name: workflow_history; Type: TABLE; Schema: public; Tablespace:
---
 
 ALTER TABLE ONLY ocsp_responses
     ADD CONSTRAINT ocsp_responses_pkey PRIMARY KEY (serial_number, authority_key_identifier);
 
-ALTER TABLE ONLY users
-    ADD CONSTRAINT users_pkey PRIMARY KEY (username, pki_realm),
-    ADD CONSTRAINT users_mail UNIQUE (mail, pki_realm);
 
 --
 -- Name: audittrail_key; Type: DEFAULT; Schema: public;
@@ -496,13 +469,6 @@ ALTER TABLE ONLY backend_session
     ADD CONSTRAINT backend_session_pkey PRIMARY KEY (session_id);
 
 --
--- Name: frontend_session_pkey; Type: CONSTRAINT; Schema: public; Tablespace:
---
-
-ALTER TABLE ONLY frontend_session
-    ADD CONSTRAINT frontend_session_pkey PRIMARY KEY (session_id);
-
---
 -- Name: workflow_attributes_pkey; Type: CONSTRAINT; Schema: public; Tablespace:
 --
 
@@ -532,6 +498,7 @@ ALTER TABLE ONLY workflow
 
 
 CREATE INDEX aliases_realm_group ON aliases USING btree (pki_realm, group_id);
+CREATE UNIQUE INDEX aliases_identifier_group ON aliases USING btree (identifier,pki_realm,group_id);
 
 CREATE INDEX application_log_id ON application_log USING btree (workflow_id);
 CREATE INDEX application_log_filter ON application_log USING btree (workflow_id,category,priority);
@@ -577,8 +544,6 @@ CREATE INDEX datapool_notafter_index ON datapool USING btree (notafter);
 
 CREATE INDEX backend_session_modified_index ON backend_session USING btree (modified);
 
-CREATE INDEX frontend_session_modified_index ON frontend_session USING btree (modified);
-
 CREATE INDEX workflow_pki_realm_index ON workflow USING btree (pki_realm);
 CREATE INDEX workflow_realm_type_index ON workflow USING btree (pki_realm, workflow_type);
 CREATE INDEX workflow_state_index ON workflow USING btree (pki_realm, workflow_state);
@@ -592,13 +557,11 @@ CREATE INDEX wfl_attributes_key_index ON workflow_attributes USING btree (attrib
 CREATE INDEX wfl_attributes_value_index ON workflow_attributes USING btree (attribute_value);
 CREATE INDEX wfl_attributes_keyvalue_index ON workflow_attributes USING btree (attribute_contentkey,attribute_value);
 
+CREATE INDEX wfl_context_id_index ON workflow_context USING btree (workflow_id);
+
 CREATE INDEX wf_hist_wfserial_index ON workflow_history USING btree (workflow_id);
 
 CREATE INDEX ocsp_responses_index ON ocsp_responses USING btree (identifier);
 
 INSERT INTO datapool (pki_realm, namespace, datapool_key, datapool_value)
-VALUES ('','config','dbschema','3');
-
---
--- PostgreSQL database dump complete
---
+VALUES ('','config','dbschema','5');
