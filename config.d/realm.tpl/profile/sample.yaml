@@ -145,7 +145,12 @@ style:
             dn: CN=[% CN.0 %],DC=Test Deployment,DC=OpenXPKI,DC=org
             san:
                 dns: "[% FOREACH entry = SAN_DNS %][% entry.lower %] | [% END %]"
-                ip : "[% FOREACH entry = SAN_IP %][% entry %] | [% END %]"
+                ip:    "[% FOREACH entry = SAN_IP %][% entry %] | [% END %]"
+                email: "[% FOREACH entry = SAN_EMAIL %][% entry %] | [% END %]"
+                uri:   "[% FOREACH entry = SAN_URI %][% entry %] | [% END %]"
+                rid:   "[% FOREACH entry = SAN_RID %][% entry %] | [% END %]"
+                dirName:   "[% FOREACH entry = SAN_DIRNAME %][% entry %] | [% END %]"
+                otherName: "[% FOREACH entry = SAN_OTHERNAME %][% entry %] | [% END %]"
 
         # metadata source items added via the "params" section of the
         # PersistMetadata action in the workflow are available in data
