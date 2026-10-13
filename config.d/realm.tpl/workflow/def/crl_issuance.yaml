@@ -39,16 +39,13 @@ state:
         output:
           - crl_list
           - force_issue
-          - crl_validity
           - crl_profile
 
     CANCELED:
         label: I18N_OPENXPKI_UI_WORKFLOW_STATE_CANCELED_LABEL
         description: I18N_OPENXPKI_UI_WORKFLOW_STATE_CANCELED_DESC
         output:
-          - crl_validity
           - crl_profile
-
 
 action:
     initialize:
@@ -58,7 +55,6 @@ action:
         input:
           - force_issue
           - run_in_background
-          - crl_validity
           - ca_alias
           - crl_profile
 
@@ -139,11 +135,6 @@ field:
     ca_alias:
         name: ca_alias
         label: I18N_OPENXPKI_UI_WORKFLOW_FIELD_CA_ALIAS_LABEL
-        type: server
-
-    crl_validity:
-        name: crl_validity
-        label: I18N_OPENXPKI_UI_WORKFLOW_FIELD_CRL_VALIDITY_LABEL
         type: server
 
     crl_profile:
