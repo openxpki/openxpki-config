@@ -14,6 +14,8 @@ action:
         input:
           - server
           - interface
+          - client_ip
+          - user_agent
         param:
             token: scep
 
